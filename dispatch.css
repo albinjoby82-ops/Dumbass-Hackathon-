@@ -76,6 +76,43 @@ html, body {
   font-weight: 500;
   margin-top: 8px;
 }
+.wide-btn.primary {
+  background: #3aa0ff;
+  border-color: #3aa0ff;
+  color: #08131d;
+  margin-top: 12px;
+}
+.wide-btn.primary:hover { background: #5db1ff; }
+
+.text-link-btn {
+  background: none;
+  border: none;
+  color: #7f93a8;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0 0 10px;
+  text-decoration: underline;
+}
+.text-link-btn:hover { color: #e6edf5; }
+
+/* ---------------- confirm step ---------------- */
+.confirm-card {
+  background: #0f1720;
+  border: 1px solid #22303f;
+  border-radius: 8px;
+  padding: 4px 12px;
+}
+.confirm-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid #1d2936;
+  font-size: 13px;
+}
+.confirm-row:last-child { border-bottom: none; }
+.confirm-k { color: #7f93a8; }
+.confirm-v { text-align: right; font-weight: 600; }
 
 /* ---------------- hotspots ---------------- */
 .hotspot-list {

@@ -41,8 +41,20 @@
       <div id="injuryGrid" class="choice-grid"></div>
     </section>
 
+    <section class="panel-section" id="confirmSection" hidden>
+      <h2>4. Confirm incident details</h2>
+      <div class="confirm-card">
+        <div class="confirm-row"><span class="confirm-k">Location</span><span class="confirm-v" id="confirmLocation">—</span></div>
+        <div class="confirm-row"><span class="confirm-k">Severity</span><span class="confirm-v" id="confirmSeverity">—</span></div>
+        <div class="confirm-row"><span class="confirm-k">Condition</span><span class="confirm-v" id="confirmInjury">—</span></div>
+      </div>
+      <p class="hint">Check the details above. Tap a different option in 1–3 to change anything.</p>
+      <button id="confirmBtn" class="wide-btn primary">Confirm &amp; find hospitals</button>
+    </section>
+
     <section class="panel-section" id="rankSection" hidden>
-      <h2>4. Ranked hospitals</h2>
+      <h2>5. Ranked hospitals</h2>
+      <button id="editDetailsBtn" class="text-link-btn">← Edit incident details</button>
       <p class="hint" id="rankNote"></p>
       <ul id="rankList" class="rank-list"></ul>
     </section>
