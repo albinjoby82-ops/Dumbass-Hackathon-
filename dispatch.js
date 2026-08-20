@@ -7,8 +7,6 @@
  */
 
 import { IncidentChannel } from "./src/incidents.js";
-import { RouteProgress, DriveSimulator, maneuverIcon, instructionText, formatDistance } from "./src/navigation.js";
-import { CapacityService } from "./src/capacity.js";
 import { AlertService } from "./src/alerts.js";
 
 const LONDON_CENTER = [51.5074, -0.1278];
@@ -49,7 +47,6 @@ const state = {
 const incidents = new IncidentChannel();
 
 const alerts = new AlertService();
-let capacity = null; // needs the NHS data, so constructed after load
 
 const map = L.map("map").setView(LONDON_CENTER, 11);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -237,13 +234,6 @@ const els = {
   rankSection: document.getElementById("rankSection"),
   rankList: document.getElementById("rankList"),
   rankNote: document.getElementById("rankNote"),
-  enrouteSection: document.getElementById("enrouteSection"),
-  enrouteHospital: document.getElementById("enrouteHospital"),
-  enrouteEta: document.getElementById("enrouteEta"),
-  enrouteDist: document.getElementById("enrouteDist"),
-  enrouteWait: document.getElementById("enrouteWait"),
-  directionsList: document.getElementById("directionsList"),
-  changeHospitalBtn: document.getElementById("changeHospitalBtn"),
   newIncidentBtn: document.getElementById("newIncidentBtn"),
   locateBtn: document.getElementById("locateBtn"),
   confirmSection: document.getElementById("confirmSection"),
@@ -265,6 +255,20 @@ const els = {
   incomingBanner: document.getElementById("incomingBanner"),
   incomingText: document.getElementById("incomingText"),
   incomingLoadBtn: document.getElementById("incomingLoadBtn"),
+  navOverlay: document.getElementById("navOverlay"),
+  navIcon: document.getElementById("navIcon"),
+  navDistance: document.getElementById("navDistance"),
+  navText: document.getElementById("navText"),
+  navEndBtn: document.getElementById("navEndBtn"),
+  navProgressFill: document.getElementById("navProgressFill"),
+  navHospitalName: document.getElementById("navHospitalName"),
+  navRemainingTime: document.getElementById("navRemainingTime"),
+  navRemainingDist: document.getElementById("navRemainingDist"),
+  navEtaClock: document.getElementById("navEtaClock"),
+  navArrived: document.getElementById("navArrived"),
+  navArrivedHospital: document.getElementById("navArrivedHospital"),
+  navArrivedWait: document.getElementById("navArrivedWait"),
+  navArrivedCloseBtn: document.getElementById("navArrivedCloseBtn"),
 };
 
 function renderSeverityGrid() {
@@ -343,7 +347,7 @@ function resetDownstream() {
   state.chosen = null;
   els.confirmSection.hidden = true;
   els.rankSection.hidden = true;
-  els.enrouteSection.hidden = true;
+  endNavigation();
 }
 
 function updateConfirmSummary() {
@@ -351,7 +355,6 @@ function updateConfirmSummary() {
 
   // Any change to location/severity/injury invalidates a ranking already shown.
   els.rankSection.hidden = true;
-  els.enrouteSection.hidden = true;
 
   const sev = SEVERITIES.find((s) => s.value === state.severity);
   const injury = INJURY_TYPES.find((i) => i.value === state.injuryType);
@@ -476,7 +479,6 @@ async function runRanking() {
   reportAssessment();
   els.confirmSection.hidden = true;
   els.rankSection.hidden = false;
-  els.enrouteSection.hidden = true;
   els.rankList.innerHTML = '<li class="hint">Calculating drive times…</li>';
 
   try {
@@ -523,16 +525,7 @@ async function runRanking() {
 
 async function chooseHospital(hospital) {
   state.chosen = hospital;
-  els.rankSection.hidden = true;
-  els.enrouteSection.hidden = false;
-  navigation.prepare(hospital);
-  els.enrouteHospital.textContent = hospital.name;
-  els.enrouteEta.textContent = "Calculating…";
-  els.enrouteDist.textContent = "";
-  els.enrouteWait.textContent = hospital.wait
-    ? `~${formatMins(hospital.wait.rangeMin[0])}–${formatMins(hospital.wait.rangeMin[1])} illustrative wait at destination`
-    : "";
-  els.directionsList.innerHTML = "";
+  els.rankList.innerHTML = '<li class="hint">Calculating route…</li>';
 
   dispatchLayer.clearLayers();
   L.marker([state.accident.lat, state.accident.lng], { icon: emojiIcon("🚧", 28) }).addTo(dispatchLayer);
@@ -540,38 +533,15 @@ async function chooseHospital(hospital) {
 
   try {
     const route = await fetchRoute(state.accident, hospital);
-    els.enrouteEta.textContent = `${formatMins(route.duration / 60)} normal drive`;
-    if (state.incident) {
-      state.incident = incidents.setDestination(state.incident.caseRef, {
-        name: hospital.name,
-        orgCode: hospital.orgCode,
-        etaText: formatMins(route.duration / 60),
-      }) || state.incident;
-    }
-    els.enrouteDist.textContent = `${(route.distance / 1000).toFixed(2)} km`;
-
     const latlngs = route.geometry.coordinates.map(([lng, lat]) => [lat, lng]);
     L.polyline(latlngs, { color: "#1b2a3a", weight: 8, opacity: 0.3 }).addTo(dispatchLayer);
     L.polyline(latlngs, { color: "#3aa0ff", weight: 4, opacity: 0.95 }).addTo(dispatchLayer);
-    map.fitBounds(L.latLngBounds(latlngs).pad(0.15));
-
-    route.legs[0].steps.forEach((step, i) => {
-      const li = document.createElement("li");
-      li.innerHTML = `<span class="step-idx">${i + 1}.</span><span>${stepInstruction(step)} — ${(step.distance / 1000).toFixed(2)} km</span>`;
-      els.directionsList.appendChild(li);
-    });
-
-    navigation.setRoute(hospital, route);
+    startNavigation(hospital, route, latlngs);
   } catch (err) {
-    els.enrouteEta.textContent = "Route unavailable";
+    els.rankList.innerHTML = `<li class="hint">Route unavailable: ${err.message}</li>`;
     console.error(err);
   }
 }
-
-els.changeHospitalBtn.addEventListener("click", () => {
-  els.enrouteSection.hidden = true;
-  els.rankSection.hidden = false;
-});
 
 els.newIncidentBtn.addEventListener("click", () => {
   state.accident = null;
@@ -581,6 +551,192 @@ els.newIncidentBtn.addEventListener("click", () => {
   els.accidentStatus.textContent = "Not set";
   resetDownstream();
   dispatchLayer.clearLayers();
+});
+
+/* ---------------- Google-Maps-style navigation view (simulated drive-through) ---------------- */
+
+const MANEUVER_ICONS = {
+  depart: "↑",
+  arrive: "🏁",
+  roundabout: "↻",
+  rotary: "↻",
+  merge: "↗",
+};
+function maneuverIcon(step) {
+  const m = step.maneuver;
+  if (MANEUVER_ICONS[m.type]) return MANEUVER_ICONS[m.type];
+  const mod = m.modifier || "";
+  if (mod.includes("left")) return mod.includes("sharp") ? "↰" : mod.includes("slight") ? "↖" : "←";
+  if (mod.includes("right")) return mod.includes("sharp") ? "↱" : mod.includes("slight") ? "↗" : "→";
+  if (mod === "uturn") return "↶";
+  return "↑";
+}
+
+function buildCoordCumDistances(latlngs) {
+  const cum = [0];
+  for (let i = 1; i < latlngs.length; i++) {
+    const a = { lat: latlngs[i - 1][0], lng: latlngs[i - 1][1] };
+    const b = { lat: latlngs[i][0], lng: latlngs[i][1] };
+    cum.push(cum[i - 1] + haversineKm(a, b));
+  }
+  return cum;
+}
+
+function pointAtDistance(latlngs, cum, targetKm) {
+  const total = cum[cum.length - 1];
+  const t = Math.max(0, Math.min(targetKm, total));
+  let i = 1;
+  while (i < cum.length && cum[i] < t) i++;
+  if (i >= cum.length) return latlngs[latlngs.length - 1];
+  const segStart = cum[i - 1];
+  const segEnd = cum[i];
+  const frac = segEnd > segStart ? (t - segStart) / (segEnd - segStart) : 0;
+  const [lat1, lng1] = latlngs[i - 1];
+  const [lat2, lng2] = latlngs[i];
+  return [lat1 + (lat2 - lat1) * frac, lng1 + (lng2 - lng1) * frac];
+}
+
+function buildStepBoundaries(route) {
+  let cum = 0;
+  return route.legs[0].steps.map((s) => {
+    cum += s.distance / 1000;
+    return cum;
+  });
+}
+
+const nav = {
+  animId: null,
+  marker: null,
+  latlngs: null,
+  cum: null,
+  stepBounds: null,
+  steps: null,
+  totalKm: 0,
+  totalDurationSec: 0,
+  playbackSec: 0,
+  startTime: 0,
+  hospitalName: "",
+};
+
+function formatClock(date) {
+  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
+function startNavigation(hospital, route, latlngs) {
+  cancelAnimationFrame(nav.animId);
+  nav.latlngs = latlngs;
+  nav.cum = buildCoordCumDistances(latlngs);
+  nav.totalKm = nav.cum[nav.cum.length - 1];
+  nav.stepBounds = buildStepBoundaries(route);
+  nav.steps = route.legs[0].steps;
+  nav.totalDurationSec = route.duration;
+  nav.playbackSec = Math.max(15, Math.min(45, route.duration / 20));
+  nav.hospitalName = hospital.name;
+  if (state.incident) {
+    // Tell the dispatcher where the crew is actually taking the patient.
+    state.incident = incidents.setDestination(state.incident.caseRef, {
+      name: hospital.name,
+      orgCode: hospital.orgCode,
+      etaText: formatMins(route.duration / 60),
+    }) || state.incident;
+  }
+  nav.hospitalWait = hospital.wait || null;
+  nav.startTime = performance.now();
+
+  els.navArrived.hidden = true;
+  els.navHospitalName.textContent = `To ${hospital.name}`;
+  els.navOverlay.hidden = false;
+  document.body.classList.add("nav-active");
+  requestAnimationFrame(() => map.invalidateSize());
+
+  if (nav.marker) map.removeLayer(nav.marker);
+  nav.marker = L.marker(latlngs[0], { icon: emojiIcon("🚑", 26) }).addTo(map);
+  map.setView(latlngs[0], 16);
+
+  // Pre-alert the receiving ED as the crew rolls, so the hospital console sees it coming.
+  const injury = INJURY_TYPES.find((i) => i.value === state.injuryType);
+  const sev = SEVERITIES.find((x) => x.value === state.severity);
+  alerts.send({
+    hospital: hospital.name,
+    orgCode: hospital.orgCode,
+    pathway: state.incident?.pathway || injury?.label || "Emergency",
+    etaText: formatMins(route.duration / 60),
+    patientSummary: sev ? sev.label : "Unknown severity",
+    origin: state.accident?.label || "Scene",
+    conditionNotes: state.incident?.conditionNotes?.length
+      ? state.incident.conditionNotes
+      : [injury?.label, sev?.label].filter(Boolean),
+    dispatcherOverride: false,
+  });
+
+  nav.animId = requestAnimationFrame(navTick);
+}
+
+function navTick() {
+  const elapsed = (performance.now() - nav.startTime) / 1000;
+  const fraction = Math.min(1, elapsed / nav.playbackSec);
+  const targetKm = fraction * nav.totalKm;
+
+  const pos = pointAtDistance(nav.latlngs, nav.cum, targetKm);
+  nav.marker.setLatLng(pos);
+  map.panTo(pos, { animate: false });
+
+  let stepIdx = nav.stepBounds.findIndex((b) => targetKm < b);
+  if (stepIdx === -1) stepIdx = nav.steps.length - 1;
+  const upcoming = nav.steps[Math.min(stepIdx + 1, nav.steps.length - 1)];
+  const distToManeuverKm = Math.max(0, (nav.stepBounds[stepIdx] ?? nav.totalKm) - targetKm);
+
+  const onFinalStep = stepIdx >= nav.steps.length - 2;
+  const displayStep = onFinalStep ? nav.steps[nav.steps.length - 1] : upcoming;
+
+  els.navIcon.textContent = maneuverIcon(displayStep);
+  els.navText.textContent = stepInstruction(displayStep);
+  els.navDistance.textContent = distToManeuverKm < 0.1 ? "Now" : `${Math.round(distToManeuverKm * 1000)} m`;
+
+  const remainingKm = nav.totalKm - targetKm;
+  const remainingSec = nav.totalDurationSec * (1 - fraction);
+  els.navRemainingDist.textContent = `${remainingKm.toFixed(1)} km`;
+  els.navRemainingTime.textContent = formatMins(remainingSec / 60);
+  els.navEtaClock.textContent = formatClock(new Date(Date.now() + remainingSec * 1000));
+  els.navProgressFill.style.width = `${fraction * 100}%`;
+
+  if (fraction >= 1) {
+    els.navArrivedHospital.textContent = nav.hospitalName;
+    els.navArrivedWait.textContent = nav.hospitalWait
+      ? `~${formatMins(nav.hospitalWait.rangeMin[0])}–${formatMins(nav.hospitalWait.rangeMin[1])} illustrative wait at destination`
+      : "";
+    els.navArrived.hidden = false;
+    if (state.incident && state.incident.status !== "arrived") {
+      state.incident = incidents.setStatus(state.incident.caseRef, "arrived") || state.incident;
+    }
+    return;
+  }
+  nav.animId = requestAnimationFrame(navTick);
+}
+
+function endNavigation() {
+  cancelAnimationFrame(nav.animId);
+  nav.animId = null;
+  els.navOverlay.hidden = true;
+  document.body.classList.remove("nav-active");
+  requestAnimationFrame(() => map.invalidateSize());
+}
+
+els.navEndBtn.addEventListener("click", () => {
+  endNavigation();
+  els.rankSection.hidden = false;
+});
+els.navArrivedCloseBtn.addEventListener("click", () => {
+  // Patient handed over: the job closes on the dispatcher's board too.
+  if (state.incident) {
+    incidents.setStatus(state.incident.caseRef, "handover");
+    state.incident = null;
+    state.asDispatched = null;
+    els.incidentSection.hidden = true;
+    els.incidentAmend.hidden = true;
+  }
+  endNavigation();
+  els.rankSection.hidden = false;
 });
 
 els.locateBtn.addEventListener("click", () => {
@@ -602,252 +758,6 @@ map.on("click", (e) => {
   document.querySelectorAll(".hotspot-btn").forEach((b) => b.classList.remove("active"));
   setAccident(e.latlng.lat, e.latlng.lng);
 });
-
-/* ---------------- navigation ---------------- */
-
-/**
- * Full-screen turn-by-turn view. A web page cannot launch Apple CarPlay — that needs a
- * native app and an Apple entitlement — so this is the same experience rendered in the
- * browser, running our own route rather than handing off to another maps app.
- *
- * Position comes from real GPS or from the simulator, because a demo indoors cannot
- * actually drive the route.
- */
-const navigation = {
-  map: null,
-  progress: null,
-  simulator: null,
-  hospital: null,
-  route: null,
-  caseRef: null,
-  watchId: null,
-  vehicle: null,
-  el: {},
-
-  init() {
-    this.el = {
-      root: document.getElementById("nav"),
-      arrow: document.getElementById("navArrow"),
-      dist: document.getElementById("navDist"),
-      text: document.getElementById("navText"),
-      then: document.getElementById("navThen"),
-      thenArrow: document.getElementById("navThenArrow"),
-      thenText: document.getElementById("navThenText"),
-      dest: document.getElementById("navDest"),
-      caseRef: document.getElementById("navCase"),
-      eta: document.getElementById("navEta"),
-      remain: document.getElementById("navRemain"),
-      km: document.getElementById("navKm"),
-      simBtn: document.getElementById("navSimBtn"),
-      gpsBtn: document.getElementById("navGpsBtn"),
-      endBtn: document.getElementById("navEndBtn"),
-      alert: document.getElementById("navAlert"),
-      alertSub: document.getElementById("navAlertSub"),
-      rerouteBtn: document.getElementById("navRerouteBtn"),
-      dismissBtn: document.getElementById("navDismissBtn"),
-      arrived: document.getElementById("navArrived"),
-      arrivedSub: document.getElementById("navArrivedSub"),
-      handoverBtn: document.getElementById("navHandoverBtn"),
-    };
-
-    this.el.simBtn.addEventListener("click", () => this.toggleSim());
-    this.el.gpsBtn.addEventListener("click", () => this.toggleGps());
-    this.el.endBtn.addEventListener("click", () => this.close());
-    this.el.dismissBtn.addEventListener("click", () => { this.el.alert.hidden = true; });
-    this.el.rerouteBtn.addEventListener("click", () => this.reroute());
-    this.el.handoverBtn.addEventListener("click", () => {
-      if (this.caseRef) alerts.setStatus(this.caseRef, "acknowledged");
-      // Closes the job on the dispatcher's board as well as this screen.
-      if (state.incident) {
-        incidents.setStatus(state.incident.caseRef, "handover");
-        state.incident = null;
-        state.asDispatched = null;
-        els.incidentSection.hidden = true;
-        els.incidentAmend.hidden = true;
-      }
-      this.close();
-    });
-
-    // A hospital declaring divert mid-journey is the case this whole system exists for.
-    capacity.onChange(() => this.checkDivert());
-  },
-
-  prepare(hospital) {
-    this.hospital = hospital;
-    this.el.dest.textContent = hospital.name;
-    this.el.text.textContent = "Preparing route…";
-    this.el.dist.textContent = "—";
-  },
-
-  setRoute(hospital, route) {
-    this.hospital = hospital;
-    this.route = route;
-    this.progress = new RouteProgress(route);
-    this.open();
-  },
-
-  open() {
-    this.el.root.hidden = false;
-    this.el.arrived.hidden = true;
-    this.el.alert.hidden = true;
-
-    if (!this.map) {
-      this.map = L.map("navMap", { zoomControl: false, attributionControl: true });
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: "&copy; OpenStreetMap contributors",
-      }).addTo(this.map);
-      this.layer = L.layerGroup().addTo(this.map);
-    }
-    setTimeout(() => this.map.invalidateSize(), 60);
-
-    const latlngs = this.progress.points.map((p) => [p.lat, p.lng]);
-    this.layer.clearLayers();
-    L.polyline(latlngs, { color: "#0b1c2c", weight: 14, opacity: .9 }).addTo(this.layer);
-    L.polyline(latlngs, { color: "#3aa0ff", weight: 7, opacity: 1 }).addTo(this.layer);
-    L.marker(latlngs.at(-1), { icon: emojiIcon("🏥", 30) }).addTo(this.layer);
-
-    this.vehicle = L.marker(latlngs[0], {
-      icon: L.divIcon({ className: "", html: '<div class="nav-vehicle"></div>', iconSize: [26, 26], iconAnchor: [13, 13] }),
-    }).addTo(this.layer);
-
-    // Send the pre-alert as navigation begins, so the ED knows before we roll.
-    const injury = INJURY_TYPES.find((i) => i.value === state.injuryType);
-    const sev = SEVERITIES.find((s) => s.value === state.severity);
-    const rec = alerts.send({
-      hospital: this.hospital.name,
-      orgCode: this.hospital.orgCode,
-      pathway: injury ? injury.label : "Emergency",
-      etaText: formatMins(this.route.duration / 60),
-      patientSummary: sev ? sev.label : "Unknown severity",
-      origin: state.accident?.label || "Scene",
-      conditionNotes: [injury?.label, sev?.label].filter(Boolean),
-      dispatcherOverride: false,
-    });
-    this.caseRef = rec.caseRef;
-    this.el.caseRef.textContent = state.incident ? `${state.incident.caseRef} · ${rec.caseRef}` : rec.caseRef;
-
-    this.update(this.progress.stateAt(0));
-    this.map.setView(latlngs[0], 16);
-    this.checkDivert();
-  },
-
-  update(s) {
-    if (!s) return;
-    this.el.arrow.textContent = maneuverIcon(s.step);
-    this.el.dist.textContent = formatDistance(s.distanceToManeuver);
-    this.el.text.textContent = instructionText(s.step);
-
-    if (s.nextStep) {
-      this.el.then.hidden = false;
-      this.el.thenArrow.textContent = maneuverIcon(s.nextStep);
-      this.el.thenText.textContent = instructionText(s.nextStep);
-    } else {
-      this.el.then.hidden = true;
-    }
-
-    this.el.remain.textContent = formatMins(s.remainingSec / 60);
-    this.el.km.textContent = `${(s.remainingM / 1000).toFixed(1)} km`;
-    const arriveAt = new Date(Date.now() + s.remainingSec * 1000);
-    this.el.eta.textContent = arriveAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-    if (s.position) {
-      this.vehicle.setLatLng([s.position.lat, s.position.lng]);
-      this.map.panTo([s.position.lat, s.position.lng], { animate: true, duration: .3 });
-    }
-
-    if (s.arrived) this.onArrived();
-  },
-
-  onArrived() {
-    this.simulator?.stop();
-    if (state.incident && state.incident.status !== "arrived") {
-      state.incident = incidents.setStatus(state.incident.caseRef, "arrived") || state.incident;
-    }
-    this.el.arrived.hidden = false;
-    this.el.arrivedSub.textContent = `${this.hospital.name} — ${this.caseRef || ""}`;
-    this.el.simBtn.classList.remove("active");
-    this.el.simBtn.textContent = "▶ Simulate drive";
-  },
-
-  toggleSim() {
-    if (!this.progress) return;
-    if (this.simulator?.running) {
-      this.simulator.stop();
-      this.el.simBtn.textContent = "▶ Simulate drive";
-      this.el.simBtn.classList.remove("active");
-      return;
-    }
-    this.stopGps();
-    if (!this.simulator) {
-      this.simulator = new DriveSimulator(this.progress, { onTick: (s) => this.update(s) });
-    }
-    this.simulator.start();
-    this.el.simBtn.textContent = "❚❚ Pause";
-    this.el.simBtn.classList.add("active");
-  },
-
-  toggleGps() {
-    if (this.watchId !== null) { this.stopGps(); return; }
-    if (!navigator.geolocation) { alert("Geolocation is not available on this device."); return; }
-    this.simulator?.stop();
-    this.el.simBtn.textContent = "▶ Simulate drive";
-    this.el.simBtn.classList.remove("active");
-    this.el.gpsBtn.classList.add("active");
-    this.el.gpsBtn.textContent = "GPS on";
-    this.watchId = navigator.geolocation.watchPosition(
-      (pos) => {
-        const snapped = this.progress.snap({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-        this.update(this.progress.stateAt(snapped.distanceAlong));
-      },
-      (err) => { alert(`Location unavailable: ${err.message}`); this.stopGps(); },
-      { enableHighAccuracy: true, maximumAge: 2000 }
-    );
-  },
-
-  stopGps() {
-    if (this.watchId !== null) navigator.geolocation.clearWatch(this.watchId);
-    this.watchId = null;
-    this.el.gpsBtn.classList.remove("active");
-    this.el.gpsBtn.textContent = "Follow GPS";
-  },
-
-  checkDivert() {
-    if (!this.hospital || this.el.root.hidden) return;
-    const status = capacity.overrides[this.hospital.orgCode];
-    if (status === "divert") {
-      const alt = state.ranked.find((h) => h.name !== this.hospital.name && capacity.overrides[h.orgCode] !== "divert");
-      this.el.alertSub.textContent = alt
-        ? `${this.hospital.name} has declared divert. Next best: ${alt.name} (${formatMins(alt.driveMin)} from scene).`
-        : `${this.hospital.name} has declared divert. No alternative in the current shortlist.`;
-      this.el.rerouteBtn.hidden = !alt;
-      this._alt = alt || null;
-      this.el.alert.hidden = false;
-    } else {
-      this.el.alert.hidden = true;
-    }
-  },
-
-  reroute() {
-    if (!this._alt) return;
-    this.simulator?.stop();
-    this.simulator = null;
-    this.stopGps();
-    this.el.alert.hidden = true;
-    this.el.simBtn.textContent = "▶ Simulate drive";
-    this.el.simBtn.classList.remove("active");
-    chooseHospital(this._alt);
-  },
-
-  close() {
-    this.simulator?.stop();
-    this.simulator = null;
-    this.stopGps();
-    this.el.root.hidden = true;
-    this.el.arrived.hidden = true;
-  },
-};
-
 
 /* ---------------- init ---------------- */
 
@@ -877,8 +787,6 @@ Promise.all([
     state.hotspots = hotspots;
     state.nhs = nhs;
     state.curve = curve;
-    capacity = new CapacityService(nhs, curve);
-    navigation.init();
     drawHospitals();
     drawHotspots();
     renderSeverityGrid();

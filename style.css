@@ -14,15 +14,15 @@ html, body {
 }
 
 #panel {
-  width: 340px;
-  flex: 0 0 340px;
+  width: 380px;
+  flex: 0 0 380px;
   background: #131c26;
   color: #e6edf5;
-  padding: 20px 18px;
+  padding: 22px 20px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
 }
 
 #map {
@@ -31,7 +31,7 @@ html, body {
 }
 
 #panel h1 {
-  font-size: 19px;
+  font-size: 21px;
   margin: 0 0 4px;
   letter-spacing: -0.01em;
 }
@@ -41,7 +41,7 @@ html, body {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #7f93a8;
-  margin: 0 0 10px;
+  margin: 0 0 12px;
 }
 
 .sub {
@@ -53,7 +53,7 @@ html, body {
 
 .block {
   border-top: 1px solid #22303f;
-  padding-top: 16px;
+  padding-top: 18px;
 }
 
 label {
@@ -67,26 +67,56 @@ label {
 
 select {
   width: 100%;
-  padding: 8px 10px;
-  border-radius: 6px;
+  padding: 10px 12px;
+  border-radius: 8px;
   border: 1px solid #2c3d4f;
   background: #0f1720;
   color: #e6edf5;
   font-size: 14px;
 }
 
+/* ---- condition toggle chips (real checkboxes underneath, styled as chips) ---- */
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
 label.checkbox {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 12px;
   text-transform: none;
   letter-spacing: 0;
   font-size: 13px;
+  font-weight: 500;
   color: #a9bccf;
+  background: #0f1720;
+  border: 1px solid #2c3d4f;
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+  margin: 0;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
 }
 
-label.checkbox input { margin: 0; }
+label.checkbox:hover { border-color: #3a4d61; }
+
+label.checkbox:has(input:checked),
+label.checkbox.active {
+  background: #17293a;
+  border-color: #3aa0ff;
+  color: #e6edf5;
+}
+
+label.checkbox input {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: #3aa0ff;
+  cursor: pointer;
+}
 
 .empty {
   font-size: 13px;
@@ -94,29 +124,94 @@ label.checkbox input { margin: 0; }
   font-style: italic;
 }
 
+/* ---- condition sub-fields (breathing / severity / age) ---- */
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.field-label {
+  font-size: 10.5px;
+  margin: 0;
+}
+
+.field-label select { margin-top: 4px; font-size: 13px; padding: 8px 8px; }
+
 .when {
   display: grid;
   grid-template-columns: 1fr 1fr 0.8fr;
   gap: 6px;
 }
 
-.when select { font-size: 13px; padding: 7px 6px; }
+.when select { font-size: 13px; padding: 8px 6px; }
 
-.deep-link {
-  display: inline-block;
-  margin-top: 8px;
-  color: #3aa0ff;
-  text-decoration: none;
+/* ---- header deep links ---- */
+.deep-links {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
 }
 
-.deep-link:hover { text-decoration: underline; }
+.deep-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #0f1720;
+  border: 1px solid #2c3d4f;
+  color: #9cc8ff;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 12px;
+  border-radius: 999px;
+}
+
+.deep-link:hover { border-color: #3aa0ff; background: #17293a; }
 
 .hint {
   font-size: 11.5px;
   line-height: 1.45;
   color: #6d8095;
-  margin: 0 0 8px;
+  margin: 0 0 10px;
 }
+
+/* ---- collapsible sub-sections ---- */
+details.advanced-block { padding-top: 0; }
+details.advanced-block > summary {
+  list-style: none;
+  cursor: pointer;
+  padding-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+details.advanced-block > summary::-webkit-details-marker { display: none; }
+details.advanced-block > summary::before {
+  content: "▸";
+  color: #7f93a8;
+  font-size: 11px;
+  transition: transform 0.12s;
+}
+details.advanced-block[open] > summary::before { transform: rotate(90deg); }
+.inline-h2 { display: inline; margin: 0; }
+details.advanced-block > .hint,
+details.advanced-block > .when,
+details.advanced-block > .note { margin-top: 10px; }
+
+.manual-coords {
+  margin-top: 8px;
+}
+.manual-coords summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #7f93a8;
+  padding: 4px 0;
+}
+.manual-coords summary::-webkit-details-marker { display: none; }
+.manual-coords summary:hover { color: #a9bccf; }
 
 .latlng {
   display: grid;
@@ -136,8 +231,8 @@ label.checkbox input { margin: 0; }
 }
 
 button {
-  padding: 7px 12px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
   border: 1px solid #2c3d4f;
   background: #1d2c3c;
   color: #e6edf5;
@@ -153,13 +248,13 @@ button.ghost {
   background: transparent;
 }
 
-.checks {
-  display: grid;
-  gap: 2px;
-  margin-bottom: 10px;
+.wide-btn {
+  width: 100%;
+  min-height: 44px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 10px;
 }
-
-.checks .checkbox { margin-top: 0; }
 
 .pathway {
   font-size: 14px;

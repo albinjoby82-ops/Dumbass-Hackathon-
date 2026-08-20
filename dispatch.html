@@ -84,22 +84,9 @@
       <ul id="rankList" class="rank-list"></ul>
     </section>
 
-    <section class="panel-section" id="enrouteSection" hidden>
-      <h2>En route</h2>
-      <div class="enroute-card">
-        <div class="enroute-hospital" id="enrouteHospital"></div>
-        <div class="enroute-metrics">
-          <span class="enroute-eta" id="enrouteEta">—</span>
-          <span class="enroute-dist" id="enrouteDist"></span>
-        </div>
-        <div class="enroute-wait" id="enrouteWait"></div>
-      </div>
-      <ol id="directionsList" class="directions-list"></ol>
-      <div class="enroute-actions">
-        <button id="changeHospitalBtn" class="wide-btn secondary">← Change hospital</button>
-        <button id="newIncidentBtn" class="wide-btn secondary">New incident</button>
-      </div>
-    </section>
+    <div class="panel-actions">
+      <button id="newIncidentBtn" class="wide-btn secondary">New incident</button>
+    </div>
 
     <p class="footer-note">Routes and times use the public OSRM road network and represent normal driving, not live traffic or emergency-response ETA. A&amp;E waits are illustrative ranges derived from monthly NHS breach rates and an assumed demand curve; they are not live or patient-level measurements. This is a demo tool, not a clinical decision system.</p>
 
@@ -107,56 +94,39 @@
 
 </div>
 
-<!-- Full-screen turn-by-turn navigation. Hidden until a hospital is selected. -->
-<div id="nav" hidden aria-live="polite">
-  <div id="navMap"></div>
-
+<div id="navOverlay" class="nav-overlay" hidden>
   <div class="nav-banner">
-    <span class="nav-arrow" id="navArrow">↑</span>
+    <div class="nav-maneuver-icon" id="navIcon">↑</div>
     <div class="nav-instruction">
-      <span class="nav-dist" id="navDist">—</span>
-      <span class="nav-text" id="navText">Preparing route…</span>
+      <div class="nav-distance" id="navDistance">—</div>
+      <div class="nav-text" id="navText">—</div>
     </div>
   </div>
 
-  <div class="nav-then" id="navThen" hidden>
-    <span class="nav-then-label">Then</span>
-    <span class="nav-then-arrow" id="navThenArrow">↑</span>
-    <span class="nav-then-text" id="navThenText"></span>
-  </div>
+  <button id="navEndBtn" class="nav-end-btn" type="button" aria-label="End navigation">✕</button>
 
-  <div class="nav-alert" id="navAlert" hidden>
-    <div class="nav-alert-body">
-      <p class="nav-alert-title" id="navAlertTitle">Destination on divert</p>
-      <p class="nav-alert-sub" id="navAlertSub"></p>
-    </div>
-    <div class="nav-alert-actions">
-      <button id="navRerouteBtn" class="nav-btn primary">Re-route</button>
-      <button id="navDismissBtn" class="nav-btn">Continue anyway</button>
-    </div>
-  </div>
+  <div class="nav-progress-track"><div class="nav-progress-fill" id="navProgressFill"></div></div>
 
   <div class="nav-bottom">
-    <div class="nav-dest">
-      <span class="nav-dest-name" id="navDest">—</span>
-      <span class="nav-case" id="navCase"></span>
+    <div class="nav-hospital-name" id="navHospitalName">—</div>
+    <div class="nav-bottom-row">
+      <div class="nav-remaining">
+        <span class="nav-remaining-time" id="navRemainingTime">—</span>
+        <span class="nav-remaining-dist" id="navRemainingDist">—</span>
+      </div>
+      <div class="nav-eta-block">
+        <span class="nav-eta-time" id="navEtaClock">—</span>
+        <span class="nav-eta-label">arrival</span>
+      </div>
     </div>
-    <div class="nav-stats">
-      <div class="nav-stat"><span class="nav-stat-v" id="navEta">—</span><span class="nav-stat-k">arrival</span></div>
-      <div class="nav-stat"><span class="nav-stat-v" id="navRemain">—</span><span class="nav-stat-k">remaining</span></div>
-      <div class="nav-stat"><span class="nav-stat-v" id="navKm">—</span><span class="nav-stat-k">distance</span></div>
-    </div>
-    <div class="nav-controls">
-      <button id="navSimBtn" class="nav-btn primary">▶ Simulate drive</button>
-      <button id="navGpsBtn" class="nav-btn">Follow GPS</button>
-      <button id="navEndBtn" class="nav-btn danger">End</button>
-    </div>
+    <div class="nav-sim-note" id="navSimNote">Simulated drive-through — demo only, not live GPS.</div>
   </div>
 
   <div class="nav-arrived" id="navArrived" hidden>
-    <p class="nav-arrived-title">Arrived</p>
-    <p class="nav-arrived-sub" id="navArrivedSub"></p>
-    <button id="navHandoverBtn" class="nav-btn primary">Handover complete</button>
+    <div class="nav-arrived-icon">🏥</div>
+    <div class="nav-arrived-text">Arrived at <span id="navArrivedHospital"></span></div>
+    <div class="nav-arrived-wait" id="navArrivedWait"></div>
+    <button id="navArrivedCloseBtn" class="wide-btn primary" type="button">Done</button>
   </div>
 </div>
 

@@ -26,12 +26,15 @@
         <select id="hotspot-select">
           <option value="">— known location —</option>
         </select>
-        <div class="latlng">
-          <input id="lat-input" type="text" inputmode="decimal" placeholder="latitude" aria-label="Latitude">
-          <input id="lng-input" type="text" inputmode="decimal" placeholder="longitude" aria-label="Longitude">
-          <button id="set-location" type="button">Set</button>
-        </div>
-        <button id="use-gps" class="ghost" type="button">Use device location</button>
+        <button id="use-gps" class="wide-btn ghost" type="button">📍 Use device location</button>
+        <details class="manual-coords">
+          <summary>Enter coordinates manually</summary>
+          <div class="latlng">
+            <input id="lat-input" type="text" inputmode="decimal" placeholder="latitude" aria-label="Latitude">
+            <input id="lng-input" type="text" inputmode="decimal" placeholder="longitude" aria-label="Longitude">
+            <button id="set-location" type="button">Set</button>
+          </div>
+        </details>
         <p class="status" id="location-status">No location set.</p>
       </section>
 
@@ -44,32 +47,39 @@
           <label class="checkbox"><input type="checkbox" id="c-bleeding"> Major bleeding</label>
           <label class="checkbox"><input type="checkbox" id="c-unconscious"> Unconscious</label>
         </div>
-        <div class="when">
-          <select id="breathing" aria-label="Breathing">
-            <option value="normal">Breathing normal</option>
-            <option value="difficulty">Breathing difficulty</option>
-            <option value="absent">Not breathing</option>
-          </select>
-          <select id="severity" aria-label="Severity">
-            <option value="minor">Minor</option>
-            <option value="moderate" selected>Moderate</option>
-            <option value="severe">Severe</option>
-          </select>
-          <select id="age-group" aria-label="Age group">
-            <option value="adult">Adult</option>
-            <option value="child">Child</option>
-          </select>
+        <div class="field-grid">
+          <label class="field-label">Breathing
+            <select id="breathing" aria-label="Breathing">
+              <option value="normal">Normal</option>
+              <option value="difficulty">Difficulty</option>
+              <option value="absent">Not breathing</option>
+            </select>
+          </label>
+          <label class="field-label">Severity
+            <select id="severity" aria-label="Severity">
+              <option value="minor">Minor</option>
+              <option value="moderate" selected>Moderate</option>
+              <option value="severe">Severe</option>
+            </select>
+          </label>
+          <label class="field-label">Age group
+            <select id="age-group" aria-label="Age group">
+              <option value="adult">Adult</option>
+              <option value="child">Child</option>
+            </select>
+          </label>
         </div>
       </section>
 
-      <section class="block">
-        <h2>3 · Time of incident</h2>
+      <details class="block advanced-block">
+        <summary><h2 class="inline-h2">3 · Time of incident (optional)</h2></summary>
+        <p class="hint">Defaults to a realistic peak-demand scenario. Change this to see how the recommendation shifts by time of day.</p>
         <div class="when">
           <select id="month-select" aria-label="Month"></select>
           <select id="day-select" aria-label="Day of week"></select>
           <select id="hour-select" aria-label="Hour"></select>
         </div>
-      </section>
+      </details>
 
       <section class="block" id="results">
         <h2>Recommendation</h2>
@@ -89,14 +99,21 @@
         <button id="clear-overrides" class="ghost" type="button">Clear all overrides</button>
       </section>
 
-      <footer>
-        <h2>Method &amp; sources</h2>
+      <details class="block advanced-block">
+        <summary><h2 class="inline-h2">Method &amp; sources</h2></summary>
         <p class="note" id="method-note"></p>
-      </footer>
+      </details>
     </aside>
     <div id="map"></div>
   </div>
 
+  <script>
+    // Visual sync for the condition chips — redundant with the :has() CSS rule
+    // above so the highlight is not solely dependent on :has() invalidation.
+    document.querySelectorAll('.checks input[type="checkbox"]').forEach((cb) => {
+      cb.addEventListener('change', () => cb.closest('label').classList.toggle('active', cb.checked));
+    });
+  </script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module" src="app.js"></script>
 </body>
