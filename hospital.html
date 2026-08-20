@@ -12,6 +12,11 @@
       <div>
         <h1>Hospital Console</h1>
         <p class="sub">Incoming pre-alerts from ambulance dispatch.</p>
+        <nav class="viewnav">
+          <a href="index.html">Dispatcher</a>
+          <a href="dispatch.html">Driver</a>
+          <a href="hospital.html" class="active">Hospital</a>
+        </nav>
       </div>
       <select id="hospital-picker" aria-label="This hospital"></select>
     </header>
@@ -27,7 +32,7 @@
     </section>
 
     <section>
-      <h2>Incoming</h2>
+      <h2>Incoming<span class="badge-count" id="alert-count" hidden>0</span></h2>
       <div id="alerts"></div>
     </section>
 

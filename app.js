@@ -32,6 +32,7 @@ let patient = null;
 let token = 0;
 let lastRanked = [];
 let lastProfile = null;
+let lastTopName = null;
 const alerts = new AlertService();
 
 /* ------------------------------------------------------------------ helpers */
@@ -169,8 +170,21 @@ function renderRanking(ranked, profile, excluded, fallback) {
     `<p class="alert-sent" id="alert-sent" hidden></p>` +
     `</div>`;
 
+  const topName = ranked[0]?.hospital.name ?? null;
+  const changed = lastTopName !== null && topName !== lastTopName;
+  lastTopName = topName;
+
   resultsBody.className = '';
   resultsBody.innerHTML = html;
+
+  // Draw the eye when the recommendation itself flips — usually a divert landing.
+  if (changed) {
+    const card = resultsBody.querySelector('.card.best');
+    if (card) {
+      card.classList.add('flash');
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
 
   document.getElementById('send-alert')?.addEventListener('click', sendPreAlert);
 }
@@ -253,7 +267,9 @@ async function recommend() {
     .map((x) => x.h);
 
   resultsBody.className = '';
-  resultsBody.innerHTML = `<p class="status">Ranking ${nearby.length} eligible destinations…</p>`;
+  resultsBody.innerHTML =
+    `<div class="loading"><span class="spinner"></span>Ranking ${nearby.length} eligible destinations…</div>` +
+    `<div class="skeleton"><div class="sk-line w40"></div><div class="sk-line"></div><div class="sk-line w60"></div></div>`;
 
   let travelMin;
   try {
