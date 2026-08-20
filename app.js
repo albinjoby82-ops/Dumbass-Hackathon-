@@ -461,7 +461,7 @@ function drawHospitals() {
   hospitals.forEach((h) => {
     const tags = h.services ? [...h.services] : [];
     if (h.aeType === 1) tags.push('TYPE1_ED');
-    const specialist = tags.some((t) => ['MTC', 'HASU', 'HAC'].includes(t));
+    const specialist = tags.some((t) => ['MTC', 'STROKE', 'PCI'].includes(t));
     const color = h.aeType === null ? '#c58bf0' : specialist ? '#2ecc71' : '#7f93a8';
     L.marker([h.lat, h.lng], { icon: dotIcon(color, specialist ? 10 : 8) })
       .bindPopup(
@@ -505,12 +505,12 @@ function populateControls() {
 
   const assumed = curve.source !== 'provider';
   $('method-note').innerHTML =
-    `<strong>Real:</strong> clinical designations (Major Trauma Centre, HASU, heart attack centre) are published NHS pathway ` +
-    `designations, each cited in <code>data/hospital-capabilities.json</code>. Travel times come from the OSRM road network. ` +
-    `Four-hour breach rates are NHS England monthly data, ${nhs.periods[0].label}–${nhs.periods.at(-1).label}.<br>` +
+    `<strong>Reference data:</strong> Dublin Emergency Departments and simplified specialist capabilities are documented in ` +
+    `<code>data/hospital-capabilities.json</code>. Travel times come from the OSRM road network. ` +
+    `Capacity baselines are illustrative Dublin demo data for ${nhs.periods.at(-1).label}.<br>` +
     `<strong>Simulated:</strong> live ED status, ambulance queue depth and divert status. No public real-time feed exists ` +
     `for any of these — the camera-based capacity counting in the spec would feed this same interface.<br>` +
-    (assumed ? `<strong>Assumption:</strong> the hour-of-day demand curve is not NHS-sourced.<br>` : '') +
+    (assumed ? `<strong>Assumption:</strong> the hour-of-day demand curve is simulated, not HSE-sourced.<br>` : '') +
     `<strong>Unconfirmed:</strong> designations marked <span class="chip unverified">?</span> have secondary evidence only ` +
     `and must be verified before operational use.<br>` +
     `<strong>Not a clinical tool.</strong> This demonstrates routing logic; every recommendation is dispatcher-overridable.`;
@@ -524,7 +524,7 @@ $('hotspot-select').addEventListener('change', (e) => {
 $('set-location').addEventListener('click', () => {
   const lat = parseFloat($('lat-input').value);
   const lng = parseFloat($('lng-input').value);
-  if (!isFinite(lat) || !isFinite(lng) || lat < 49 || lat > 61 || lng < -11 || lng > 3) {
+  if (!isFinite(lat) || !isFinite(lng) || lat < 51.3 || lat > 55.5 || lng < -10.8 || lng > -5.2) {
     locationStatus.textContent = 'Enter a valid latitude and longitude within Ireland.';
     locationStatus.classList.add('error');
     return;

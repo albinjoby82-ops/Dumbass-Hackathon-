@@ -48,7 +48,7 @@ export class AlertService {
 
   /** Dispatcher sends a pre-alert. Returns the case reference. */
   send(alert) {
-    const caseRef = `LAS-${String(Date.now()).slice(-6)}`;
+    const caseRef = `DUB-${String(Date.now()).slice(-6)}`;
     const record = {
       caseRef,
       sentAt: new Date().toISOString(),

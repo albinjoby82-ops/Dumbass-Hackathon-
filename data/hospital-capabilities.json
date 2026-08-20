@@ -1,34 +1,28 @@
 {
-  "note": "Provenance for the clinical designations tagged on each hospital in hospitals.json (`services`). That file is the single source of truth for WHICH hospital holds WHICH designation; this file records HOW WELL SOURCED each designation type is. TYPE1_ED is derived from aeType === 1 rather than tagged.",
+  "note": "Dublin demo capability metadata. Hospital service tags are simplified for the hackathon and must be clinically verified before operational use.",
   "tagMeaning": {
-    "TYPE1_ED": "Consultant-led major A&E, 24/7, full resuscitation facilities",
-    "MTC": "Major Trauma Centre — receives major trauma, bypassing nearer hospitals",
-    "HASU": "Hyper-Acute Stroke Unit — 24/7 thrombolysis and hyper-acute stroke care",
-    "HAC": "Heart Attack Centre — 24/7 primary percutaneous coronary intervention",
-    "NEURO": "Neurosurgical centre",
-    "BURNS": "Specialist burns service",
-    "UTC": "Co-located Urgent Treatment Centre"
+    "TYPE1_ED": "24-hour adult Emergency Department",
+    "MTC": "Major Trauma Centre",
+    "STROKE": "Acute stroke service",
+    "PCI": "Primary PCI / specialist cardiac service",
+    "NEURO": "Specialist neurosciences or neurosurgical service",
+    "BURNS": "Specialist burns service"
   },
-  "verifiedTags": {
-    "TYPE1_ED": true,
-    "MTC": true,
-    "HASU": true,
-    "HAC": false,
-    "NEURO": false,
-    "BURNS": false,
-    "UTC": false
-  },
+  "verifiedTags": { "TYPE1_ED": true, "MTC": false, "STROKE": false, "PCI": false, "NEURO": false, "BURNS": false },
   "sources": {
-    "MTC": "https://www.londonambulance.nhs.uk/calling-us/emergency-trauma-care/",
-    "HASU": "https://www.imperial.nhs.uk/our-services/stroke/hyper-acute-stroke-unit",
-    "HAC": "https://www.imperial.nhs.uk/our-services/cardiology/heart-assessment-centre",
-    "TYPE1_ED": "https://www.england.nhs.uk/statistics/statistical-work-areas/ae-waiting-times-and-activity/"
+    "TYPE1_ED": "https://www.hse.ie/eng/services/list/3/acutehospitals/",
+    "MTC": "https://www.gov.ie/en/department-of-health/publications/a-trauma-system-for-ireland/",
+    "STROKE": "https://www.hse.ie/eng/about/who/cspd/ncps/stroke/",
+    "PCI": "https://www.hse.ie/eng/about/who/cspd/ncps/acs/",
+    "NEURO": "https://www.beaumont.ie/neurosurgery",
+    "BURNS": "https://www.stjames.ie/services/plasticsreconstructiveandburnssurgery/"
   },
   "verificationNotes": {
-    "MTC": "London Ambulance Service names all four adult major trauma centres directly: Royal London, St George's, King's College, St Mary's. Primary source.",
-    "HASU": "Eight designated London HASUs, consistent across multiple NHS trust sources. King's runs two of the eight.",
-    "HAC": "UNCONFIRMED. Trust pages block automated access; secondary sources disagree on whether London has seven or eight heart attack centres. Verify before operational use.",
-    "NEURO": "UNCONFIRMED. Not independently researched.",
-    "BURNS": "UNCONFIRMED. Not independently researched."
+    "TYPE1_ED": "Dublin adult emergency hospitals selected from HSE hospital listings.",
+    "MTC": "Demo designation; verify current trauma-network operating status.",
+    "STROKE": "Simplified acute-stroke capability for demo routing.",
+    "PCI": "Simplified specialist cardiac capability for demo routing.",
+    "NEURO": "Simplified specialist neuroscience capability for demo routing.",
+    "BURNS": "St James's specialist burns capability represented for demo routing."
   }
 }

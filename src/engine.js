@@ -46,7 +46,7 @@ function unverifiedTags(caps, tags) {
 /**
  * Select candidate hospitals for a profile.
  * Returns { candidates, fallback, excluded } — `fallback` is true when nothing met the
- * clinical requirement and we widened to any major A&E rather than returning nothing.
+ * clinical requirement and we widened to any adult Emergency Department rather than returning nothing.
  */
 export function selectCandidates(hospitals, caps, profile) {
   const required = profile.requiredTags;
@@ -107,7 +107,7 @@ export function rank({ candidates, travelMin, capacityStates, profile, caps }) {
     if (met.length) reasons.push(`Meets ${met.join(' + ')} requirement`);
     if (cap.status === 'divert') reasons.push('Declared on divert — heavily penalised');
     else if (cap.status === 'pressure') reasons.push('Declared under pressure');
-    if (h.aeType === null) reasons.push('Direct admission — no A&E at this site');
+    if (h.aeType === null) reasons.push('Direct admission — no Emergency Department at this site');
 
     return {
       hospital: h,

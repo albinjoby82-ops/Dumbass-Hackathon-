@@ -1,8 +1,8 @@
 {
   "source": "assumed-curve",
-  "sourceLabel": "Assumed demand curve (not NHS-sourced)",
-  "sourceUrl": "https://digital.nhs.uk/data-and-information/publications/statistical/hospital-accident--emergency-activity/2024-25",
-  "note": "NHS Digital blocks automated access, so the real arrival-by-hour distribution could not be retrieved. This is a documented ASSUMED demand shape, mean-normalised to 1.0. It is an assumption, not measured NHS data, and is labelled as such in the UI.",
+  "sourceLabel": "Assumed Dublin ED demand curve (not HSE-sourced)",
+  "sourceUrl": "https://www.hse.ie/eng/services/list/3/acutehospitals/",
+  "note": "Documented assumed demand shape for the Dublin hackathon demo. It is mean-normalised to 1.0 and is not measured HSE data.",
   "dayOrder": [
     "Sun",
     "Mon",

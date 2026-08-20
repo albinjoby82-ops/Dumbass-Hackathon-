@@ -2,9 +2,8 @@
  * Operational capacity layer.
  *
  * SIMULATED. There is no public real-time feed for ED bed state, ambulance queues or
- * divert status in England — NHS publishes monthly statistics, not live data. The
- * simulation is seeded from each trust's REAL published four-hour breach rate so the
- * baseline is grounded rather than arbitrary, but the live numbers are not measurements.
+ * divert status in Dublin. The hackathon simulation uses illustrative hospital-level
+ * baselines; none of the live-looking numbers are HSE measurements.
  *
  * The spec's computer-vision camera counts would feed exactly this interface. Replacing
  * `simulateState` with a real feed is the only change that would be needed.
@@ -85,13 +84,13 @@ export class CapacityService {
     this._emit();
   }
 
-  /** Real, measured: the trust's published Type 1 four-hour breach rate for that month. */
+  /** Illustrative demo baseline for the selected hospital and month. */
   breachRate(orgCode, monthKey) {
     return this.nhs?.trusts?.[orgCode]?.months?.[monthKey]?.type1BreachRate ?? null;
   }
 
   /**
-   * SIMULATED live state. Queue depth scales with the real breach rate and the
+   * SIMULATED live state. Queue depth scales with the illustrative baseline and the
    * hour-of-day demand factor, so a genuinely pressured trust simulates as busier.
    */
   simulateState(orgCode, monthKey, day, hour) {

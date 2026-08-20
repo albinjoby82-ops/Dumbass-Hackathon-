@@ -4,8 +4,7 @@
  * Turns structured dispatcher input into the capability a receiving hospital must hold,
  * plus how heavily travel time should weigh against hospital load.
  *
- * The pathways encoded here are real NHS London practice, not our invention: major trauma,
- * stroke and STEMI patients are already routed past nearer hospitals to designated centres.
+ * The pathways model specialist emergency routing for a Dublin hackathon demonstration.
  * What this adds is weighing operational load once the clinical requirement is satisfied.
  *
  * IMPORTANT: this is a demonstration of routing logic, not a triage tool, and it does not
@@ -62,24 +61,23 @@ export function buildProfile(c) {
       );
     }
   } else if (c.suspectedStroke) {
-    requiredTags.push('HASU');
+    requiredTags.push('STROKE');
     pathway = 'Suspected stroke';
-    rationale.push('Suspected stroke goes to a Hyper-Acute Stroke Unit for 24/7 thrombolysis.');
+    rationale.push('Suspected stroke goes to a designated acute stroke service.');
   } else if (c.suspectedCardiac) {
-    requiredTags.push('HAC');
+    requiredTags.push('PCI');
     pathway = 'Suspected heart attack';
-    rationale.push('Suspected heart attack goes directly to a Heart Attack Centre for primary PCI.');
-    rationale.push('Some heart attack centres have no A&E — direct admission bypasses it.');
+    rationale.push('Suspected heart attack goes directly to a specialist primary PCI service.');
   } else {
     requiredTags.push('TYPE1_ED');
     pathway = c.severity === 'minor' ? 'Minor injury or illness' : 'Standard emergency department';
-    rationale.push('No specialist pathway triggered — any major A&E can receive this patient.');
+    rationale.push('No specialist pathway triggered — any 24-hour adult Emergency Department can receive this patient.');
   }
 
   // Airway compromise: whatever the pathway, the patient needs resuscitation facilities
   // and time matters more than queue length.
   if (airway && !requiredTags.includes('MTC')) {
-    if (!requiredTags.includes('TYPE1_ED') && !requiredTags.includes('HAC')) {
+    if (!requiredTags.includes('TYPE1_ED') && !requiredTags.includes('PCI')) {
       preferredTags.push('TYPE1_ED');
     }
     rationale.push('Airway or breathing compromised — shortest time to a resus bay dominates.');

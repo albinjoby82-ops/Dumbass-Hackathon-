@@ -15,8 +15,8 @@ const CANDIDATE_POOL = 6;
 
 const INJURY_TYPES = [
   { value: "trauma", label: "Major trauma", desc: "Multi-system / severe mechanism", service: "MTC" },
-  { value: "stroke", label: "Suspected stroke", desc: "FAST positive", service: "HASU" },
-  { value: "cardiac", label: "Chest pain / cardiac", desc: "Suspected heart attack", service: "HAC" },
+  { value: "stroke", label: "Suspected stroke", desc: "FAST positive", service: "STROKE" },
+  { value: "cardiac", label: "Chest pain / cardiac", desc: "Suspected heart attack", service: "PCI" },
   { value: "head", label: "Head injury", desc: "Neuro emergency", service: "NEURO" },
   { value: "burns", label: "Severe burns", desc: "", service: "BURNS" },
   { value: "medical", label: "Medical emergency", desc: "Breathing, seizure, etc.", service: null },
@@ -494,10 +494,10 @@ async function runRanking() {
     state.ranked = candidates;
 
     els.rankNote.textContent = fallback
-      ? `No tagged ${requiredService} unit found nearby — showing nearest major A&E departments. Specialist transfer may be required after initial assessment.`
+      ? `No tagged ${requiredService} unit found nearby — showing nearest Emergency Departments. Specialist transfer may be required after initial assessment.`
       : mode === "fastest"
-        ? "Ranked by drive time to a capable centre — treatment isn't gated by A&E queue at this severity."
-        : "Ranked by modelled total time to treatment (drive time + estimated A&E wait).";
+        ? "Ranked by drive time to a capable centre — treatment isn't gated by the ED queue at this severity."
+        : "Ranked by modelled total time to treatment (drive time + estimated ED wait).";
 
     els.rankList.innerHTML = "";
     candidates.forEach((h, idx) => {
@@ -507,7 +507,7 @@ async function runRanking() {
       const waitHtml = h.wait
         ? `<span class="rank-wait">~${formatMins(h.wait.rangeMin[0])}–${formatMins(h.wait.rangeMin[1])} modelled wait</span>`
         : mode === "total"
-          ? `<span class="rank-wait muted">no NHS data</span>`
+          ? `<span class="rank-wait muted">no capacity baseline</span>`
           : "";
       li.innerHTML = `
         <div class="rank-top">

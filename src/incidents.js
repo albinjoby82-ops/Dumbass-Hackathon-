@@ -71,7 +71,7 @@ export class IncidentChannel {
    * destination. Returns the stored record, including its case reference.
    */
   dispatch(incident) {
-    const caseRef = `LAS-${String(Date.now()).slice(-6)}`;
+    const caseRef = `DUB-${String(Date.now()).slice(-6)}`;
     const record = {
       caseRef,
       createdAt: new Date().toISOString(),
