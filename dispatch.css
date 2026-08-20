@@ -263,7 +263,7 @@ body.nav-active #panel { display: none; }
 }
 .nav-overlay > * { pointer-events: auto; }
 
-.nav-banner {
+.route-nav-banner {
   position: absolute;
   top: 0; left: 0; right: 0;
   background: #1868c9;
@@ -274,16 +274,16 @@ body.nav-active #panel { display: none; }
   gap: 16px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.35);
 }
-.nav-maneuver-icon {
+.route-nav-maneuver-icon {
   font-size: 40px;
   font-weight: 700;
   width: 56px;
   text-align: center;
   flex-shrink: 0;
 }
-.nav-instruction { min-width: 0; }
-.nav-distance { font-size: 26px; font-weight: 800; line-height: 1.1; }
-.nav-text {
+.route-nav-instruction { min-width: 0; }
+.route-nav-distance { font-size: 26px; font-weight: 800; line-height: 1.1; }
+.route-nav-text {
   font-size: 15px;
   font-weight: 500;
   opacity: 0.92;
@@ -292,7 +292,7 @@ body.nav-active #panel { display: none; }
   white-space: nowrap;
 }
 
-.nav-end-btn {
+.route-nav-end-btn {
   position: absolute;
   top: 18px;
   right: 16px;
@@ -306,40 +306,40 @@ body.nav-active #panel { display: none; }
   cursor: pointer;
   z-index: 1;
 }
-.nav-end-btn:hover { background: rgba(0,0,0,0.55); }
+.route-nav-end-btn:hover { background: rgba(0,0,0,0.55); }
 
-.nav-progress-track {
+.route-nav-progress-track {
   position: absolute;
   top: 92px;
   left: 0; right: 0;
   height: 3px;
   background: rgba(255,255,255,0.25);
 }
-.nav-progress-fill {
+.route-nav-progress-fill {
   height: 100%;
   width: 0;
   background: #fff;
   transition: width 0.1s linear;
 }
 
-.nav-bottom {
+.route-nav-bottom {
   position: absolute;
   bottom: 0; left: 0; right: 0;
   background: #131c26;
   border-top: 1px solid #22303f;
   padding: 14px 18px 18px;
 }
-.nav-hospital-name { font-size: 13px; color: #7f93a8; margin-bottom: 8px; }
-.nav-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; }
-.nav-remaining { display: flex; flex-direction: column; }
-.nav-remaining-time { font-size: 22px; font-weight: 800; color: #6fe3a5; }
-.nav-remaining-dist { font-size: 12.5px; color: #8ea3b8; margin-top: 2px; }
-.nav-eta-block { display: flex; flex-direction: column; align-items: flex-end; }
-.nav-eta-time { font-size: 18px; font-weight: 700; }
-.nav-eta-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; color: #7f93a8; }
-.nav-sim-note { font-size: 10.5px; color: #5f7386; margin-top: 10px; text-align: center; }
+.route-nav-hospital-name { font-size: 13px; color: #7f93a8; margin-bottom: 8px; }
+.route-nav-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; }
+.route-nav-remaining { display: flex; flex-direction: column; }
+.route-nav-remaining-time { font-size: 22px; font-weight: 800; color: #6fe3a5; }
+.route-nav-remaining-dist { font-size: 12.5px; color: #8ea3b8; margin-top: 2px; }
+.route-nav-eta-block { display: flex; flex-direction: column; align-items: flex-end; }
+.route-nav-eta-time { font-size: 18px; font-weight: 700; }
+.route-nav-eta-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; color: #7f93a8; }
+.route-nav-sim-note { font-size: 10.5px; color: #5f7386; margin-top: 10px; text-align: center; }
 
-.nav-arrived {
+.route-nav-arrived {
   position: absolute;
   inset: 0;
   background: rgba(10,15,20,0.88);
@@ -351,10 +351,10 @@ body.nav-active #panel { display: none; }
   text-align: center;
   padding: 24px;
 }
-.nav-arrived-icon { font-size: 56px; }
-.nav-arrived-text { font-size: 18px; font-weight: 700; max-width: 320px; }
-.nav-arrived-wait { font-size: 12.5px; color: #ffd479; max-width: 300px; }
-.nav-arrived .wide-btn { max-width: 260px; }
+.route-nav-arrived-icon { font-size: 56px; }
+.route-nav-arrived-text { font-size: 18px; font-weight: 700; max-width: 320px; }
+.route-nav-arrived-wait { font-size: 12.5px; color: #ffd479; max-width: 300px; }
+.route-nav-arrived .wide-btn { max-width: 260px; }
 
 @media (max-width: 900px) {
   body.nav-active #map { flex: 1 1 auto; min-height: 100%; }

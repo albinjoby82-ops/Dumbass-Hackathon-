@@ -185,10 +185,9 @@ function renderRanking(ranked, profile, excluded, fallback) {
     ranked.slice(0, 5).map((e, i) =>
       `<option value="${i}">${e.hospital.name}${i === 0 ? ' — recommended' : ''}</option>`).join('') +
     `</select>` +
-    `<button id="send-dispatch" type="button">Dispatch to driver console</button>` +
-    `<p class="hint">The driver console opens with this location, severity and condition preloaded, ` +
-    `and the crew amends it from their assessment on scene. ` +
-    `<a href="dispatch.html" target="_blank" rel="noopener">Open driver console</a></p>` +
+    `<button id="send-dispatch" type="button">Send to driver console</button>` +
+    `<p class="hint">This sends the incident and opens the driver console with the location, severity, ` +
+    `condition and suggested destination preloaded. The crew can amend it from the scene.</p>` +
     `<p class="alert-sent" id="dispatch-sent" hidden></p>` +
     `</div>`;
 
@@ -274,6 +273,9 @@ function crewInjuryType(c) {
 }
 
 function dispatchToCrew() {
+  // Open the console from the user gesture so popup blockers do not prevent the
+  // driver view from appearing after the incident is saved.
+  const driverWindow = window.open('dispatch.html', '_blank', 'noopener');
   const idx = Number(document.getElementById('dispatch-target').value);
   const entry = lastRanked[idx];
   if (!entry || !lastProfile || !patient) return;
@@ -306,7 +308,8 @@ function dispatchToCrew() {
   lastCaseRef = rec.caseRef;
   const el = document.getElementById('dispatch-sent');
   el.hidden = false;
-  el.textContent = `${rec.caseRef} sent to the crew — awaiting their on-scene assessment.`;
+  el.innerHTML = `${rec.caseRef} sent to the crew — driver console preloaded.` +
+    (driverWindow ? '' : ' <a href="dispatch.html" target="_blank" rel="noopener">Open driver console</a>');
   renderCrew();
 }
 
