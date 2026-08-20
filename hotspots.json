@@ -1,0 +1,17 @@
+[
+  { "name": "Elephant & Castle", "lat": 51.4946, "lng": -0.1000 },
+  { "name": "Old Street Roundabout", "lat": 51.5256, "lng": -0.0876 },
+  { "name": "Hyde Park Corner", "lat": 51.5027, "lng": -0.1527 },
+  { "name": "Vauxhall Cross", "lat": 51.4861, "lng": -0.1236 },
+  { "name": "Kings Cross Gyratory", "lat": 51.5303, "lng": -0.1231 },
+  { "name": "Bank Junction", "lat": 51.5134, "lng": -0.0886 },
+  { "name": "Shepherd's Bush Green", "lat": 51.5045, "lng": -0.2201 },
+  { "name": "Stratford Broadway", "lat": 51.5417, "lng": -0.0016 },
+  { "name": "Clapham Common Northside", "lat": 51.4645, "lng": -0.1420 },
+  { "name": "Holloway Road / Nag's Head", "lat": 51.5527, "lng": -0.1128 },
+  { "name": "Wandsworth Bridge Roundabout", "lat": 51.4610, "lng": -0.1902 },
+  { "name": "Blackwall Tunnel Approach", "lat": 51.5040, "lng": 0.0035 },
+  { "name": "Marble Arch", "lat": 51.5131, "lng": -0.1589 },
+  { "name": "Camberwell Green", "lat": 51.4741, "lng": -0.0930 },
+  { "name": "Brent Cross Interchange", "lat": 51.5760, "lng": -0.2210 }
+]

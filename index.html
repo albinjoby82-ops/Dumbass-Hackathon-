@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>London Ambulance Dispatch — Nearest Hospital Router</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <aside id="panel">
+      <header>
+        <h1>London Ambulance Router</h1>
+        <p class="sub">Click the map to place an accident, or pick a known hotspot.</p>
+      </header>
+
+      <section class="block">
+        <label for="hotspot-select">Accident hotspot</label>
+        <select id="hotspot-select">
+          <option value="">— select a hotspot —</option>
+        </select>
+        <label class="checkbox">
+          <input type="checkbox" id="toggle-hotspots" checked>
+          Show hotspot markers on map
+        </label>
+      </section>
+
+      <section class="block" id="results">
+        <h2>Dispatch</h2>
+        <div id="results-body" class="empty">No accident selected yet.</div>
+      </section>
+
+      <section class="block" id="candidates-block" hidden>
+        <h2>Other nearby hospitals</h2>
+        <ol id="candidates"></ol>
+      </section>
+
+      <footer>
+        <p class="note">Hospital &amp; hotspot coordinates are curated demo data. Routing via the public OSRM demo server (rate-limited, not for production).</p>
+      </footer>
+    </aside>
+    <div id="map"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
