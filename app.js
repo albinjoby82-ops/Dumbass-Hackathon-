@@ -4,11 +4,11 @@ import { AlertService } from './src/alerts.js';
 import { IncidentChannel } from './src/incidents.js';
 import { selectCandidates, rank, compareToNearest, haversineKm } from './src/engine.js';
 
-const LONDON_CENTER = [51.5074, -0.1278];
+const DUBLIN_CENTER = [53.3498, -6.2603];
 const OSRM_BASE = 'https://router.project-osrm.org';
 const MAX_CANDIDATES = 8;
 
-const map = L.map('map').setView(LONDON_CENTER, 11);
+const map = L.map('map').setView(DUBLIN_CENTER, 12);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: '&copy; OpenStreetMap contributors'
@@ -525,7 +525,7 @@ $('set-location').addEventListener('click', () => {
   const lat = parseFloat($('lat-input').value);
   const lng = parseFloat($('lng-input').value);
   if (!isFinite(lat) || !isFinite(lng) || lat < 49 || lat > 61 || lng < -11 || lng > 3) {
-    locationStatus.textContent = 'Enter a valid latitude and longitude within the UK.';
+    locationStatus.textContent = 'Enter a valid latitude and longitude within Ireland.';
     locationStatus.classList.add('error');
     return;
   }
