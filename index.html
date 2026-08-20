@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>London Ambulance Dispatch — Nearest Hospital Router</title>
+  <title>London Ambulance Dispatch — Nearest vs Fastest to Treatment</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -12,7 +12,7 @@
     <aside id="panel">
       <header>
         <h1>London Ambulance Router</h1>
-        <p class="sub">Click the map to place an accident, or pick a known hotspot.</p>
+        <p class="sub">Click the map to place an accident, or pick a known hotspot. The nearest A&amp;E is not always the fastest route to treatment.</p>
       </header>
 
       <section class="block">
@@ -26,18 +26,29 @@
         </label>
       </section>
 
+      <section class="block">
+        <label>When did it happen</label>
+        <div class="when">
+          <select id="month-select" aria-label="Month"></select>
+          <select id="day-select" aria-label="Day of week"></select>
+          <select id="hour-select" aria-label="Hour"></select>
+        </div>
+      </section>
+
       <section class="block" id="results">
         <h2>Dispatch</h2>
         <div id="results-body" class="empty">No accident selected yet.</div>
       </section>
 
       <section class="block" id="candidates-block" hidden>
-        <h2>Other nearby hospitals</h2>
-        <ol id="candidates"></ol>
+        <h2>Other options</h2>
+        <ul id="candidates"></ul>
       </section>
 
       <footer>
-        <p class="note">Hospital &amp; hotspot coordinates are curated demo data. Routing via the public OSRM demo server (rate-limited, not for production).</p>
+        <h2>Method &amp; sources</h2>
+        <p class="note" id="method-note"></p>
+        <p class="note">Hospital and hotspot coordinates are curated demo data; site-level A&amp;E type is curated, since NHS figures are published per trust. Routing via the public OSRM demo server (rate-limited, not for production).</p>
       </footer>
     </aside>
     <div id="map"></div>

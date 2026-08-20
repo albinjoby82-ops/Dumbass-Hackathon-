@@ -94,6 +94,81 @@ label.checkbox input { margin: 0; }
   font-style: italic;
 }
 
+.when {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.8fr;
+  gap: 6px;
+}
+
+.when select { font-size: 13px; padding: 7px 6px; }
+
+/* Modelled values are visually distinct from measured ones. */
+.modelled {
+  color: #ffd479;
+  white-space: nowrap;
+}
+
+.modelled em {
+  font-style: normal;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #9a8047;
+  background: rgba(255, 212, 121, 0.12);
+  border: 1px solid rgba(255, 212, 121, 0.28);
+  border-radius: 3px;
+  padding: 1px 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.eta .modelled em { font-size: 9px; }
+
+.muted { color: #6d8095; }
+
+.card {
+  border: 1px solid #22303f;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 10px;
+  background: #0f1720;
+}
+
+.card.best {
+  border-color: #2f5f8a;
+  background: #101d2b;
+}
+
+.card-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #7f93a8;
+  margin: 0 0 6px;
+}
+
+.card.best .card-label { color: #6bb2f5; }
+
+.row.site { border-bottom: 1px solid #1d2936; }
+
+.verdict {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #e6edf5;
+  background: #17293a;
+  border-left: 3px solid #3aa0ff;
+  border-radius: 0 6px 6px 0;
+  padding: 10px 12px;
+  margin: 14px 0 0;
+}
+
+.verdict.ok {
+  border-left-color: #2ecc71;
+  color: #a9bccf;
+}
+
+.verdict strong { color: #ffffff; }
+
 .row {
   display: flex;
   justify-content: space-between;
@@ -140,13 +215,42 @@ label.checkbox input { margin: 0; }
 
 #candidates {
   margin: 0;
-  padding-left: 20px;
-  font-size: 13px;
+  padding: 0;
+  list-style: none;
+  font-size: 12.5px;
   color: #a9bccf;
-  line-height: 1.7;
+}
+
+#candidates li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 5px 0;
+  border-bottom: 1px solid #1d2936;
+}
+
+#candidates li:last-child { border-bottom: 0; }
+
+.cand-v {
+  color: #7f93a8;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 footer { margin-top: auto; }
+
+footer h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7f93a8;
+  margin: 0 0 8px;
+}
+
+.note + .note { border-top: 0; padding-top: 8px; }
+
+.note strong { color: #8ea3b8; font-weight: 600; }
 
 .note {
   font-size: 11px;
