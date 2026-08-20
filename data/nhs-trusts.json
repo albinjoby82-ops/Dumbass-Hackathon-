@@ -1,0 +1,2218 @@
+{
+  "source": "NHS England — Monthly A&E Attendances and Emergency Admissions (MSitAE)",
+  "sourceUrl": "https://www.england.nhs.uk/statistics/statistical-work-areas/ae-waiting-times-and-activity/ae-attendances-and-emergency-admissions-2025-26/",
+  "licence": "Open Government Licence v3.0",
+  "retrieved": "2026-08-20",
+  "note": "Figures are TRUST-level. A trust may run several hospital sites, so these values describe the trust as a whole, not an individual building.",
+  "periods": [
+    {
+      "key": "2025-08",
+      "label": "August 2025"
+    },
+    {
+      "key": "2025-09",
+      "label": "September 2025"
+    },
+    {
+      "key": "2025-10",
+      "label": "October 2025"
+    },
+    {
+      "key": "2025-11",
+      "label": "November 2025"
+    },
+    {
+      "key": "2025-12",
+      "label": "December 2025"
+    },
+    {
+      "key": "2026-01",
+      "label": "January 2026"
+    },
+    {
+      "key": "2026-02",
+      "label": "February 2026"
+    },
+    {
+      "key": "2026-03",
+      "label": "March 2026"
+    },
+    {
+      "key": "2026-04",
+      "label": "April 2026"
+    },
+    {
+      "key": "2026-05",
+      "label": "May 2026"
+    },
+    {
+      "key": "2026-06",
+      "label": "June 2026"
+    },
+    {
+      "key": "2026-07",
+      "label": "July 2026"
+    }
+  ],
+  "trusts": {
+    "RRV": {
+      "orgCode": "RRV",
+      "name": "UNIVERSITY COLLEGE LONDON HOSPITALS NHS FOUNDATION TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 14233,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 3543,
+          "type1BreachRate": 0.2489,
+          "allOver4hr": 3543,
+          "waits12hrPlus": 184,
+          "emergencyAdmissionsType1": 1442
+        },
+        "2026-06": {
+          "type1Attendances": 13518,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 3339,
+          "type1BreachRate": 0.247,
+          "allOver4hr": 3339,
+          "waits12hrPlus": 153,
+          "emergencyAdmissionsType1": 1469
+        },
+        "2026-05": {
+          "type1Attendances": 13648,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2989,
+          "type1BreachRate": 0.219,
+          "allOver4hr": 2989,
+          "waits12hrPlus": 77,
+          "emergencyAdmissionsType1": 1512
+        },
+        "2026-04": {
+          "type1Attendances": 13252,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2776,
+          "type1BreachRate": 0.2095,
+          "allOver4hr": 2776,
+          "waits12hrPlus": 56,
+          "emergencyAdmissionsType1": 1676
+        },
+        "2026-03": {
+          "type1Attendances": 13996,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2783,
+          "type1BreachRate": 0.1988,
+          "allOver4hr": 2783,
+          "waits12hrPlus": 66,
+          "emergencyAdmissionsType1": 1512
+        },
+        "2026-02": {
+          "type1Attendances": 12017,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 3222,
+          "type1BreachRate": 0.2681,
+          "allOver4hr": 3222,
+          "waits12hrPlus": 287,
+          "emergencyAdmissionsType1": 1260
+        },
+        "2026-01": {
+          "type1Attendances": 13308,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 4256,
+          "type1BreachRate": 0.3198,
+          "allOver4hr": 4256,
+          "waits12hrPlus": 317,
+          "emergencyAdmissionsType1": 1416
+        },
+        "2025-12": {
+          "type1Attendances": 13329,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 3677,
+          "type1BreachRate": 0.2759,
+          "allOver4hr": 3677,
+          "waits12hrPlus": 128,
+          "emergencyAdmissionsType1": 1456
+        },
+        "2025-11": {
+          "type1Attendances": 13781,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 4221,
+          "type1BreachRate": 0.3063,
+          "allOver4hr": 4221,
+          "waits12hrPlus": 292,
+          "emergencyAdmissionsType1": 1486
+        },
+        "2025-10": {
+          "type1Attendances": 14180,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 3951,
+          "type1BreachRate": 0.2786,
+          "allOver4hr": 3951,
+          "waits12hrPlus": 219,
+          "emergencyAdmissionsType1": 1502
+        },
+        "2025-09": {
+          "type1Attendances": 13081,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 4117,
+          "type1BreachRate": 0.3147,
+          "allOver4hr": 4117,
+          "waits12hrPlus": 194,
+          "emergencyAdmissionsType1": 1437
+        },
+        "2025-08": {
+          "type1Attendances": 12926,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 3381,
+          "type1BreachRate": 0.2616,
+          "allOver4hr": 3381,
+          "waits12hrPlus": 72,
+          "emergencyAdmissionsType1": 1451
+        }
+      }
+    },
+    "RJ6": {
+      "orgCode": "RJ6",
+      "name": "CROYDON HEALTH SERVICES NHS TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 13618,
+          "type2Attendances": 0,
+          "type3Attendances": 4815,
+          "type1Over4hr": 5437,
+          "type1BreachRate": 0.3993,
+          "allOver4hr": 5437,
+          "waits12hrPlus": 644,
+          "emergencyAdmissionsType1": 1093
+        },
+        "2026-06": {
+          "type1Attendances": 13584,
+          "type2Attendances": 0,
+          "type3Attendances": 4716,
+          "type1Over4hr": 5264,
+          "type1BreachRate": 0.3875,
+          "allOver4hr": 5264,
+          "waits12hrPlus": 601,
+          "emergencyAdmissionsType1": 1035
+        },
+        "2026-05": {
+          "type1Attendances": 13509,
+          "type2Attendances": 0,
+          "type3Attendances": 5147,
+          "type1Over4hr": 5115,
+          "type1BreachRate": 0.3786,
+          "allOver4hr": 5115,
+          "waits12hrPlus": 676,
+          "emergencyAdmissionsType1": 1057
+        },
+        "2026-04": {
+          "type1Attendances": 13177,
+          "type2Attendances": 0,
+          "type3Attendances": 5030,
+          "type1Over4hr": 4566,
+          "type1BreachRate": 0.3465,
+          "allOver4hr": 4566,
+          "waits12hrPlus": 709,
+          "emergencyAdmissionsType1": 1031
+        },
+        "2026-03": {
+          "type1Attendances": 13405,
+          "type2Attendances": 0,
+          "type3Attendances": 5222,
+          "type1Over4hr": 3841,
+          "type1BreachRate": 0.2865,
+          "allOver4hr": 3841,
+          "waits12hrPlus": 678,
+          "emergencyAdmissionsType1": 1120
+        },
+        "2026-02": {
+          "type1Attendances": 12080,
+          "type2Attendances": 0,
+          "type3Attendances": 4618,
+          "type1Over4hr": 4902,
+          "type1BreachRate": 0.4058,
+          "allOver4hr": 4902,
+          "waits12hrPlus": 685,
+          "emergencyAdmissionsType1": 1032
+        },
+        "2026-01": {
+          "type1Attendances": 13686,
+          "type2Attendances": 0,
+          "type3Attendances": 5047,
+          "type1Over4hr": 4963,
+          "type1BreachRate": 0.3626,
+          "allOver4hr": 4963,
+          "waits12hrPlus": 814,
+          "emergencyAdmissionsType1": 1164
+        },
+        "2025-12": {
+          "type1Attendances": 13592,
+          "type2Attendances": 0,
+          "type3Attendances": 5317,
+          "type1Over4hr": 4565,
+          "type1BreachRate": 0.3359,
+          "allOver4hr": 4565,
+          "waits12hrPlus": 691,
+          "emergencyAdmissionsType1": 1201
+        },
+        "2025-11": {
+          "type1Attendances": 13347,
+          "type2Attendances": 0,
+          "type3Attendances": 5396,
+          "type1Over4hr": 4730,
+          "type1BreachRate": 0.3544,
+          "allOver4hr": 4730,
+          "waits12hrPlus": 713,
+          "emergencyAdmissionsType1": 1114
+        },
+        "2025-10": {
+          "type1Attendances": 13542,
+          "type2Attendances": 0,
+          "type3Attendances": 5354,
+          "type1Over4hr": 4873,
+          "type1BreachRate": 0.3598,
+          "allOver4hr": 4873,
+          "waits12hrPlus": 751,
+          "emergencyAdmissionsType1": 1272
+        },
+        "2025-09": {
+          "type1Attendances": 12725,
+          "type2Attendances": 0,
+          "type3Attendances": 4746,
+          "type1Over4hr": 4327,
+          "type1BreachRate": 0.34,
+          "allOver4hr": 4327,
+          "waits12hrPlus": 609,
+          "emergencyAdmissionsType1": 1161
+        },
+        "2025-08": {
+          "type1Attendances": 12011,
+          "type2Attendances": 0,
+          "type3Attendances": 4757,
+          "type1Over4hr": 4177,
+          "type1BreachRate": 0.3478,
+          "allOver4hr": 4177,
+          "waits12hrPlus": 565,
+          "emergencyAdmissionsType1": 1189
+        }
+      }
+    },
+    "RAX": {
+      "orgCode": "RAX",
+      "name": "KINGSTON AND RICHMOND NHS FOUNDATION TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 7230,
+          "type2Attendances": 0,
+          "type3Attendances": 8640,
+          "type1Over4hr": 3828,
+          "type1BreachRate": 0.5295,
+          "allOver4hr": 4156,
+          "waits12hrPlus": 381,
+          "emergencyAdmissionsType1": 2701
+        },
+        "2026-06": {
+          "type1Attendances": 7299,
+          "type2Attendances": 0,
+          "type3Attendances": 8571,
+          "type1Over4hr": 3956,
+          "type1BreachRate": 0.542,
+          "allOver4hr": 4212,
+          "waits12hrPlus": 563,
+          "emergencyAdmissionsType1": 2695
+        },
+        "2026-05": {
+          "type1Attendances": 7296,
+          "type2Attendances": 0,
+          "type3Attendances": 8580,
+          "type1Over4hr": 3571,
+          "type1BreachRate": 0.4894,
+          "allOver4hr": 3768,
+          "waits12hrPlus": 320,
+          "emergencyAdmissionsType1": 2992
+        },
+        "2026-04": {
+          "type1Attendances": 7049,
+          "type2Attendances": 0,
+          "type3Attendances": 8138,
+          "type1Over4hr": 2985,
+          "type1BreachRate": 0.4235,
+          "allOver4hr": 3177,
+          "waits12hrPlus": 383,
+          "emergencyAdmissionsType1": 3018
+        },
+        "2026-03": {
+          "type1Attendances": 7582,
+          "type2Attendances": 0,
+          "type3Attendances": 8517,
+          "type1Over4hr": 3296,
+          "type1BreachRate": 0.4347,
+          "allOver4hr": 3533,
+          "waits12hrPlus": 310,
+          "emergencyAdmissionsType1": 3197
+        },
+        "2026-02": {
+          "type1Attendances": 6356,
+          "type2Attendances": 0,
+          "type3Attendances": 7221,
+          "type1Over4hr": 3413,
+          "type1BreachRate": 0.537,
+          "allOver4hr": 3676,
+          "waits12hrPlus": 467,
+          "emergencyAdmissionsType1": 2210
+        },
+        "2026-01": {
+          "type1Attendances": 7010,
+          "type2Attendances": 0,
+          "type3Attendances": 7978,
+          "type1Over4hr": 4131,
+          "type1BreachRate": 0.5893,
+          "allOver4hr": 4543,
+          "waits12hrPlus": 667,
+          "emergencyAdmissionsType1": 2423
+        },
+        "2025-12": {
+          "type1Attendances": 7217,
+          "type2Attendances": 0,
+          "type3Attendances": 8083,
+          "type1Over4hr": 3964,
+          "type1BreachRate": 0.5493,
+          "allOver4hr": 4309,
+          "waits12hrPlus": 498,
+          "emergencyAdmissionsType1": 2436
+        },
+        "2025-11": {
+          "type1Attendances": 7192,
+          "type2Attendances": 0,
+          "type3Attendances": 8197,
+          "type1Over4hr": 4095,
+          "type1BreachRate": 0.5694,
+          "allOver4hr": 4546,
+          "waits12hrPlus": 362,
+          "emergencyAdmissionsType1": 2302
+        },
+        "2025-10": {
+          "type1Attendances": 7042,
+          "type2Attendances": 0,
+          "type3Attendances": 8553,
+          "type1Over4hr": 3867,
+          "type1BreachRate": 0.5491,
+          "allOver4hr": 4232,
+          "waits12hrPlus": 579,
+          "emergencyAdmissionsType1": 2306
+        },
+        "2025-09": {
+          "type1Attendances": 7000,
+          "type2Attendances": 0,
+          "type3Attendances": 8430,
+          "type1Over4hr": 4257,
+          "type1BreachRate": 0.6081,
+          "allOver4hr": 4599,
+          "waits12hrPlus": 320,
+          "emergencyAdmissionsType1": 2239
+        },
+        "2025-08": {
+          "type1Attendances": 6570,
+          "type2Attendances": 0,
+          "type3Attendances": 8123,
+          "type1Over4hr": 3420,
+          "type1BreachRate": 0.5205,
+          "allOver4hr": 3687,
+          "waits12hrPlus": 222,
+          "emergencyAdmissionsType1": 2111
+        }
+      }
+    },
+    "RJ2": {
+      "orgCode": "RJ2",
+      "name": "LEWISHAM AND GREENWICH NHS TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 16455,
+          "type2Attendances": 0,
+          "type3Attendances": 18623,
+          "type1Over4hr": 9107,
+          "type1BreachRate": 0.5534,
+          "allOver4hr": 9571,
+          "waits12hrPlus": 769,
+          "emergencyAdmissionsType1": 4544
+        },
+        "2026-06": {
+          "type1Attendances": 16456,
+          "type2Attendances": 0,
+          "type3Attendances": 18040,
+          "type1Over4hr": 8170,
+          "type1BreachRate": 0.4965,
+          "allOver4hr": 8593,
+          "waits12hrPlus": 582,
+          "emergencyAdmissionsType1": 4811
+        },
+        "2026-05": {
+          "type1Attendances": 17205,
+          "type2Attendances": 0,
+          "type3Attendances": 17917,
+          "type1Over4hr": 8428,
+          "type1BreachRate": 0.4899,
+          "allOver4hr": 8700,
+          "waits12hrPlus": 533,
+          "emergencyAdmissionsType1": 4302
+        },
+        "2026-04": {
+          "type1Attendances": 15928,
+          "type2Attendances": 0,
+          "type3Attendances": 16863,
+          "type1Over4hr": 7473,
+          "type1BreachRate": 0.4692,
+          "allOver4hr": 7743,
+          "waits12hrPlus": 466,
+          "emergencyAdmissionsType1": 3937
+        },
+        "2026-03": {
+          "type1Attendances": 16974,
+          "type2Attendances": 0,
+          "type3Attendances": 17385,
+          "type1Over4hr": 8228,
+          "type1BreachRate": 0.4847,
+          "allOver4hr": 8548,
+          "waits12hrPlus": 487,
+          "emergencyAdmissionsType1": 3998
+        },
+        "2026-02": {
+          "type1Attendances": 14807,
+          "type2Attendances": 0,
+          "type3Attendances": 14963,
+          "type1Over4hr": 7625,
+          "type1BreachRate": 0.515,
+          "allOver4hr": 7859,
+          "waits12hrPlus": 703,
+          "emergencyAdmissionsType1": 3485
+        },
+        "2026-01": {
+          "type1Attendances": 16319,
+          "type2Attendances": 0,
+          "type3Attendances": 16090,
+          "type1Over4hr": 8960,
+          "type1BreachRate": 0.5491,
+          "allOver4hr": 9383,
+          "waits12hrPlus": 943,
+          "emergencyAdmissionsType1": 3557
+        },
+        "2025-12": {
+          "type1Attendances": 16397,
+          "type2Attendances": 0,
+          "type3Attendances": 15840,
+          "type1Over4hr": 7768,
+          "type1BreachRate": 0.4737,
+          "allOver4hr": 8099,
+          "waits12hrPlus": 674,
+          "emergencyAdmissionsType1": 3938
+        },
+        "2025-11": {
+          "type1Attendances": 16440,
+          "type2Attendances": 0,
+          "type3Attendances": 16392,
+          "type1Over4hr": 7469,
+          "type1BreachRate": 0.4543,
+          "allOver4hr": 7867,
+          "waits12hrPlus": 506,
+          "emergencyAdmissionsType1": 4388
+        },
+        "2025-10": {
+          "type1Attendances": 16150,
+          "type2Attendances": 0,
+          "type3Attendances": 16657,
+          "type1Over4hr": 7660,
+          "type1BreachRate": 0.4743,
+          "allOver4hr": 8040,
+          "waits12hrPlus": 652,
+          "emergencyAdmissionsType1": 4437
+        },
+        "2025-09": {
+          "type1Attendances": 15359,
+          "type2Attendances": 0,
+          "type3Attendances": 9033,
+          "type1Over4hr": 7333,
+          "type1BreachRate": 0.4774,
+          "allOver4hr": 7623,
+          "waits12hrPlus": 598,
+          "emergencyAdmissionsType1": 3935
+        },
+        "2025-08": {
+          "type1Attendances": 14926,
+          "type2Attendances": 0,
+          "type3Attendances": 8876,
+          "type1Over4hr": 7482,
+          "type1BreachRate": 0.5013,
+          "allOver4hr": 7667,
+          "waits12hrPlus": 571,
+          "emergencyAdmissionsType1": 4036
+        }
+      }
+    },
+    "RKE": {
+      "orgCode": "RKE",
+      "name": "WHITTINGTON HEALTH NHS TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 9719,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2837,
+          "type1BreachRate": 0.2919,
+          "allOver4hr": 2837,
+          "waits12hrPlus": 282,
+          "emergencyAdmissionsType1": 1256
+        },
+        "2026-06": {
+          "type1Attendances": 9439,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2838,
+          "type1BreachRate": 0.3007,
+          "allOver4hr": 2838,
+          "waits12hrPlus": 276,
+          "emergencyAdmissionsType1": 1334
+        },
+        "2026-05": {
+          "type1Attendances": 9685,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2631,
+          "type1BreachRate": 0.2717,
+          "allOver4hr": 2631,
+          "waits12hrPlus": 196,
+          "emergencyAdmissionsType1": 1364
+        },
+        "2026-04": {
+          "type1Attendances": 9009,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2308,
+          "type1BreachRate": 0.2562,
+          "allOver4hr": 2308,
+          "waits12hrPlus": 213,
+          "emergencyAdmissionsType1": 1358
+        },
+        "2026-03": {
+          "type1Attendances": 9319,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2376,
+          "type1BreachRate": 0.255,
+          "allOver4hr": 2376,
+          "waits12hrPlus": 237,
+          "emergencyAdmissionsType1": 1412
+        },
+        "2026-02": {
+          "type1Attendances": 8193,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2212,
+          "type1BreachRate": 0.27,
+          "allOver4hr": 2212,
+          "waits12hrPlus": 269,
+          "emergencyAdmissionsType1": 1335
+        },
+        "2026-01": {
+          "type1Attendances": 9222,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2870,
+          "type1BreachRate": 0.3112,
+          "allOver4hr": 2870,
+          "waits12hrPlus": 376,
+          "emergencyAdmissionsType1": 1358
+        },
+        "2025-12": {
+          "type1Attendances": 9136,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2819,
+          "type1BreachRate": 0.3086,
+          "allOver4hr": 2819,
+          "waits12hrPlus": 258,
+          "emergencyAdmissionsType1": 1402
+        },
+        "2025-11": {
+          "type1Attendances": 9340,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2580,
+          "type1BreachRate": 0.2762,
+          "allOver4hr": 2580,
+          "waits12hrPlus": 317,
+          "emergencyAdmissionsType1": 1443
+        },
+        "2025-10": {
+          "type1Attendances": 9130,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2753,
+          "type1BreachRate": 0.3015,
+          "allOver4hr": 2753,
+          "waits12hrPlus": 296,
+          "emergencyAdmissionsType1": 1412
+        },
+        "2025-09": {
+          "type1Attendances": 8812,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2582,
+          "type1BreachRate": 0.293,
+          "allOver4hr": 2582,
+          "waits12hrPlus": 261,
+          "emergencyAdmissionsType1": 1365
+        },
+        "2025-08": {
+          "type1Attendances": 8361,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2409,
+          "type1BreachRate": 0.2881,
+          "allOver4hr": 2409,
+          "waits12hrPlus": 137,
+          "emergencyAdmissionsType1": 1255
+        }
+      }
+    },
+    "RJ1": {
+      "orgCode": "RJ1",
+      "name": "GUY'S AND ST THOMAS' NHS FOUNDATION TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 10902,
+          "type2Attendances": 0,
+          "type3Attendances": 7822,
+          "type1Over4hr": 4194,
+          "type1BreachRate": 0.3847,
+          "allOver4hr": 4422,
+          "waits12hrPlus": 95,
+          "emergencyAdmissionsType1": 2089
+        },
+        "2026-06": {
+          "type1Attendances": 10541,
+          "type2Attendances": 0,
+          "type3Attendances": 7138,
+          "type1Over4hr": 4288,
+          "type1BreachRate": 0.4068,
+          "allOver4hr": 4456,
+          "waits12hrPlus": 80,
+          "emergencyAdmissionsType1": 2116
+        },
+        "2026-05": {
+          "type1Attendances": 10870,
+          "type2Attendances": 0,
+          "type3Attendances": 7418,
+          "type1Over4hr": 4139,
+          "type1BreachRate": 0.3808,
+          "allOver4hr": 4310,
+          "waits12hrPlus": 83,
+          "emergencyAdmissionsType1": 2045
+        },
+        "2026-04": {
+          "type1Attendances": 10427,
+          "type2Attendances": 0,
+          "type3Attendances": 7007,
+          "type1Over4hr": 3787,
+          "type1BreachRate": 0.3632,
+          "allOver4hr": 3974,
+          "waits12hrPlus": 61,
+          "emergencyAdmissionsType1": 2043
+        },
+        "2026-03": {
+          "type1Attendances": 10703,
+          "type2Attendances": 0,
+          "type3Attendances": 7039,
+          "type1Over4hr": 4286,
+          "type1BreachRate": 0.4004,
+          "allOver4hr": 4544,
+          "waits12hrPlus": 69,
+          "emergencyAdmissionsType1": 2105
+        },
+        "2026-02": {
+          "type1Attendances": 9456,
+          "type2Attendances": 0,
+          "type3Attendances": 6214,
+          "type1Over4hr": 3677,
+          "type1BreachRate": 0.3889,
+          "allOver4hr": 3792,
+          "waits12hrPlus": 67,
+          "emergencyAdmissionsType1": 1886
+        },
+        "2026-01": {
+          "type1Attendances": 10484,
+          "type2Attendances": 0,
+          "type3Attendances": 6511,
+          "type1Over4hr": 3908,
+          "type1BreachRate": 0.3728,
+          "allOver4hr": 4061,
+          "waits12hrPlus": 59,
+          "emergencyAdmissionsType1": 2164
+        },
+        "2025-12": {
+          "type1Attendances": 10381,
+          "type2Attendances": 0,
+          "type3Attendances": 6502,
+          "type1Over4hr": 3407,
+          "type1BreachRate": 0.3282,
+          "allOver4hr": 3542,
+          "waits12hrPlus": 60,
+          "emergencyAdmissionsType1": 2044
+        },
+        "2025-11": {
+          "type1Attendances": 10659,
+          "type2Attendances": 0,
+          "type3Attendances": 6868,
+          "type1Over4hr": 3310,
+          "type1BreachRate": 0.3105,
+          "allOver4hr": 3488,
+          "waits12hrPlus": 76,
+          "emergencyAdmissionsType1": 2111
+        },
+        "2025-10": {
+          "type1Attendances": 10559,
+          "type2Attendances": 0,
+          "type3Attendances": 6955,
+          "type1Over4hr": 3780,
+          "type1BreachRate": 0.358,
+          "allOver4hr": 3972,
+          "waits12hrPlus": 94,
+          "emergencyAdmissionsType1": 2136
+        },
+        "2025-09": {
+          "type1Attendances": 10047,
+          "type2Attendances": 0,
+          "type3Attendances": 6766,
+          "type1Over4hr": 3541,
+          "type1BreachRate": 0.3524,
+          "allOver4hr": 3694,
+          "waits12hrPlus": 67,
+          "emergencyAdmissionsType1": 2212
+        },
+        "2025-08": {
+          "type1Attendances": 9878,
+          "type2Attendances": 0,
+          "type3Attendances": 6783,
+          "type1Over4hr": 3438,
+          "type1BreachRate": 0.348,
+          "allOver4hr": 3606,
+          "waits12hrPlus": 61,
+          "emergencyAdmissionsType1": 1953
+        }
+      }
+    },
+    "RQX": {
+      "orgCode": "RQX",
+      "name": "HOMERTON HEALTHCARE NHS FOUNDATION TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 11507,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2409,
+          "type1BreachRate": 0.2094,
+          "allOver4hr": 2409,
+          "waits12hrPlus": 23,
+          "emergencyAdmissionsType1": 1837
+        },
+        "2026-06": {
+          "type1Attendances": 11549,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2279,
+          "type1BreachRate": 0.1973,
+          "allOver4hr": 2279,
+          "waits12hrPlus": 24,
+          "emergencyAdmissionsType1": 1773
+        },
+        "2026-05": {
+          "type1Attendances": 11679,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2404,
+          "type1BreachRate": 0.2058,
+          "allOver4hr": 2404,
+          "waits12hrPlus": 8,
+          "emergencyAdmissionsType1": 1743
+        },
+        "2026-04": {
+          "type1Attendances": 11100,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2271,
+          "type1BreachRate": 0.2046,
+          "allOver4hr": 2271,
+          "waits12hrPlus": 32,
+          "emergencyAdmissionsType1": 1696
+        },
+        "2026-03": {
+          "type1Attendances": 11459,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 1708,
+          "type1BreachRate": 0.1491,
+          "allOver4hr": 1708,
+          "waits12hrPlus": 22,
+          "emergencyAdmissionsType1": 1966
+        },
+        "2026-02": {
+          "type1Attendances": 10173,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 1682,
+          "type1BreachRate": 0.1653,
+          "allOver4hr": 1682,
+          "waits12hrPlus": 19,
+          "emergencyAdmissionsType1": 1760
+        },
+        "2026-01": {
+          "type1Attendances": 11326,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2399,
+          "type1BreachRate": 0.2118,
+          "allOver4hr": 2399,
+          "waits12hrPlus": 36,
+          "emergencyAdmissionsType1": 1919
+        },
+        "2025-12": {
+          "type1Attendances": 11082,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2048,
+          "type1BreachRate": 0.1848,
+          "allOver4hr": 2048,
+          "waits12hrPlus": 25,
+          "emergencyAdmissionsType1": 1819
+        },
+        "2025-11": {
+          "type1Attendances": 11300,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 1890,
+          "type1BreachRate": 0.1673,
+          "allOver4hr": 1890,
+          "waits12hrPlus": 25,
+          "emergencyAdmissionsType1": 1741
+        },
+        "2025-10": {
+          "type1Attendances": 11547,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 2351,
+          "type1BreachRate": 0.2036,
+          "allOver4hr": 2351,
+          "waits12hrPlus": 20,
+          "emergencyAdmissionsType1": 1956
+        },
+        "2025-09": {
+          "type1Attendances": 10890,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 1947,
+          "type1BreachRate": 0.1788,
+          "allOver4hr": 1947,
+          "waits12hrPlus": 28,
+          "emergencyAdmissionsType1": 1804
+        },
+        "2025-08": {
+          "type1Attendances": 10343,
+          "type2Attendances": 0,
+          "type3Attendances": 0,
+          "type1Over4hr": 1958,
+          "type1BreachRate": 0.1893,
+          "allOver4hr": 1958,
+          "waits12hrPlus": 35,
+          "emergencyAdmissionsType1": 1707
+        }
+      }
+    },
+    "RAL": {
+      "orgCode": "RAL",
+      "name": "ROYAL FREE LONDON NHS FOUNDATION TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 26558,
+          "type2Attendances": 600,
+          "type3Attendances": 17100,
+          "type1Over4hr": 7883,
+          "type1BreachRate": 0.2968,
+          "allOver4hr": 8696,
+          "waits12hrPlus": 1996,
+          "emergencyAdmissionsType1": 6225
+        },
+        "2026-06": {
+          "type1Attendances": 26821,
+          "type2Attendances": 529,
+          "type3Attendances": 17155,
+          "type1Over4hr": 7942,
+          "type1BreachRate": 0.2961,
+          "allOver4hr": 8773,
+          "waits12hrPlus": 1778,
+          "emergencyAdmissionsType1": 6270
+        },
+        "2026-05": {
+          "type1Attendances": 26608,
+          "type2Attendances": 458,
+          "type3Attendances": 17712,
+          "type1Over4hr": 7988,
+          "type1BreachRate": 0.3002,
+          "allOver4hr": 8829,
+          "waits12hrPlus": 1862,
+          "emergencyAdmissionsType1": 6471
+        },
+        "2026-04": {
+          "type1Attendances": 27938,
+          "type2Attendances": 485,
+          "type3Attendances": 14624,
+          "type1Over4hr": 7233,
+          "type1BreachRate": 0.2589,
+          "allOver4hr": 7744,
+          "waits12hrPlus": 1795,
+          "emergencyAdmissionsType1": 6346
+        },
+        "2026-03": {
+          "type1Attendances": 27033,
+          "type2Attendances": 566,
+          "type3Attendances": 16624,
+          "type1Over4hr": 7828,
+          "type1BreachRate": 0.2896,
+          "allOver4hr": 8568,
+          "waits12hrPlus": 1771,
+          "emergencyAdmissionsType1": 6479
+        },
+        "2026-02": {
+          "type1Attendances": 24307,
+          "type2Attendances": 473,
+          "type3Attendances": 14208,
+          "type1Over4hr": 8072,
+          "type1BreachRate": 0.3321,
+          "allOver4hr": 8953,
+          "waits12hrPlus": 1870,
+          "emergencyAdmissionsType1": 5783
+        },
+        "2026-01": {
+          "type1Attendances": 27220,
+          "type2Attendances": 388,
+          "type3Attendances": 15730,
+          "type1Over4hr": 9515,
+          "type1BreachRate": 0.3496,
+          "allOver4hr": 10626,
+          "waits12hrPlus": 2508,
+          "emergencyAdmissionsType1": 6419
+        },
+        "2025-12": {
+          "type1Attendances": 27408,
+          "type2Attendances": 424,
+          "type3Attendances": 15206,
+          "type1Over4hr": 9294,
+          "type1BreachRate": 0.3391,
+          "allOver4hr": 10013,
+          "waits12hrPlus": 1921,
+          "emergencyAdmissionsType1": 6272
+        },
+        "2025-11": {
+          "type1Attendances": 27198,
+          "type2Attendances": 495,
+          "type3Attendances": 15690,
+          "type1Over4hr": 9231,
+          "type1BreachRate": 0.3394,
+          "allOver4hr": 10075,
+          "waits12hrPlus": 2065,
+          "emergencyAdmissionsType1": 6292
+        },
+        "2025-10": {
+          "type1Attendances": 27391,
+          "type2Attendances": 600,
+          "type3Attendances": 15885,
+          "type1Over4hr": 9137,
+          "type1BreachRate": 0.3336,
+          "allOver4hr": 9843,
+          "waits12hrPlus": 2109,
+          "emergencyAdmissionsType1": 6588
+        },
+        "2025-09": {
+          "type1Attendances": 26019,
+          "type2Attendances": 567,
+          "type3Attendances": 14950,
+          "type1Over4hr": 8625,
+          "type1BreachRate": 0.3315,
+          "allOver4hr": 9228,
+          "waits12hrPlus": 1975,
+          "emergencyAdmissionsType1": 6552
+        },
+        "2025-08": {
+          "type1Attendances": 24281,
+          "type2Attendances": 497,
+          "type3Attendances": 13934,
+          "type1Over4hr": 7742,
+          "type1BreachRate": 0.3189,
+          "allOver4hr": 8177,
+          "waits12hrPlus": 1704,
+          "emergencyAdmissionsType1": 6860
+        }
+      }
+    },
+    "RAS": {
+      "orgCode": "RAS",
+      "name": "THE HILLINGDON HOSPITALS NHS FOUNDATION TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 5639,
+          "type2Attendances": 0,
+          "type3Attendances": 7155,
+          "type1Over4hr": 2307,
+          "type1BreachRate": 0.4091,
+          "allOver4hr": 2411,
+          "waits12hrPlus": 27,
+          "emergencyAdmissionsType1": 1806
+        },
+        "2026-06": {
+          "type1Attendances": 5581,
+          "type2Attendances": 0,
+          "type3Attendances": 7164,
+          "type1Over4hr": 2481,
+          "type1BreachRate": 0.4445,
+          "allOver4hr": 2539,
+          "waits12hrPlus": 48,
+          "emergencyAdmissionsType1": 1776
+        },
+        "2026-05": {
+          "type1Attendances": 5812,
+          "type2Attendances": 0,
+          "type3Attendances": 7222,
+          "type1Over4hr": 2491,
+          "type1BreachRate": 0.4286,
+          "allOver4hr": 2554,
+          "waits12hrPlus": 9,
+          "emergencyAdmissionsType1": 1834
+        },
+        "2026-04": {
+          "type1Attendances": 5234,
+          "type2Attendances": 0,
+          "type3Attendances": 6623,
+          "type1Over4hr": 2169,
+          "type1BreachRate": 0.4144,
+          "allOver4hr": 2210,
+          "waits12hrPlus": 14,
+          "emergencyAdmissionsType1": 1803
+        },
+        "2026-03": {
+          "type1Attendances": 5375,
+          "type2Attendances": 0,
+          "type3Attendances": 6912,
+          "type1Over4hr": 2277,
+          "type1BreachRate": 0.4236,
+          "allOver4hr": 2359,
+          "waits12hrPlus": 14,
+          "emergencyAdmissionsType1": 1810
+        },
+        "2026-02": {
+          "type1Attendances": 4633,
+          "type2Attendances": 0,
+          "type3Attendances": 5942,
+          "type1Over4hr": 1969,
+          "type1BreachRate": 0.425,
+          "allOver4hr": 1992,
+          "waits12hrPlus": 18,
+          "emergencyAdmissionsType1": 1622
+        },
+        "2026-01": {
+          "type1Attendances": 5428,
+          "type2Attendances": 0,
+          "type3Attendances": 6679,
+          "type1Over4hr": 2710,
+          "type1BreachRate": 0.4993,
+          "allOver4hr": 2736,
+          "waits12hrPlus": 34,
+          "emergencyAdmissionsType1": 1818
+        },
+        "2025-12": {
+          "type1Attendances": 5634,
+          "type2Attendances": 0,
+          "type3Attendances": 6910,
+          "type1Over4hr": 3050,
+          "type1BreachRate": 0.5414,
+          "allOver4hr": 3105,
+          "waits12hrPlus": 32,
+          "emergencyAdmissionsType1": 1739
+        },
+        "2025-11": {
+          "type1Attendances": 5129,
+          "type2Attendances": 0,
+          "type3Attendances": 6657,
+          "type1Over4hr": 2459,
+          "type1BreachRate": 0.4794,
+          "allOver4hr": 2473,
+          "waits12hrPlus": 37,
+          "emergencyAdmissionsType1": 1651
+        },
+        "2025-10": {
+          "type1Attendances": 5359,
+          "type2Attendances": 0,
+          "type3Attendances": 6831,
+          "type1Over4hr": 2771,
+          "type1BreachRate": 0.5171,
+          "allOver4hr": 2829,
+          "waits12hrPlus": 42,
+          "emergencyAdmissionsType1": 1760
+        },
+        "2025-09": {
+          "type1Attendances": 5135,
+          "type2Attendances": 0,
+          "type3Attendances": 7323,
+          "type1Over4hr": 2453,
+          "type1BreachRate": 0.4777,
+          "allOver4hr": 2552,
+          "waits12hrPlus": 37,
+          "emergencyAdmissionsType1": 1666
+        },
+        "2025-08": {
+          "type1Attendances": 5574,
+          "type2Attendances": 0,
+          "type3Attendances": 6493,
+          "type1Over4hr": 2127,
+          "type1BreachRate": 0.3816,
+          "allOver4hr": 2191,
+          "waits12hrPlus": 8,
+          "emergencyAdmissionsType1": 2226
+        }
+      }
+    },
+    "RJZ": {
+      "orgCode": "RJZ",
+      "name": "KING'S COLLEGE HOSPITAL NHS FOUNDATION TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 16097,
+          "type2Attendances": 0,
+          "type3Attendances": 10876,
+          "type1Over4hr": 7527,
+          "type1BreachRate": 0.4676,
+          "allOver4hr": 8181,
+          "waits12hrPlus": 889,
+          "emergencyAdmissionsType1": 3611
+        },
+        "2026-06": {
+          "type1Attendances": 15650,
+          "type2Attendances": 0,
+          "type3Attendances": 10627,
+          "type1Over4hr": 6929,
+          "type1BreachRate": 0.4427,
+          "allOver4hr": 7582,
+          "waits12hrPlus": 702,
+          "emergencyAdmissionsType1": 3591
+        },
+        "2026-05": {
+          "type1Attendances": 15762,
+          "type2Attendances": 0,
+          "type3Attendances": 10577,
+          "type1Over4hr": 7041,
+          "type1BreachRate": 0.4467,
+          "allOver4hr": 7677,
+          "waits12hrPlus": 867,
+          "emergencyAdmissionsType1": 3488
+        },
+        "2026-04": {
+          "type1Attendances": 15168,
+          "type2Attendances": 0,
+          "type3Attendances": 9713,
+          "type1Over4hr": 6161,
+          "type1BreachRate": 0.4062,
+          "allOver4hr": 6615,
+          "waits12hrPlus": 617,
+          "emergencyAdmissionsType1": 3592
+        },
+        "2026-03": {
+          "type1Attendances": 16182,
+          "type2Attendances": 0,
+          "type3Attendances": 9930,
+          "type1Over4hr": 6440,
+          "type1BreachRate": 0.398,
+          "allOver4hr": 7415,
+          "waits12hrPlus": 661,
+          "emergencyAdmissionsType1": 3623
+        },
+        "2026-02": {
+          "type1Attendances": 14307,
+          "type2Attendances": 0,
+          "type3Attendances": 8138,
+          "type1Over4hr": 6570,
+          "type1BreachRate": 0.4592,
+          "allOver4hr": 7202,
+          "waits12hrPlus": 833,
+          "emergencyAdmissionsType1": 3299
+        },
+        "2026-01": {
+          "type1Attendances": 16373,
+          "type2Attendances": 0,
+          "type3Attendances": 9168,
+          "type1Over4hr": 7823,
+          "type1BreachRate": 0.4778,
+          "allOver4hr": 8460,
+          "waits12hrPlus": 1145,
+          "emergencyAdmissionsType1": 3583
+        },
+        "2025-12": {
+          "type1Attendances": 15697,
+          "type2Attendances": 0,
+          "type3Attendances": 8890,
+          "type1Over4hr": 6760,
+          "type1BreachRate": 0.4307,
+          "allOver4hr": 7531,
+          "waits12hrPlus": 722,
+          "emergencyAdmissionsType1": 3693
+        },
+        "2025-11": {
+          "type1Attendances": 16021,
+          "type2Attendances": 0,
+          "type3Attendances": 8885,
+          "type1Over4hr": 6752,
+          "type1BreachRate": 0.4214,
+          "allOver4hr": 7711,
+          "waits12hrPlus": 811,
+          "emergencyAdmissionsType1": 3590
+        },
+        "2025-10": {
+          "type1Attendances": 16287,
+          "type2Attendances": 0,
+          "type3Attendances": 8678,
+          "type1Over4hr": 6934,
+          "type1BreachRate": 0.4257,
+          "allOver4hr": 7292,
+          "waits12hrPlus": 593,
+          "emergencyAdmissionsType1": 3720
+        },
+        "2025-09": {
+          "type1Attendances": 15522,
+          "type2Attendances": 0,
+          "type3Attendances": 9115,
+          "type1Over4hr": 7143,
+          "type1BreachRate": 0.4602,
+          "allOver4hr": 7846,
+          "waits12hrPlus": 664,
+          "emergencyAdmissionsType1": 3656
+        },
+        "2025-08": {
+          "type1Attendances": 14770,
+          "type2Attendances": 0,
+          "type3Attendances": 8831,
+          "type1Over4hr": 5957,
+          "type1BreachRate": 0.4033,
+          "allOver4hr": 6464,
+          "waits12hrPlus": 572,
+          "emergencyAdmissionsType1": 3677
+        }
+      }
+    },
+    "RYJ": {
+      "orgCode": "RYJ",
+      "name": "IMPERIAL COLLEGE HEALTHCARE NHS TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 12485,
+          "type2Attendances": 4383,
+          "type3Attendances": 7793,
+          "type1Over4hr": 5082,
+          "type1BreachRate": 0.407,
+          "allOver4hr": 5706,
+          "waits12hrPlus": 0,
+          "emergencyAdmissionsType1": 3810
+        },
+        "2026-06": {
+          "type1Attendances": 12478,
+          "type2Attendances": 4116,
+          "type3Attendances": 7597,
+          "type1Over4hr": 5178,
+          "type1BreachRate": 0.415,
+          "allOver4hr": 5647,
+          "waits12hrPlus": 0,
+          "emergencyAdmissionsType1": 3791
+        },
+        "2026-05": {
+          "type1Attendances": 12311,
+          "type2Attendances": 4110,
+          "type3Attendances": 7633,
+          "type1Over4hr": 4845,
+          "type1BreachRate": 0.3936,
+          "allOver4hr": 5411,
+          "waits12hrPlus": 0,
+          "emergencyAdmissionsType1": 3768
+        },
+        "2026-04": {
+          "type1Attendances": 11638,
+          "type2Attendances": 3880,
+          "type3Attendances": 7158,
+          "type1Over4hr": 4581,
+          "type1BreachRate": 0.3936,
+          "allOver4hr": 4979,
+          "waits12hrPlus": 0,
+          "emergencyAdmissionsType1": 3354
+        },
+        "2026-03": {
+          "type1Attendances": 12422,
+          "type2Attendances": 3904,
+          "type3Attendances": 6883,
+          "type1Over4hr": 4438,
+          "type1BreachRate": 0.3573,
+          "allOver4hr": 4735,
+          "waits12hrPlus": 0,
+          "emergencyAdmissionsType1": 3732
+        },
+        "2026-02": {
+          "type1Attendances": 11379,
+          "type2Attendances": 3441,
+          "type3Attendances": 6043,
+          "type1Over4hr": 4645,
+          "type1BreachRate": 0.4082,
+          "allOver4hr": 4918,
+          "waits12hrPlus": 0,
+          "emergencyAdmissionsType1": 3165
+        },
+        "2026-01": {
+          "type1Attendances": 12325,
+          "type2Attendances": 3546,
+          "type3Attendances": 6817,
+          "type1Over4hr": 5303,
+          "type1BreachRate": 0.4303,
+          "allOver4hr": 5699,
+          "waits12hrPlus": 0,
+          "emergencyAdmissionsType1": 3471
+        },
+        "2025-12": {
+          "type1Attendances": 12169,
+          "type2Attendances": 3255,
+          "type3Attendances": 6681,
+          "type1Over4hr": 5058,
+          "type1BreachRate": 0.4156,
+          "allOver4hr": 5405,
+          "waits12hrPlus": 0,
+          "emergencyAdmissionsType1": 3624
+        },
+        "2025-11": {
+          "type1Attendances": 12110,
+          "type2Attendances": 3562,
+          "type3Attendances": 6975,
+          "type1Over4hr": 4743,
+          "type1BreachRate": 0.3917,
+          "allOver4hr": 5184,
+          "waits12hrPlus": 0,
+          "emergencyAdmissionsType1": 3655
+        },
+        "2025-10": {
+          "type1Attendances": 12719,
+          "type2Attendances": 3990,
+          "type3Attendances": 7454,
+          "type1Over4hr": 5375,
+          "type1BreachRate": 0.4226,
+          "allOver4hr": 5939,
+          "waits12hrPlus": 0,
+          "emergencyAdmissionsType1": 3639
+        },
+        "2025-09": {
+          "type1Attendances": 11866,
+          "type2Attendances": 3895,
+          "type3Attendances": 7038,
+          "type1Over4hr": 5300,
+          "type1BreachRate": 0.4467,
+          "allOver4hr": 5830,
+          "waits12hrPlus": 0,
+          "emergencyAdmissionsType1": 3523
+        },
+        "2025-08": {
+          "type1Attendances": 11631,
+          "type2Attendances": 3950,
+          "type3Attendances": 6812,
+          "type1Over4hr": 5103,
+          "type1BreachRate": 0.4387,
+          "allOver4hr": 5479,
+          "waits12hrPlus": 0,
+          "emergencyAdmissionsType1": 3553
+        }
+      }
+    },
+    "RJ7": {
+      "orgCode": "RJ7",
+      "name": "ST GEORGE'S UNIVERSITY HOSPITALS NHS FOUNDATION TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 9282,
+          "type2Attendances": 0,
+          "type3Attendances": 4163,
+          "type1Over4hr": 2627,
+          "type1BreachRate": 0.283,
+          "allOver4hr": 2792,
+          "waits12hrPlus": 341,
+          "emergencyAdmissionsType1": 1910
+        },
+        "2026-06": {
+          "type1Attendances": 9173,
+          "type2Attendances": 0,
+          "type3Attendances": 4014,
+          "type1Over4hr": 2994,
+          "type1BreachRate": 0.3264,
+          "allOver4hr": 3265,
+          "waits12hrPlus": 418,
+          "emergencyAdmissionsType1": 1838
+        },
+        "2026-05": {
+          "type1Attendances": 9181,
+          "type2Attendances": 0,
+          "type3Attendances": 3993,
+          "type1Over4hr": 2487,
+          "type1BreachRate": 0.2709,
+          "allOver4hr": 2641,
+          "waits12hrPlus": 575,
+          "emergencyAdmissionsType1": 1985
+        },
+        "2026-04": {
+          "type1Attendances": 8730,
+          "type2Attendances": 0,
+          "type3Attendances": 4099,
+          "type1Over4hr": 2327,
+          "type1BreachRate": 0.2666,
+          "allOver4hr": 2440,
+          "waits12hrPlus": 467,
+          "emergencyAdmissionsType1": 1939
+        },
+        "2026-03": {
+          "type1Attendances": 8727,
+          "type2Attendances": 0,
+          "type3Attendances": 4237,
+          "type1Over4hr": 2697,
+          "type1BreachRate": 0.309,
+          "allOver4hr": 2842,
+          "waits12hrPlus": 476,
+          "emergencyAdmissionsType1": 1843
+        },
+        "2026-02": {
+          "type1Attendances": 8228,
+          "type2Attendances": 0,
+          "type3Attendances": 3579,
+          "type1Over4hr": 2779,
+          "type1BreachRate": 0.3377,
+          "allOver4hr": 2903,
+          "waits12hrPlus": 443,
+          "emergencyAdmissionsType1": 1782
+        },
+        "2026-01": {
+          "type1Attendances": 9068,
+          "type2Attendances": 0,
+          "type3Attendances": 3932,
+          "type1Over4hr": 3013,
+          "type1BreachRate": 0.3323,
+          "allOver4hr": 3132,
+          "waits12hrPlus": 697,
+          "emergencyAdmissionsType1": 1995
+        },
+        "2025-12": {
+          "type1Attendances": 8872,
+          "type2Attendances": 0,
+          "type3Attendances": 3615,
+          "type1Over4hr": 2272,
+          "type1BreachRate": 0.2561,
+          "allOver4hr": 2348,
+          "waits12hrPlus": 457,
+          "emergencyAdmissionsType1": 2020
+        },
+        "2025-11": {
+          "type1Attendances": 8963,
+          "type2Attendances": 0,
+          "type3Attendances": 3807,
+          "type1Over4hr": 2493,
+          "type1BreachRate": 0.2781,
+          "allOver4hr": 2558,
+          "waits12hrPlus": 625,
+          "emergencyAdmissionsType1": 1995
+        },
+        "2025-10": {
+          "type1Attendances": 8936,
+          "type2Attendances": 0,
+          "type3Attendances": 3900,
+          "type1Over4hr": 2633,
+          "type1BreachRate": 0.2947,
+          "allOver4hr": 2739,
+          "waits12hrPlus": 651,
+          "emergencyAdmissionsType1": 2750
+        },
+        "2025-09": {
+          "type1Attendances": 8302,
+          "type2Attendances": 0,
+          "type3Attendances": 4055,
+          "type1Over4hr": 2580,
+          "type1BreachRate": 0.3108,
+          "allOver4hr": 2752,
+          "waits12hrPlus": 500,
+          "emergencyAdmissionsType1": 2535
+        },
+        "2025-08": {
+          "type1Attendances": 8178,
+          "type2Attendances": 0,
+          "type3Attendances": 3711,
+          "type1Over4hr": 2502,
+          "type1BreachRate": 0.3059,
+          "allOver4hr": 2629,
+          "waits12hrPlus": 498,
+          "emergencyAdmissionsType1": 2571
+        }
+      }
+    },
+    "RQM": {
+      "orgCode": "RQM",
+      "name": "CHELSEA AND WESTMINSTER HOSPITAL NHS FOUNDATION TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 20950,
+          "type2Attendances": 0,
+          "type3Attendances": 6754,
+          "type1Over4hr": 5634,
+          "type1BreachRate": 0.2689,
+          "allOver4hr": 6019,
+          "waits12hrPlus": 74,
+          "emergencyAdmissionsType1": 2979
+        },
+        "2026-06": {
+          "type1Attendances": 20669,
+          "type2Attendances": 0,
+          "type3Attendances": 7091,
+          "type1Over4hr": 6295,
+          "type1BreachRate": 0.3046,
+          "allOver4hr": 6571,
+          "waits12hrPlus": 50,
+          "emergencyAdmissionsType1": 2940
+        },
+        "2026-05": {
+          "type1Attendances": 20856,
+          "type2Attendances": 0,
+          "type3Attendances": 7092,
+          "type1Over4hr": 6027,
+          "type1BreachRate": 0.289,
+          "allOver4hr": 6413,
+          "waits12hrPlus": 53,
+          "emergencyAdmissionsType1": 3087
+        },
+        "2026-04": {
+          "type1Attendances": 19602,
+          "type2Attendances": 0,
+          "type3Attendances": 6621,
+          "type1Over4hr": 5625,
+          "type1BreachRate": 0.287,
+          "allOver4hr": 5864,
+          "waits12hrPlus": 34,
+          "emergencyAdmissionsType1": 2792
+        },
+        "2026-03": {
+          "type1Attendances": 20446,
+          "type2Attendances": 0,
+          "type3Attendances": 6841,
+          "type1Over4hr": 5552,
+          "type1BreachRate": 0.2715,
+          "allOver4hr": 5862,
+          "waits12hrPlus": 45,
+          "emergencyAdmissionsType1": 2925
+        },
+        "2026-02": {
+          "type1Attendances": 18241,
+          "type2Attendances": 0,
+          "type3Attendances": 5785,
+          "type1Over4hr": 5070,
+          "type1BreachRate": 0.2779,
+          "allOver4hr": 5304,
+          "waits12hrPlus": 43,
+          "emergencyAdmissionsType1": 2675
+        },
+        "2026-01": {
+          "type1Attendances": 20360,
+          "type2Attendances": 0,
+          "type3Attendances": 6587,
+          "type1Over4hr": 6068,
+          "type1BreachRate": 0.298,
+          "allOver4hr": 6265,
+          "waits12hrPlus": 54,
+          "emergencyAdmissionsType1": 2857
+        },
+        "2025-12": {
+          "type1Attendances": 19984,
+          "type2Attendances": 0,
+          "type3Attendances": 6701,
+          "type1Over4hr": 5683,
+          "type1BreachRate": 0.2844,
+          "allOver4hr": 5923,
+          "waits12hrPlus": 51,
+          "emergencyAdmissionsType1": 2885
+        },
+        "2025-11": {
+          "type1Attendances": 20633,
+          "type2Attendances": 0,
+          "type3Attendances": 6228,
+          "type1Over4hr": 5718,
+          "type1BreachRate": 0.2771,
+          "allOver4hr": 5853,
+          "waits12hrPlus": 59,
+          "emergencyAdmissionsType1": 2893
+        },
+        "2025-10": {
+          "type1Attendances": 20266,
+          "type2Attendances": 0,
+          "type3Attendances": 6584,
+          "type1Over4hr": 5947,
+          "type1BreachRate": 0.2934,
+          "allOver4hr": 6076,
+          "waits12hrPlus": 45,
+          "emergencyAdmissionsType1": 2943
+        },
+        "2025-09": {
+          "type1Attendances": 19591,
+          "type2Attendances": 0,
+          "type3Attendances": 6102,
+          "type1Over4hr": 5703,
+          "type1BreachRate": 0.2911,
+          "allOver4hr": 5838,
+          "waits12hrPlus": 46,
+          "emergencyAdmissionsType1": 2852
+        },
+        "2025-08": {
+          "type1Attendances": 18603,
+          "type2Attendances": 0,
+          "type3Attendances": 5508,
+          "type1Over4hr": 5678,
+          "type1BreachRate": 0.3052,
+          "allOver4hr": 5720,
+          "waits12hrPlus": 39,
+          "emergencyAdmissionsType1": 2797
+        }
+      }
+    },
+    "R1K": {
+      "orgCode": "R1K",
+      "name": "LONDON NORTH WEST UNIVERSITY HEALTHCARE NHS TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 14527,
+          "type2Attendances": 0,
+          "type3Attendances": 16522,
+          "type1Over4hr": 6929,
+          "type1BreachRate": 0.477,
+          "allOver4hr": 7173,
+          "waits12hrPlus": 413,
+          "emergencyAdmissionsType1": 6516
+        },
+        "2026-06": {
+          "type1Attendances": 14313,
+          "type2Attendances": 0,
+          "type3Attendances": 16507,
+          "type1Over4hr": 6452,
+          "type1BreachRate": 0.4508,
+          "allOver4hr": 6743,
+          "waits12hrPlus": 473,
+          "emergencyAdmissionsType1": 6517
+        },
+        "2026-05": {
+          "type1Attendances": 14429,
+          "type2Attendances": 0,
+          "type3Attendances": 17346,
+          "type1Over4hr": 6907,
+          "type1BreachRate": 0.4787,
+          "allOver4hr": 7216,
+          "waits12hrPlus": 553,
+          "emergencyAdmissionsType1": 6734
+        },
+        "2026-04": {
+          "type1Attendances": 13564,
+          "type2Attendances": 0,
+          "type3Attendances": 16301,
+          "type1Over4hr": 5533,
+          "type1BreachRate": 0.4079,
+          "allOver4hr": 5648,
+          "waits12hrPlus": 525,
+          "emergencyAdmissionsType1": 6560
+        },
+        "2026-03": {
+          "type1Attendances": 13819,
+          "type2Attendances": 0,
+          "type3Attendances": 15806,
+          "type1Over4hr": 4596,
+          "type1BreachRate": 0.3326,
+          "allOver4hr": 4678,
+          "waits12hrPlus": 408,
+          "emergencyAdmissionsType1": 7227
+        },
+        "2026-02": {
+          "type1Attendances": 12235,
+          "type2Attendances": 0,
+          "type3Attendances": 13616,
+          "type1Over4hr": 6214,
+          "type1BreachRate": 0.5079,
+          "allOver4hr": 6437,
+          "waits12hrPlus": 374,
+          "emergencyAdmissionsType1": 5817
+        },
+        "2026-01": {
+          "type1Attendances": 13710,
+          "type2Attendances": 0,
+          "type3Attendances": 15810,
+          "type1Over4hr": 7893,
+          "type1BreachRate": 0.5757,
+          "allOver4hr": 8517,
+          "waits12hrPlus": 776,
+          "emergencyAdmissionsType1": 6180
+        },
+        "2025-12": {
+          "type1Attendances": 13918,
+          "type2Attendances": 0,
+          "type3Attendances": 15544,
+          "type1Over4hr": 7172,
+          "type1BreachRate": 0.5153,
+          "allOver4hr": 8038,
+          "waits12hrPlus": 673,
+          "emergencyAdmissionsType1": 6203
+        },
+        "2025-11": {
+          "type1Attendances": 13768,
+          "type2Attendances": 0,
+          "type3Attendances": 15911,
+          "type1Over4hr": 6911,
+          "type1BreachRate": 0.502,
+          "allOver4hr": 7807,
+          "waits12hrPlus": 667,
+          "emergencyAdmissionsType1": 6200
+        },
+        "2025-10": {
+          "type1Attendances": 14426,
+          "type2Attendances": 0,
+          "type3Attendances": 16111,
+          "type1Over4hr": 7089,
+          "type1BreachRate": 0.4914,
+          "allOver4hr": 8380,
+          "waits12hrPlus": 446,
+          "emergencyAdmissionsType1": 6593
+        },
+        "2025-09": {
+          "type1Attendances": 13596,
+          "type2Attendances": 0,
+          "type3Attendances": 15146,
+          "type1Over4hr": 6518,
+          "type1BreachRate": 0.4794,
+          "allOver4hr": 7044,
+          "waits12hrPlus": 419,
+          "emergencyAdmissionsType1": 6273
+        },
+        "2025-08": {
+          "type1Attendances": 13561,
+          "type2Attendances": 0,
+          "type3Attendances": 14231,
+          "type1Over4hr": 6568,
+          "type1BreachRate": 0.4843,
+          "allOver4hr": 6757,
+          "waits12hrPlus": 517,
+          "emergencyAdmissionsType1": 6251
+        }
+      }
+    },
+    "RVR": {
+      "orgCode": "RVR",
+      "name": "EPSOM AND ST HELIER UNIVERSITY HOSPITALS NHS TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 10655,
+          "type2Attendances": 0,
+          "type3Attendances": 3309,
+          "type1Over4hr": 3887,
+          "type1BreachRate": 0.3648,
+          "allOver4hr": 4499,
+          "waits12hrPlus": 693,
+          "emergencyAdmissionsType1": 1930
+        },
+        "2026-06": {
+          "type1Attendances": 10595,
+          "type2Attendances": 0,
+          "type3Attendances": 3256,
+          "type1Over4hr": 3907,
+          "type1BreachRate": 0.3688,
+          "allOver4hr": 4447,
+          "waits12hrPlus": 758,
+          "emergencyAdmissionsType1": 1981
+        },
+        "2026-05": {
+          "type1Attendances": 10226,
+          "type2Attendances": 0,
+          "type3Attendances": 3519,
+          "type1Over4hr": 4422,
+          "type1BreachRate": 0.4324,
+          "allOver4hr": 5347,
+          "waits12hrPlus": 818,
+          "emergencyAdmissionsType1": 2052
+        },
+        "2026-04": {
+          "type1Attendances": 10343,
+          "type2Attendances": 0,
+          "type3Attendances": 2950,
+          "type1Over4hr": 3350,
+          "type1BreachRate": 0.3239,
+          "allOver4hr": 3845,
+          "waits12hrPlus": 717,
+          "emergencyAdmissionsType1": 1996
+        },
+        "2026-03": {
+          "type1Attendances": 11779,
+          "type2Attendances": 0,
+          "type3Attendances": 2267,
+          "type1Over4hr": 3299,
+          "type1BreachRate": 0.2801,
+          "allOver4hr": 3499,
+          "waits12hrPlus": 764,
+          "emergencyAdmissionsType1": 2137
+        },
+        "2026-02": {
+          "type1Attendances": 10245,
+          "type2Attendances": 0,
+          "type3Attendances": 1883,
+          "type1Over4hr": 3045,
+          "type1BreachRate": 0.2972,
+          "allOver4hr": 3146,
+          "waits12hrPlus": 732,
+          "emergencyAdmissionsType1": 1848
+        },
+        "2026-01": {
+          "type1Attendances": 11244,
+          "type2Attendances": 0,
+          "type3Attendances": 2167,
+          "type1Over4hr": 3440,
+          "type1BreachRate": 0.3059,
+          "allOver4hr": 3643,
+          "waits12hrPlus": 913,
+          "emergencyAdmissionsType1": 2150
+        },
+        "2025-12": {
+          "type1Attendances": 11581,
+          "type2Attendances": 0,
+          "type3Attendances": 1927,
+          "type1Over4hr": 3817,
+          "type1BreachRate": 0.3296,
+          "allOver4hr": 3940,
+          "waits12hrPlus": 821,
+          "emergencyAdmissionsType1": 2405
+        },
+        "2025-11": {
+          "type1Attendances": 11357,
+          "type2Attendances": 0,
+          "type3Attendances": 2179,
+          "type1Over4hr": 3613,
+          "type1BreachRate": 0.3181,
+          "allOver4hr": 3819,
+          "waits12hrPlus": 712,
+          "emergencyAdmissionsType1": 2092
+        },
+        "2025-10": {
+          "type1Attendances": 11208,
+          "type2Attendances": 0,
+          "type3Attendances": 2251,
+          "type1Over4hr": 3363,
+          "type1BreachRate": 0.3001,
+          "allOver4hr": 3562,
+          "waits12hrPlus": 890,
+          "emergencyAdmissionsType1": 2197
+        },
+        "2025-09": {
+          "type1Attendances": 10989,
+          "type2Attendances": 0,
+          "type3Attendances": 2368,
+          "type1Over4hr": 3292,
+          "type1BreachRate": 0.2996,
+          "allOver4hr": 3487,
+          "waits12hrPlus": 778,
+          "emergencyAdmissionsType1": 2310
+        },
+        "2025-08": {
+          "type1Attendances": 10186,
+          "type2Attendances": 0,
+          "type3Attendances": 2468,
+          "type1Over4hr": 2878,
+          "type1BreachRate": 0.2825,
+          "allOver4hr": 3075,
+          "waits12hrPlus": 642,
+          "emergencyAdmissionsType1": 2196
+        }
+      }
+    },
+    "RF4": {
+      "orgCode": "RF4",
+      "name": "BARKING, HAVERING AND REDBRIDGE UNIVERSITY HOSPITALS NHS TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 14061,
+          "type2Attendances": 2611,
+          "type3Attendances": 15643,
+          "type1Over4hr": 5493,
+          "type1BreachRate": 0.3907,
+          "allOver4hr": 6039,
+          "waits12hrPlus": 572,
+          "emergencyAdmissionsType1": 3862
+        },
+        "2026-06": {
+          "type1Attendances": 13771,
+          "type2Attendances": 2493,
+          "type3Attendances": 15755,
+          "type1Over4hr": 5847,
+          "type1BreachRate": 0.4246,
+          "allOver4hr": 6327,
+          "waits12hrPlus": 659,
+          "emergencyAdmissionsType1": 3692
+        },
+        "2026-05": {
+          "type1Attendances": 14107,
+          "type2Attendances": 2378,
+          "type3Attendances": 15849,
+          "type1Over4hr": 5785,
+          "type1BreachRate": 0.4101,
+          "allOver4hr": 6201,
+          "waits12hrPlus": 617,
+          "emergencyAdmissionsType1": 3775
+        },
+        "2026-04": {
+          "type1Attendances": 13442,
+          "type2Attendances": 2349,
+          "type3Attendances": 15017,
+          "type1Over4hr": 5401,
+          "type1BreachRate": 0.4018,
+          "allOver4hr": 6015,
+          "waits12hrPlus": 546,
+          "emergencyAdmissionsType1": 3503
+        },
+        "2026-03": {
+          "type1Attendances": 13844,
+          "type2Attendances": 2485,
+          "type3Attendances": 14885,
+          "type1Over4hr": 6100,
+          "type1BreachRate": 0.4406,
+          "allOver4hr": 6766,
+          "waits12hrPlus": 608,
+          "emergencyAdmissionsType1": 3749
+        },
+        "2026-02": {
+          "type1Attendances": 12627,
+          "type2Attendances": 2267,
+          "type3Attendances": 13122,
+          "type1Over4hr": 5281,
+          "type1BreachRate": 0.4182,
+          "allOver4hr": 5811,
+          "waits12hrPlus": 628,
+          "emergencyAdmissionsType1": 3385
+        },
+        "2026-01": {
+          "type1Attendances": 13676,
+          "type2Attendances": 2411,
+          "type3Attendances": 14091,
+          "type1Over4hr": 6707,
+          "type1BreachRate": 0.4904,
+          "allOver4hr": 7410,
+          "waits12hrPlus": 1361,
+          "emergencyAdmissionsType1": 3546
+        },
+        "2025-12": {
+          "type1Attendances": 13846,
+          "type2Attendances": 2271,
+          "type3Attendances": 14734,
+          "type1Over4hr": 6745,
+          "type1BreachRate": 0.4871,
+          "allOver4hr": 7446,
+          "waits12hrPlus": 840,
+          "emergencyAdmissionsType1": 3554
+        },
+        "2025-11": {
+          "type1Attendances": 13220,
+          "type2Attendances": 2250,
+          "type3Attendances": 14696,
+          "type1Over4hr": 7908,
+          "type1BreachRate": 0.5982,
+          "allOver4hr": 8846,
+          "waits12hrPlus": 829,
+          "emergencyAdmissionsType1": 4009
+        },
+        "2025-10": {
+          "type1Attendances": 14159,
+          "type2Attendances": 2354,
+          "type3Attendances": 14559,
+          "type1Over4hr": 6429,
+          "type1BreachRate": 0.4541,
+          "allOver4hr": 6900,
+          "waits12hrPlus": 949,
+          "emergencyAdmissionsType1": 8510
+        },
+        "2025-09": {
+          "type1Attendances": 13173,
+          "type2Attendances": 2366,
+          "type3Attendances": 13732,
+          "type1Over4hr": 5665,
+          "type1BreachRate": 0.43,
+          "allOver4hr": 6145,
+          "waits12hrPlus": 772,
+          "emergencyAdmissionsType1": 8096
+        },
+        "2025-08": {
+          "type1Attendances": 12899,
+          "type2Attendances": 2312,
+          "type3Attendances": 12956,
+          "type1Over4hr": 5551,
+          "type1BreachRate": 0.4303,
+          "allOver4hr": 5999,
+          "waits12hrPlus": 677,
+          "emergencyAdmissionsType1": 7895
+        }
+      }
+    },
+    "R1H": {
+      "orgCode": "R1H",
+      "name": "BARTS HEALTH NHS TRUST",
+      "region": "NHS ENGLAND LONDON",
+      "months": {
+        "2026-07": {
+          "type1Attendances": 27454,
+          "type2Attendances": 946,
+          "type3Attendances": 19180,
+          "type1Over4hr": 10388,
+          "type1BreachRate": 0.3784,
+          "allOver4hr": 12563,
+          "waits12hrPlus": 1169,
+          "emergencyAdmissionsType1": 4083
+        },
+        "2026-06": {
+          "type1Attendances": 26847,
+          "type2Attendances": 987,
+          "type3Attendances": 18586,
+          "type1Over4hr": 10538,
+          "type1BreachRate": 0.3925,
+          "allOver4hr": 12386,
+          "waits12hrPlus": 1112,
+          "emergencyAdmissionsType1": 4190
+        },
+        "2026-05": {
+          "type1Attendances": 26667,
+          "type2Attendances": 880,
+          "type3Attendances": 19721,
+          "type1Over4hr": 10464,
+          "type1BreachRate": 0.3924,
+          "allOver4hr": 12143,
+          "waits12hrPlus": 1157,
+          "emergencyAdmissionsType1": 4328
+        },
+        "2026-04": {
+          "type1Attendances": 25673,
+          "type2Attendances": 905,
+          "type3Attendances": 18489,
+          "type1Over4hr": 9483,
+          "type1BreachRate": 0.3694,
+          "allOver4hr": 10935,
+          "waits12hrPlus": 1161,
+          "emergencyAdmissionsType1": 4218
+        },
+        "2026-03": {
+          "type1Attendances": 26064,
+          "type2Attendances": 950,
+          "type3Attendances": 18544,
+          "type1Over4hr": 10076,
+          "type1BreachRate": 0.3866,
+          "allOver4hr": 11001,
+          "waits12hrPlus": 1207,
+          "emergencyAdmissionsType1": 4449
+        },
+        "2026-02": {
+          "type1Attendances": 24013,
+          "type2Attendances": 741,
+          "type3Attendances": 15869,
+          "type1Over4hr": 10119,
+          "type1BreachRate": 0.4214,
+          "allOver4hr": 10913,
+          "waits12hrPlus": 1271,
+          "emergencyAdmissionsType1": 3905
+        },
+        "2026-01": {
+          "type1Attendances": 26186,
+          "type2Attendances": 817,
+          "type3Attendances": 17829,
+          "type1Over4hr": 11785,
+          "type1BreachRate": 0.45,
+          "allOver4hr": 12959,
+          "waits12hrPlus": 1352,
+          "emergencyAdmissionsType1": 4401
+        },
+        "2025-12": {
+          "type1Attendances": 25706,
+          "type2Attendances": 773,
+          "type3Attendances": 18261,
+          "type1Over4hr": 12110,
+          "type1BreachRate": 0.4711,
+          "allOver4hr": 13985,
+          "waits12hrPlus": 1088,
+          "emergencyAdmissionsType1": 4455
+        },
+        "2025-11": {
+          "type1Attendances": 26111,
+          "type2Attendances": 794,
+          "type3Attendances": 18363,
+          "type1Over4hr": 11748,
+          "type1BreachRate": 0.4499,
+          "allOver4hr": 14009,
+          "waits12hrPlus": 1000,
+          "emergencyAdmissionsType1": 4331
+        },
+        "2025-10": {
+          "type1Attendances": 26298,
+          "type2Attendances": 944,
+          "type3Attendances": 19094,
+          "type1Over4hr": 11870,
+          "type1BreachRate": 0.4514,
+          "allOver4hr": 13902,
+          "waits12hrPlus": 1241,
+          "emergencyAdmissionsType1": 4383
+        },
+        "2025-09": {
+          "type1Attendances": 24887,
+          "type2Attendances": 994,
+          "type3Attendances": 17931,
+          "type1Over4hr": 10741,
+          "type1BreachRate": 0.4316,
+          "allOver4hr": 12330,
+          "waits12hrPlus": 951,
+          "emergencyAdmissionsType1": 3927
+        },
+        "2025-08": {
+          "type1Attendances": 24190,
+          "type2Attendances": 971,
+          "type3Attendances": 17263,
+          "type1Over4hr": 10598,
+          "type1BreachRate": 0.4381,
+          "allOver4hr": 11878,
+          "waits12hrPlus": 799,
+          "emergencyAdmissionsType1": 3830
+        }
+      }
+    }
+  }
+}
