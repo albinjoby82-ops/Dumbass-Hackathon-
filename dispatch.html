@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Driver Dispatch — London Ambulance Router</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="dispatch.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <div id="map"></div>
+
+  <aside id="panel">
+
+    <header id="panelHeader">
+      <h1>Driver Dispatch</h1>
+      <a href="index.html" class="back-link">← Map demo</a>
+    </header>
+
+    <section class="panel-section">
+      <h2>1. Accident location</h2>
+      <button id="locateBtn" class="wide-btn">📍 Use my current location</button>
+      <p class="hint">Or tap the map, or pick a known hotspot.</p>
+      <div id="hotspotList" class="hotspot-list"></div>
+      <div class="status-line">
+        <span class="status-label">Location</span>
+        <span class="status-value" id="accidentStatus">Not set</span>
+      </div>
+    </section>
+
+    <section class="panel-section">
+      <h2>2. Severity</h2>
+      <div id="severityGrid" class="choice-grid"></div>
+    </section>
+
+    <section class="panel-section">
+      <h2>3. Injury / condition type</h2>
+      <div id="injuryGrid" class="choice-grid"></div>
+    </section>
+
+    <section class="panel-section" id="rankSection" hidden>
+      <h2>4. Ranked hospitals</h2>
+      <p class="hint" id="rankNote"></p>
+      <ul id="rankList" class="rank-list"></ul>
+    </section>
+
+    <section class="panel-section" id="enrouteSection" hidden>
+      <h2>En route</h2>
+      <div class="enroute-card">
+        <div class="enroute-hospital" id="enrouteHospital"></div>
+        <div class="enroute-metrics">
+          <span class="enroute-eta" id="enrouteEta">—</span>
+          <span class="enroute-dist" id="enrouteDist"></span>
+        </div>
+        <div class="enroute-wait" id="enrouteWait"></div>
+      </div>
+      <ol id="directionsList" class="directions-list"></ol>
+      <div class="enroute-actions">
+        <button id="changeHospitalBtn" class="wide-btn secondary">← Change hospital</button>
+        <button id="newIncidentBtn" class="wide-btn secondary">New incident</button>
+      </div>
+    </section>
+
+    <p class="footer-note">Routing via public OSRM demo server. A&amp;E wait times are modelled from published NHS breach rates, not measured per patient — see the map demo's methodology note for detail. This is a demo tool, not a clinical decision system.</p>
+
+  </aside>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="dispatch.js"></script>
+</body>
+</html>

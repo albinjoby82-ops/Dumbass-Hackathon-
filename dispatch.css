@@ -1,0 +1,274 @@
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #e6edf5;
+  background: #0f1720;
+}
+
+#app {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 100%;
+}
+
+#map {
+  flex: 1 1 auto;
+  height: 100%;
+  background: #a8c8d8;
+}
+
+#panel {
+  width: 420px;
+  flex: 0 0 420px;
+  background: #131c26;
+  padding: 18px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#panelHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+#panelHeader h1 { font-size: 19px; margin: 0; letter-spacing: -0.01em; }
+.back-link { color: #7f93a8; font-size: 12px; text-decoration: none; }
+.back-link:hover { color: #e6edf5; }
+
+.panel-section {
+  border-top: 1px solid #22303f;
+  padding: 16px 0;
+}
+.panel-section:first-of-type { border-top: none; padding-top: 0; }
+
+.panel-section h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7f93a8;
+  margin: 0 0 10px;
+}
+
+.hint { font-size: 12.5px; color: #6d8095; margin: 6px 0; }
+
+.wide-btn {
+  width: 100%;
+  min-height: 46px;
+  background: #17293a;
+  border: 1px solid #2f5f8a;
+  color: #e6edf5;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 14px;
+}
+.wide-btn:hover { background: #1c3348; }
+.wide-btn.secondary {
+  background: #0f1720;
+  border-color: #2c3d4f;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+/* ---------------- hotspots ---------------- */
+.hotspot-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+  max-height: 140px;
+  overflow-y: auto;
+}
+.hotspot-btn {
+  background: #0f1720;
+  border: 1px solid #2c3d4f;
+  color: #a9bccf;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.hotspot-btn:hover { border-color: #3aa0ff; color: #e6edf5; }
+.hotspot-btn.active { border-color: #3aa0ff; background: #17293a; color: #e6edf5; }
+
+.status-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #1d2936;
+}
+.status-label { color: #7f93a8; }
+.status-value { font-weight: 600; text-align: right; }
+
+/* ---------------- choice grids (severity / injury) ---------------- */
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.choice-btn {
+  --accent-color: #3aa0ff;
+  min-height: 56px;
+  background: #0f1720;
+  border: 1px solid #2c3d4f;
+  border-left: 4px solid var(--accent-color);
+  border-radius: 8px;
+  color: #e6edf5;
+  text-align: left;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.choice-btn:hover { background: #17222f; }
+.choice-btn.active { background: #17293a; border-color: var(--accent-color); box-shadow: 0 0 0 1px var(--accent-color); }
+.choice-label { font-size: 13.5px; font-weight: 600; }
+.choice-desc { font-size: 11px; color: #7f93a8; }
+
+/* ---------------- ranked list ---------------- */
+.rank-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rank-card {
+  background: #0f1720;
+  border: 1px solid #22303f;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.rank-card:first-child { border-color: #2f5f8a; background: #101d2b; }
+
+.rank-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.rank-num {
+  background: #22303f;
+  color: #a9bccf;
+  font-size: 11px;
+  font-weight: 700;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.rank-card:first-child .rank-num { background: #3aa0ff; color: #08131d; }
+.rank-name { font-size: 14px; font-weight: 600; flex: 1; }
+.service-badge {
+  background: rgba(79, 168, 255, 0.15);
+  border: 1px solid rgba(79, 168, 255, 0.4);
+  color: #9cc8ff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.rank-metrics {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: #a9bccf;
+  margin-bottom: 8px;
+}
+.rank-drive { font-weight: 600; color: #e6edf5; }
+.rank-wait { color: #ffd479; }
+.rank-wait.muted { color: #6d8095; }
+
+.select-btn {
+  width: 100%;
+  min-height: 40px;
+  background: #3aa0ff;
+  border: none;
+  color: #08131d;
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.select-btn:hover { background: #5db1ff; }
+
+/* ---------------- en route ---------------- */
+.enroute-card {
+  background: #101d2b;
+  border: 1px solid #2f5f8a;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.enroute-hospital { font-size: 16px; font-weight: 700; color: #6fe3a5; margin-bottom: 6px; }
+.enroute-metrics { display: flex; align-items: baseline; gap: 12px; }
+.enroute-eta { font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.enroute-dist { font-size: 13px; color: #8ea3b8; }
+.enroute-wait { font-size: 12px; color: #ffd479; margin-top: 6px; }
+
+.directions-list {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.directions-list li {
+  background: #0f1720;
+  border: 1px solid #22303f;
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 12.5px;
+  display: flex;
+  gap: 8px;
+}
+.step-idx { color: #7f93a8; font-weight: 600; flex-shrink: 0; }
+
+.enroute-actions { display: flex; flex-direction: column; }
+
+.footer-note {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #5f7386;
+  margin-top: auto;
+  padding-top: 14px;
+}
+
+.leaflet-container { background: #a8c8d8; }
+
+/* ---------------- touch targets ---------------- */
+@media (pointer: coarse) {
+  .wide-btn, .select-btn { min-height: 48px; font-size: 15px; }
+  .choice-btn { min-height: 62px; }
+  .hotspot-btn { padding: 9px 14px; font-size: 13px; }
+}
+
+/* ---------------- responsive ---------------- */
+@media (max-width: 900px) {
+  #app { flex-direction: column; }
+  #panel { width: 100%; flex: 1 1 auto; }
+  #map { flex: 0 0 40vh; min-height: 260px; }
+}
