@@ -228,6 +228,12 @@ const els = {
   changeHospitalBtn: document.getElementById("changeHospitalBtn"),
   newIncidentBtn: document.getElementById("newIncidentBtn"),
   locateBtn: document.getElementById("locateBtn"),
+  confirmSection: document.getElementById("confirmSection"),
+  confirmLocation: document.getElementById("confirmLocation"),
+  confirmSeverity: document.getElementById("confirmSeverity"),
+  confirmInjury: document.getElementById("confirmInjury"),
+  confirmBtn: document.getElementById("confirmBtn"),
+  editDetailsBtn: document.getElementById("editDetailsBtn"),
 };
 
 function renderSeverityGrid() {
@@ -241,7 +247,7 @@ function renderSeverityGrid() {
       state.severity = s.value;
       document.querySelectorAll("#severityGrid .choice-btn").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
-      maybeRank();
+      updateConfirmSummary();
     });
     els.severityGrid.appendChild(btn);
   });
@@ -257,7 +263,7 @@ function renderInjuryGrid() {
       state.injuryType = i.value;
       document.querySelectorAll("#injuryGrid .choice-btn").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
-      maybeRank();
+      updateConfirmSummary();
     });
     els.injuryGrid.appendChild(btn);
   });
@@ -285,18 +291,45 @@ function setAccident(lat, lng, label) {
   L.marker([lat, lng], { icon: emojiIcon("🚧", 28) }).addTo(dispatchLayer).bindTooltip(label || "Accident scene");
   els.accidentStatus.textContent = label ? `${label} (${lat.toFixed(4)}, ${lng.toFixed(4)})` : `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
   resetDownstream();
-  maybeRank();
+  updateConfirmSummary();
 }
 
 function resetDownstream() {
   state.ranked = [];
   state.chosen = null;
+  els.confirmSection.hidden = true;
   els.rankSection.hidden = true;
   els.enrouteSection.hidden = true;
 }
 
-async function maybeRank() {
+function updateConfirmSummary() {
   if (!state.accident || !state.severity || !state.injuryType) return;
+
+  // Any change to location/severity/injury invalidates a ranking already shown.
+  els.rankSection.hidden = true;
+  els.enrouteSection.hidden = true;
+
+  const sev = SEVERITIES.find((s) => s.value === state.severity);
+  const injury = INJURY_TYPES.find((i) => i.value === state.injuryType);
+
+  els.confirmLocation.textContent = state.accident.label
+    ? `${state.accident.label} (${state.accident.lat.toFixed(4)}, ${state.accident.lng.toFixed(4)})`
+    : `${state.accident.lat.toFixed(4)}, ${state.accident.lng.toFixed(4)}`;
+  els.confirmSeverity.textContent = sev.label;
+  els.confirmInjury.textContent = injury.label;
+
+  els.confirmSection.hidden = false;
+}
+
+els.confirmBtn.addEventListener("click", runRanking);
+els.editDetailsBtn.addEventListener("click", () => {
+  els.rankSection.hidden = true;
+  els.confirmSection.hidden = false;
+});
+
+async function runRanking() {
+  if (!state.accident || !state.severity || !state.injuryType) return;
+  els.confirmSection.hidden = true;
   els.rankSection.hidden = false;
   els.enrouteSection.hidden = true;
   els.rankList.innerHTML = '<li class="hint">Calculating drive times…</li>';
