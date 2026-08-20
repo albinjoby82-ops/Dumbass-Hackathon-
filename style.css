@@ -102,6 +102,181 @@ label.checkbox input { margin: 0; }
 
 .when select { font-size: 13px; padding: 7px 6px; }
 
+.hint {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #6d8095;
+  margin: 0 0 8px;
+}
+
+.latlng {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.latlng input {
+  width: 100%;
+  padding: 7px 8px;
+  border-radius: 6px;
+  border: 1px solid #2c3d4f;
+  background: #0f1720;
+  color: #e6edf5;
+  font-size: 13px;
+}
+
+button {
+  padding: 7px 12px;
+  border-radius: 6px;
+  border: 1px solid #2c3d4f;
+  background: #1d2c3c;
+  color: #e6edf5;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+button:hover { background: #26384c; }
+
+button.ghost {
+  width: 100%;
+  margin-top: 8px;
+  background: transparent;
+}
+
+.checks {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+
+.checks .checkbox { margin-top: 0; }
+
+.pathway {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  background: #17293a;
+  border-radius: 6px;
+  padding: 9px 11px;
+  margin-bottom: 10px;
+}
+
+.pathway-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #6bb2f5;
+  margin-bottom: 2px;
+}
+
+.rationale, .reasons {
+  margin: 0 0 12px;
+  padding-left: 16px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #8ea3b8;
+}
+
+.reasons { margin: 8px 0 0; font-size: 11.5px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+
+.chip {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #6fe3a5;
+  background: rgba(111, 227, 165, 0.12);
+  border: 1px solid rgba(111, 227, 165, 0.3);
+  border-radius: 3px;
+  padding: 2px 5px;
+}
+
+.chip.unverified {
+  color: #ffd479;
+  background: rgba(255, 212, 121, 0.1);
+  border-color: rgba(255, 212, 121, 0.32);
+}
+
+/* Simulated values must never read as measured. */
+.simulated {
+  color: #c58bf0;
+  white-space: nowrap;
+}
+
+.simulated em {
+  font-style: normal;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #8f6cad;
+  background: rgba(197, 139, 240, 0.12);
+  border: 1px solid rgba(197, 139, 240, 0.28);
+  border-radius: 3px;
+  padding: 1px 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.v.divert .simulated { color: #ff8f8f; }
+.v.pressure .simulated { color: #ffd479; }
+
+.warn {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #ffd479;
+  background: rgba(255, 212, 121, 0.08);
+  border-left: 3px solid #ffd479;
+  border-radius: 0 6px 6px 0;
+  padding: 9px 11px;
+  margin: 0 0 12px;
+}
+
+.bypass {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #8ea3b8;
+  border-top: 1px solid #22303f;
+  padding-top: 10px;
+  margin: 12px 0 0;
+}
+
+.bypass strong { color: #a9bccf; }
+
+.cap-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.cap-name {
+  flex: 1 1 auto;
+  font-size: 12px;
+  color: #a9bccf;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cap-select {
+  width: auto;
+  flex: 0 0 92px;
+  font-size: 12px;
+  padding: 4px 6px;
+}
+
+code {
+  font-size: 10.5px;
+  color: #8ea3b8;
+  background: #0f1720;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
 /* Modelled values are visually distinct from measured ones. */
 .modelled {
   color: #ffd479;

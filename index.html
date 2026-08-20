@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>London Ambulance Dispatch — Nearest vs Fastest to Treatment</title>
+  <title>RapidCare — Best-Destination Recommendation</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -11,23 +11,54 @@
   <div id="app">
     <aside id="panel">
       <header>
-        <h1>London Ambulance Router</h1>
-        <p class="sub">Click the map to place an accident, or pick a known hotspot. The nearest A&amp;E is not always the fastest route to treatment.</p>
+        <h1>RapidCare</h1>
+        <p class="sub">Best-destination recommendation: clinical capability &times; patient condition &times; travel time &times; hospital load.</p>
       </header>
 
       <section class="block">
-        <label for="hotspot-select">Accident hotspot</label>
+        <h2>1 · Patient location</h2>
+        <p class="hint">Click the map, choose a known site, or enter coordinates. GPS is never assumed.</p>
         <select id="hotspot-select">
-          <option value="">— select a hotspot —</option>
+          <option value="">— known location —</option>
         </select>
-        <label class="checkbox">
-          <input type="checkbox" id="toggle-hotspots" checked>
-          Show hotspot markers on map
-        </label>
+        <div class="latlng">
+          <input id="lat-input" type="text" inputmode="decimal" placeholder="latitude" aria-label="Latitude">
+          <input id="lng-input" type="text" inputmode="decimal" placeholder="longitude" aria-label="Longitude">
+          <button id="set-location" type="button">Set</button>
+        </div>
+        <button id="use-gps" class="ghost" type="button">Use device location</button>
+        <p class="status" id="location-status">No location set.</p>
       </section>
 
       <section class="block">
-        <label>When did it happen</label>
+        <h2>2 · Patient condition</h2>
+        <div class="checks">
+          <label class="checkbox"><input type="checkbox" id="c-trauma"> Major trauma</label>
+          <label class="checkbox"><input type="checkbox" id="c-stroke"> Suspected stroke</label>
+          <label class="checkbox"><input type="checkbox" id="c-cardiac"> Suspected heart attack</label>
+          <label class="checkbox"><input type="checkbox" id="c-bleeding"> Major bleeding</label>
+          <label class="checkbox"><input type="checkbox" id="c-unconscious"> Unconscious</label>
+        </div>
+        <div class="when">
+          <select id="breathing" aria-label="Breathing">
+            <option value="normal">Breathing normal</option>
+            <option value="difficulty">Breathing difficulty</option>
+            <option value="absent">Not breathing</option>
+          </select>
+          <select id="severity" aria-label="Severity">
+            <option value="minor">Minor</option>
+            <option value="moderate" selected>Moderate</option>
+            <option value="severe">Severe</option>
+          </select>
+          <select id="age-group" aria-label="Age group">
+            <option value="adult">Adult</option>
+            <option value="child">Child</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2>3 · Time of incident</h2>
         <div class="when">
           <select id="month-select" aria-label="Month"></select>
           <select id="day-select" aria-label="Day of week"></select>
@@ -36,25 +67,26 @@
       </section>
 
       <section class="block" id="results">
-        <h2>Dispatch</h2>
-        <div id="results-body" class="empty">No accident selected yet.</div>
+        <h2>Recommendation</h2>
+        <div id="results-body" class="empty">Set a patient location to begin.</div>
       </section>
 
-      <section class="block" id="candidates-block" hidden>
-        <h2>Other options</h2>
-        <ul id="candidates"></ul>
+      <section class="block" id="capacity-block" hidden>
+        <h2>Hospital status override</h2>
+        <p class="hint">Simulated. A hospital can declare pressure or divert; the ranking recalculates immediately.</p>
+        <div id="capacity-list"></div>
+        <button id="clear-overrides" class="ghost" type="button">Clear all overrides</button>
       </section>
 
       <footer>
         <h2>Method &amp; sources</h2>
         <p class="note" id="method-note"></p>
-        <p class="note">Hospital and hotspot coordinates are curated demo data; site-level A&amp;E type is curated, since NHS figures are published per trust. Routing via the public OSRM demo server (rate-limited, not for production).</p>
       </footer>
     </aside>
     <div id="map"></div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

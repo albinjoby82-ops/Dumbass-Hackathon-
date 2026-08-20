@@ -25,5 +25,9 @@
   { "name": "Queen Elizabeth Hospital (Woolwich)", "lat": 51.4823, "lng": 0.0625, "orgCode": "RJ2", "aeType": 1 },
   { "name": "Lewisham Hospital", "lat": 51.4595, "lng": -0.0169, "orgCode": "RJ2", "aeType": 1 },
   { "name": "Kingston Hospital", "lat": 51.4152, "lng": -0.2836, "orgCode": "RAX", "aeType": 1 },
-  { "name": "St Helier Hospital (Sutton)", "lat": 51.3760, "lng": -0.1910, "orgCode": "RVR", "aeType": 1 }
+  { "name": "St Helier Hospital (Sutton)", "lat": 51.3760, "lng": -0.1910, "orgCode": "RVR", "aeType": 1 },
+
+  { "name": "Barts Heart Centre (St Bartholomew's)", "lat": 51.5174, "lng": -0.1000, "orgCode": "R1H", "aeType": null, "siteNote": "Specialist cardiac centre with no A&E. Receives suspected heart attack directly, bypassing A&E." },
+  { "name": "Hammersmith Hospital", "lat": 51.5165, "lng": -0.2360, "orgCode": "RYJ", "aeType": null, "siteNote": "Heart attack centre with no A&E." },
+  { "name": "Harefield Hospital", "lat": 51.6033, "lng": -0.4772, "orgCode": "RT3", "aeType": null, "siteNote": "Specialist cardiothoracic centre with no A&E." }
 ]
