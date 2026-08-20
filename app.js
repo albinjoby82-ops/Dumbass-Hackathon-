@@ -1,6 +1,7 @@
 import { BLANK_CONDITION, buildProfile } from './src/clinical.js';
 import { CapacityService } from './src/capacity.js';
 import { AlertService } from './src/alerts.js';
+import { IncidentChannel } from './src/incidents.js';
 import { selectCandidates, rank, compareToNearest, haversineKm } from './src/engine.js';
 
 const LONDON_CENTER = [51.5074, -0.1278];
@@ -21,6 +22,8 @@ const resultsBody = $('results-body');
 const locationStatus = $('location-status');
 const capacityBlock = $('capacity-block');
 const capacityList = $('capacity-list');
+const crewBlock = $('crew-block');
+const crewBody = $('crew-body');
 
 let hospitals = [];
 let hotspots = [];
@@ -34,6 +37,8 @@ let lastRanked = [];
 let lastProfile = null;
 let lastTopName = null;
 const alerts = new AlertService();
+const incidents = new IncidentChannel();
+let lastCaseRef = null;
 
 /* ------------------------------------------------------------------ helpers */
 
@@ -170,6 +175,23 @@ function renderRanking(ranked, profile, excluded, fallback) {
     `<p class="alert-sent" id="alert-sent" hidden></p>` +
     `</div>`;
 
+  // Crew hand-off: the same incident, pushed to the driver console with the detail
+  // preloaded. The crew re-assess on scene and can change any of it.
+  html +=
+    `<div class="crew-dispatch">` +
+    `<p class="crew-title">Send to ambulance crew</p>` +
+    `<label for="dispatch-target">Destination shown to crew</label>` +
+    `<select id="dispatch-target">` +
+    ranked.slice(0, 5).map((e, i) =>
+      `<option value="${i}">${e.hospital.name}${i === 0 ? ' — recommended' : ''}</option>`).join('') +
+    `</select>` +
+    `<button id="send-dispatch" type="button">Dispatch to driver console</button>` +
+    `<p class="hint">The driver console opens with this location, severity and condition preloaded, ` +
+    `and the crew amends it from their assessment on scene. ` +
+    `<a href="dispatch.html" target="_blank" rel="noopener">Open driver console</a></p>` +
+    `<p class="alert-sent" id="dispatch-sent" hidden></p>` +
+    `</div>`;
+
   const topName = ranked[0]?.hospital.name ?? null;
   const changed = lastTopName !== null && topName !== lastTopName;
   lastTopName = topName;
@@ -187,6 +209,7 @@ function renderRanking(ranked, profile, excluded, fallback) {
   }
 
   document.getElementById('send-alert')?.addEventListener('click', sendPreAlert);
+  document.getElementById('send-dispatch')?.addEventListener('click', dispatchToCrew);
 }
 
 function conditionNotes(c) {
@@ -225,6 +248,101 @@ function sendPreAlert() {
   el.textContent =
     `${rec.caseRef} sent to ${entry.hospital.name}` +
     (overridden ? ' — dispatcher override of the recommendation.' : '.');
+}
+
+/* ------------------------------------------------------- hand-off to the crew */
+
+/**
+ * The driver console works in a coarser vocabulary than the dispatcher form: one severity
+ * band and one condition type, because that is what a crew picks on a phone at a scene.
+ * These two functions translate the dispatcher's assessment into it. The crew can change
+ * either one once they are looking at the patient.
+ */
+function crewSeverity(c) {
+  if (c.breathing === 'absent' || c.unconscious) return 'critical';
+  if (c.severity === 'severe') return 'serious';
+  if (c.severity === 'moderate') return 'moderate';
+  return 'minor';
+}
+
+function crewInjuryType(c) {
+  if (c.majorTrauma || c.majorBleeding) return 'trauma';
+  if (c.suspectedStroke) return 'stroke';
+  if (c.suspectedCardiac) return 'cardiac';
+  if (c.unconscious || c.breathing !== 'normal') return 'medical';
+  return 'other';
+}
+
+function dispatchToCrew() {
+  const idx = Number(document.getElementById('dispatch-target').value);
+  const entry = lastRanked[idx];
+  if (!entry || !lastProfile || !patient) return;
+
+  const c = condition();
+  const sel = selection();
+
+  const rec = incidents.dispatch({
+    location: {
+      lat: patient.lat,
+      lng: patient.lng,
+      label: patient.label || `${patient.lat.toFixed(4)}, ${patient.lng.toFixed(4)}`
+    },
+    severity: crewSeverity(c),
+    injuryType: crewInjuryType(c),
+    pathway: lastProfile.pathway,
+    conditionNotes: conditionNotes(c),
+    ageGroup: c.ageGroup,
+    breathing: c.breathing,
+    dispatcherSeverity: c.severity,
+    recommendation: {
+      name: entry.hospital.name,
+      orgCode: entry.hospital.orgCode,
+      etaText: entry.travelMin == null ? 'unknown' : formatMins(entry.travelMin),
+      overridden: idx !== 0
+    },
+    timeContext: { monthKey: sel.monthKey, day: sel.day, hour: sel.hour }
+  });
+
+  lastCaseRef = rec.caseRef;
+  const el = document.getElementById('dispatch-sent');
+  el.hidden = false;
+  el.textContent = `${rec.caseRef} sent to the crew — awaiting their on-scene assessment.`;
+  renderCrew();
+}
+
+const CREW_STATUS = {
+  dispatched: 'Dispatched — crew has not confirmed yet',
+  'on-scene': 'On scene — crew assessing',
+  'en-route': 'En route to destination',
+  arrived: 'Arrived at destination',
+  handover: 'Handover complete',
+  cancelled: 'Stood down'
+};
+
+function renderCrew() {
+  const inc = (lastCaseRef && incidents.get(lastCaseRef)) || incidents.latestOpen();
+  if (!inc) {
+    crewBlock.hidden = true;
+    return;
+  }
+  crewBlock.hidden = false;
+
+  const amendments = inc.amendments || [];
+  crewBody.innerHTML =
+    `<div class="crew-card">` +
+    `<div class="crew-head"><span class="case-ref">${inc.caseRef}</span>` +
+    `<span class="crew-status ${inc.status}">${CREW_STATUS[inc.status] || inc.status}</span></div>` +
+    `<div class="row"><span class="k">Scene</span><span class="v">${inc.location.label}</span></div>` +
+    `<div class="row"><span class="k">Dispatched as</span><span class="v">${inc.pathway}</span></div>` +
+    (inc.destination
+      ? `<div class="row"><span class="k">Crew destination</span><span class="v">${inc.destination.name}` +
+        (inc.destination.name !== inc.recommendation.name ? ' — crew choice' : '') + `</span></div>`
+      : '') +
+    (amendments.length
+      ? `<p class="crew-amend-label">Amended on scene</p>` +
+        `<ul class="reasons">${amendments.map((a) => `<li>${a}</li>`).join('')}</ul>`
+      : `<p class="hint">No changes from the crew yet.</p>`) +
+    `</div>`;
 }
 
 function renderCapacityControls(entries) {
@@ -451,6 +569,8 @@ async function init() {
     hospitals = h; hotspots = s; caps = c; nhs = t; curve = cv;
     capacity = new CapacityService(nhs, curve);
     capacity.onChange(recommend);
+    incidents.onChange(renderCrew);
+    renderCrew();
     drawHospitals();
     populateControls();
   } catch (err) {

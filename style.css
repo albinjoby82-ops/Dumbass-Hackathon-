@@ -714,3 +714,58 @@ button:focus-visible, select:focus-visible, input:focus-visible {
 .prealert button { font-weight: 600; }
 
 .console-head h1, #panel h1 { letter-spacing: -0.015em; }
+
+/* ---- crew hand-off (dispatcher -> driver console) ---- */
+
+.crew-dispatch {
+  border-top: 1px solid #22303f;
+  margin-top: 14px;
+  padding-top: 12px;
+}
+
+.crew-title {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: #8ea3b8;
+}
+
+.crew-dispatch select { margin-bottom: 8px; }
+.crew-dispatch button { width: 100%; background: #1d5c93; border-color: #3a86c8; font-weight: 600; }
+.crew-dispatch button:hover { background: #2470b3; }
+.crew-dispatch .hint { margin-top: 8px; }
+
+.crew-card {
+  background: #101c28;
+  border: 1px solid #22303f;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.crew-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.crew-status {
+  font-size: 12px;
+  color: #8ea3b8;
+  text-align: right;
+}
+
+.crew-status.on-scene { color: #ffd479; }
+.crew-status.en-route { color: #3aa0ff; }
+.crew-status.arrived,
+.crew-status.handover { color: #6fe3a5; }
+
+.crew-amend-label {
+  margin: 10px 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffd479;
+}

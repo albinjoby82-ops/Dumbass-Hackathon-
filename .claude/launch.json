@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["--yes", "serve", "-l", "5173", "."],
       "port": 5173
+    },
+    {
+      "name": "static-alt",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "serve", "-l", "5199", "."],
+      "port": 5199
     }
   ]
 }

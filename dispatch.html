@@ -20,6 +20,31 @@
       <a href="index.html" class="back-link">← Map demo</a>
     </header>
 
+    <div id="incomingBanner" class="incoming-banner" hidden>
+      <span class="incoming-text" id="incomingText">New incident from dispatch</span>
+      <button id="incomingLoadBtn" class="incoming-btn" type="button">Load</button>
+    </div>
+
+    <section class="panel-section" id="incidentSection" hidden>
+      <h2>From dispatch</h2>
+      <div class="incident-card">
+        <div class="incident-head">
+          <span class="incident-ref" id="incidentRef">—</span>
+          <span class="incident-tag" id="incidentTag">Preloaded</span>
+        </div>
+        <p class="incident-pathway" id="incidentPathway"></p>
+        <div class="incident-row"><span class="incident-k">Scene</span><span class="incident-v" id="incidentScene">—</span></div>
+        <div class="incident-row"><span class="incident-k">Dispatch read</span><span class="incident-v" id="incidentRead">—</span></div>
+        <div class="incident-row"><span class="incident-k">Suggested destination</span><span class="incident-v" id="incidentRec">—</span></div>
+        <ul class="incident-notes" id="incidentNotes"></ul>
+        <p class="incident-hint">You are on scene. These are the dispatcher's details — keep them, or change anything in 1–3 from your own assessment.</p>
+        <div class="incident-amend" id="incidentAmend" hidden>
+          <p class="incident-amend-label">Your changes</p>
+          <ul id="incidentAmendList"></ul>
+        </div>
+      </div>
+    </section>
+
     <section class="panel-section">
       <h2>1. Accident location</h2>
       <button id="locateBtn" class="wide-btn">📍 Use my current location</button>
@@ -82,7 +107,60 @@
 
 </div>
 
+<!-- Full-screen turn-by-turn navigation. Hidden until a hospital is selected. -->
+<div id="nav" hidden aria-live="polite">
+  <div id="navMap"></div>
+
+  <div class="nav-banner">
+    <span class="nav-arrow" id="navArrow">↑</span>
+    <div class="nav-instruction">
+      <span class="nav-dist" id="navDist">—</span>
+      <span class="nav-text" id="navText">Preparing route…</span>
+    </div>
+  </div>
+
+  <div class="nav-then" id="navThen" hidden>
+    <span class="nav-then-label">Then</span>
+    <span class="nav-then-arrow" id="navThenArrow">↑</span>
+    <span class="nav-then-text" id="navThenText"></span>
+  </div>
+
+  <div class="nav-alert" id="navAlert" hidden>
+    <div class="nav-alert-body">
+      <p class="nav-alert-title" id="navAlertTitle">Destination on divert</p>
+      <p class="nav-alert-sub" id="navAlertSub"></p>
+    </div>
+    <div class="nav-alert-actions">
+      <button id="navRerouteBtn" class="nav-btn primary">Re-route</button>
+      <button id="navDismissBtn" class="nav-btn">Continue anyway</button>
+    </div>
+  </div>
+
+  <div class="nav-bottom">
+    <div class="nav-dest">
+      <span class="nav-dest-name" id="navDest">—</span>
+      <span class="nav-case" id="navCase"></span>
+    </div>
+    <div class="nav-stats">
+      <div class="nav-stat"><span class="nav-stat-v" id="navEta">—</span><span class="nav-stat-k">arrival</span></div>
+      <div class="nav-stat"><span class="nav-stat-v" id="navRemain">—</span><span class="nav-stat-k">remaining</span></div>
+      <div class="nav-stat"><span class="nav-stat-v" id="navKm">—</span><span class="nav-stat-k">distance</span></div>
+    </div>
+    <div class="nav-controls">
+      <button id="navSimBtn" class="nav-btn primary">▶ Simulate drive</button>
+      <button id="navGpsBtn" class="nav-btn">Follow GPS</button>
+      <button id="navEndBtn" class="nav-btn danger">End</button>
+    </div>
+  </div>
+
+  <div class="nav-arrived" id="navArrived" hidden>
+    <p class="nav-arrived-title">Arrived</p>
+    <p class="nav-arrived-sub" id="navArrivedSub"></p>
+    <button id="navHandoverBtn" class="nav-btn primary">Handover complete</button>
+  </div>
+</div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="dispatch.js"></script>
+<script type="module" src="dispatch.js"></script>
 </body>
 </html>

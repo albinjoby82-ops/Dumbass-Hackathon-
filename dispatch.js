@@ -1,4 +1,15 @@
-/* Driver dispatch UI — severity + injury type -> ranked hospital list -> directions */
+/* Driver dispatch UI — severity + injury type -> ranked hospital list -> directions.
+ *
+ * The incident normally arrives preloaded from the dispatcher console (src/incidents.js):
+ * the crew is already on scene, so location, severity and condition are filled in and the
+ * crew's job is to confirm or correct them from what they can actually see. Everything
+ * stays editable, and every change is reported back to the dispatcher.
+ */
+
+import { IncidentChannel } from "./src/incidents.js";
+import { RouteProgress, DriveSimulator, maneuverIcon, instructionText, formatDistance } from "./src/navigation.js";
+import { CapacityService } from "./src/capacity.js";
+import { AlertService } from "./src/alerts.js";
 
 const LONDON_CENTER = [51.5074, -0.1278];
 const OSRM_BASE = "https://router.project-osrm.org";
@@ -31,7 +42,14 @@ const state = {
   injuryType: null,
   ranked: [],
   chosen: null,
+  incident: null,   // the job as dispatched
+  asDispatched: null, // snapshot used to work out what the crew changed
 };
+
+const incidents = new IncidentChannel();
+
+const alerts = new AlertService();
+let capacity = null; // needs the NHS data, so constructed after load
 
 const map = L.map("map").setView(LONDON_CENTER, 11);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -234,6 +252,19 @@ const els = {
   confirmInjury: document.getElementById("confirmInjury"),
   confirmBtn: document.getElementById("confirmBtn"),
   editDetailsBtn: document.getElementById("editDetailsBtn"),
+  incidentSection: document.getElementById("incidentSection"),
+  incidentRef: document.getElementById("incidentRef"),
+  incidentTag: document.getElementById("incidentTag"),
+  incidentPathway: document.getElementById("incidentPathway"),
+  incidentScene: document.getElementById("incidentScene"),
+  incidentRead: document.getElementById("incidentRead"),
+  incidentRec: document.getElementById("incidentRec"),
+  incidentNotes: document.getElementById("incidentNotes"),
+  incidentAmend: document.getElementById("incidentAmend"),
+  incidentAmendList: document.getElementById("incidentAmendList"),
+  incomingBanner: document.getElementById("incomingBanner"),
+  incomingText: document.getElementById("incomingText"),
+  incomingLoadBtn: document.getElementById("incomingLoadBtn"),
 };
 
 function renderSeverityGrid() {
@@ -241,14 +272,10 @@ function renderSeverityGrid() {
   SEVERITIES.forEach((s) => {
     const btn = document.createElement("button");
     btn.className = "choice-btn";
+    btn.dataset.value = s.value;
     btn.style.setProperty("--accent-color", s.color);
     btn.innerHTML = `<span class="choice-label">${s.label}</span><span class="choice-desc">${s.desc}</span>`;
-    btn.addEventListener("click", () => {
-      state.severity = s.value;
-      document.querySelectorAll("#severityGrid .choice-btn").forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      updateConfirmSummary();
-    });
+    btn.addEventListener("click", () => selectSeverity(s.value));
     els.severityGrid.appendChild(btn);
   });
 }
@@ -258,15 +285,31 @@ function renderInjuryGrid() {
   INJURY_TYPES.forEach((i) => {
     const btn = document.createElement("button");
     btn.className = "choice-btn";
+    btn.dataset.value = i.value;
     btn.innerHTML = `<span class="choice-label">${i.label}</span><span class="choice-desc">${i.desc}</span>`;
-    btn.addEventListener("click", () => {
-      state.injuryType = i.value;
-      document.querySelectorAll("#injuryGrid .choice-btn").forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      updateConfirmSummary();
-    });
+    btn.addEventListener("click", () => selectInjury(i.value));
     els.injuryGrid.appendChild(btn);
   });
+}
+
+function highlight(gridId, value) {
+  document.querySelectorAll(`#${gridId} .choice-btn`).forEach((b) =>
+    b.classList.toggle("active", b.dataset.value === value)
+  );
+}
+
+function selectSeverity(value) {
+  state.severity = value;
+  highlight("severityGrid", value);
+  updateConfirmSummary();
+  renderAmendments();
+}
+
+function selectInjury(value) {
+  state.injuryType = value;
+  highlight("injuryGrid", value);
+  updateConfirmSummary();
+  renderAmendments();
 }
 
 function renderHotspotList() {
@@ -292,6 +335,7 @@ function setAccident(lat, lng, label) {
   els.accidentStatus.textContent = label ? `${label} (${lat.toFixed(4)}, ${lng.toFixed(4)})` : `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
   resetDownstream();
   updateConfirmSummary();
+  renderAmendments();
 }
 
 function resetDownstream() {
@@ -321,6 +365,106 @@ function updateConfirmSummary() {
   els.confirmSection.hidden = false;
 }
 
+/* ---------------- incident hand-off from the dispatcher ---------------- */
+
+const sevLabel = (v) => SEVERITIES.find((s) => s.value === v)?.label ?? v;
+const injuryLabel = (v) => INJURY_TYPES.find((i) => i.value === v)?.label ?? v;
+
+function locationLabel(loc) {
+  if (!loc) return "—";
+  return loc.label
+    ? `${loc.label} (${loc.lat.toFixed(4)}, ${loc.lng.toFixed(4)})`
+    : `${loc.lat.toFixed(4)}, ${loc.lng.toFixed(4)}`;
+}
+
+/** Load a dispatched job into the form. The crew is assumed to be on scene already. */
+function applyIncident(inc) {
+  state.incident = inc;
+  state.asDispatched = {
+    location: { ...inc.location },
+    severity: inc.severity,
+    injuryType: inc.injuryType,
+  };
+
+  setAccident(inc.location.lat, inc.location.lng, inc.location.label);
+  selectSeverity(inc.severity);
+  selectInjury(inc.injuryType);
+  map.setView([inc.location.lat, inc.location.lng], 14);
+
+  els.incidentRef.textContent = inc.caseRef;
+  els.incidentTag.textContent = inc.status === "dispatched" ? "Preloaded from dispatch" : "In progress";
+  els.incidentPathway.textContent = inc.pathway || "";
+  els.incidentScene.textContent = locationLabel(inc.location);
+  els.incidentRead.textContent = `${sevLabel(inc.severity)} · ${injuryLabel(inc.injuryType)}`;
+  els.incidentRec.textContent = inc.recommendation
+    ? `${inc.recommendation.name} (${inc.recommendation.etaText})`
+    : "—";
+  els.incidentNotes.innerHTML = (inc.conditionNotes || []).map((n) => `<li>${n}</li>`).join("");
+  els.incidentSection.hidden = false;
+  els.incomingBanner.hidden = true;
+
+  renderAmendments();
+}
+
+/** What the crew changed against what was dispatched — shown here and sent back. */
+function computeAmendments() {
+  const base = state.asDispatched;
+  if (!base || !state.accident) return [];
+  const out = [];
+
+  const moved = haversineKm(base.location, state.accident) > 0.03;
+  if (moved) out.push(`Scene: ${locationLabel(base.location)} → ${locationLabel(state.accident)}`);
+  if (state.severity && state.severity !== base.severity)
+    out.push(`Severity: ${sevLabel(base.severity)} → ${sevLabel(state.severity)}`);
+  if (state.injuryType && state.injuryType !== base.injuryType)
+    out.push(`Condition: ${injuryLabel(base.injuryType)} → ${injuryLabel(state.injuryType)}`);
+
+  return out;
+}
+
+function renderAmendments() {
+  if (!state.incident) return;
+  const changes = computeAmendments();
+  els.incidentAmend.hidden = changes.length === 0;
+  els.incidentAmendList.innerHTML = changes.map((c) => `<li>${c}</li>`).join("");
+  els.incidentTag.textContent = changes.length ? "Amended on scene" : "Preloaded from dispatch";
+  els.incidentTag.classList.toggle("amended", changes.length > 0);
+}
+
+/** Push the crew's assessment back to the dispatcher. */
+function reportAssessment() {
+  if (!state.incident) return;
+  const amendments = computeAmendments();
+  const updated = incidents.amend(state.incident.caseRef, {
+    location: { ...state.accident },
+    severity: state.severity,
+    injuryType: state.injuryType,
+    amendments,
+  });
+  if (updated) state.incident = updated;
+}
+
+/** A job arriving while this console is open. */
+function watchIncoming(list) {
+  const open = list.find((i) => ["dispatched", "on-scene", "en-route", "arrived"].includes(i.status));
+  if (!open) return;
+
+  if (state.incident && open.caseRef === state.incident.caseRef) {
+    state.incident = open;
+    return;
+  }
+  // Nothing in hand yet — take it straight away. Mid-job, offer it instead of hijacking.
+  if (!state.incident && !state.accident) {
+    applyIncident(open);
+    return;
+  }
+  if (!state.incident || open.caseRef !== state.incident.caseRef) {
+    els.incomingText.textContent = `New incident ${open.caseRef} — ${open.pathway || "from dispatch"}`;
+    els.incomingBanner.hidden = false;
+    els.incomingLoadBtn.onclick = () => applyIncident(open);
+  }
+}
+
 els.confirmBtn.addEventListener("click", runRanking);
 els.editDetailsBtn.addEventListener("click", () => {
   els.rankSection.hidden = true;
@@ -329,6 +473,7 @@ els.editDetailsBtn.addEventListener("click", () => {
 
 async function runRanking() {
   if (!state.accident || !state.severity || !state.injuryType) return;
+  reportAssessment();
   els.confirmSection.hidden = true;
   els.rankSection.hidden = false;
   els.enrouteSection.hidden = true;
@@ -380,6 +525,7 @@ async function chooseHospital(hospital) {
   state.chosen = hospital;
   els.rankSection.hidden = true;
   els.enrouteSection.hidden = false;
+  navigation.prepare(hospital);
   els.enrouteHospital.textContent = hospital.name;
   els.enrouteEta.textContent = "Calculating…";
   els.enrouteDist.textContent = "";
@@ -395,6 +541,13 @@ async function chooseHospital(hospital) {
   try {
     const route = await fetchRoute(state.accident, hospital);
     els.enrouteEta.textContent = `${formatMins(route.duration / 60)} normal drive`;
+    if (state.incident) {
+      state.incident = incidents.setDestination(state.incident.caseRef, {
+        name: hospital.name,
+        orgCode: hospital.orgCode,
+        etaText: formatMins(route.duration / 60),
+      }) || state.incident;
+    }
     els.enrouteDist.textContent = `${(route.distance / 1000).toFixed(2)} km`;
 
     const latlngs = route.geometry.coordinates.map(([lng, lat]) => [lat, lng]);
@@ -407,6 +560,8 @@ async function chooseHospital(hospital) {
       li.innerHTML = `<span class="step-idx">${i + 1}.</span><span>${stepInstruction(step)} — ${(step.distance / 1000).toFixed(2)} km</span>`;
       els.directionsList.appendChild(li);
     });
+
+    navigation.setRoute(hospital, route);
   } catch (err) {
     els.enrouteEta.textContent = "Route unavailable";
     console.error(err);
@@ -448,6 +603,252 @@ map.on("click", (e) => {
   setAccident(e.latlng.lat, e.latlng.lng);
 });
 
+/* ---------------- navigation ---------------- */
+
+/**
+ * Full-screen turn-by-turn view. A web page cannot launch Apple CarPlay — that needs a
+ * native app and an Apple entitlement — so this is the same experience rendered in the
+ * browser, running our own route rather than handing off to another maps app.
+ *
+ * Position comes from real GPS or from the simulator, because a demo indoors cannot
+ * actually drive the route.
+ */
+const navigation = {
+  map: null,
+  progress: null,
+  simulator: null,
+  hospital: null,
+  route: null,
+  caseRef: null,
+  watchId: null,
+  vehicle: null,
+  el: {},
+
+  init() {
+    this.el = {
+      root: document.getElementById("nav"),
+      arrow: document.getElementById("navArrow"),
+      dist: document.getElementById("navDist"),
+      text: document.getElementById("navText"),
+      then: document.getElementById("navThen"),
+      thenArrow: document.getElementById("navThenArrow"),
+      thenText: document.getElementById("navThenText"),
+      dest: document.getElementById("navDest"),
+      caseRef: document.getElementById("navCase"),
+      eta: document.getElementById("navEta"),
+      remain: document.getElementById("navRemain"),
+      km: document.getElementById("navKm"),
+      simBtn: document.getElementById("navSimBtn"),
+      gpsBtn: document.getElementById("navGpsBtn"),
+      endBtn: document.getElementById("navEndBtn"),
+      alert: document.getElementById("navAlert"),
+      alertSub: document.getElementById("navAlertSub"),
+      rerouteBtn: document.getElementById("navRerouteBtn"),
+      dismissBtn: document.getElementById("navDismissBtn"),
+      arrived: document.getElementById("navArrived"),
+      arrivedSub: document.getElementById("navArrivedSub"),
+      handoverBtn: document.getElementById("navHandoverBtn"),
+    };
+
+    this.el.simBtn.addEventListener("click", () => this.toggleSim());
+    this.el.gpsBtn.addEventListener("click", () => this.toggleGps());
+    this.el.endBtn.addEventListener("click", () => this.close());
+    this.el.dismissBtn.addEventListener("click", () => { this.el.alert.hidden = true; });
+    this.el.rerouteBtn.addEventListener("click", () => this.reroute());
+    this.el.handoverBtn.addEventListener("click", () => {
+      if (this.caseRef) alerts.setStatus(this.caseRef, "acknowledged");
+      // Closes the job on the dispatcher's board as well as this screen.
+      if (state.incident) {
+        incidents.setStatus(state.incident.caseRef, "handover");
+        state.incident = null;
+        state.asDispatched = null;
+        els.incidentSection.hidden = true;
+        els.incidentAmend.hidden = true;
+      }
+      this.close();
+    });
+
+    // A hospital declaring divert mid-journey is the case this whole system exists for.
+    capacity.onChange(() => this.checkDivert());
+  },
+
+  prepare(hospital) {
+    this.hospital = hospital;
+    this.el.dest.textContent = hospital.name;
+    this.el.text.textContent = "Preparing route…";
+    this.el.dist.textContent = "—";
+  },
+
+  setRoute(hospital, route) {
+    this.hospital = hospital;
+    this.route = route;
+    this.progress = new RouteProgress(route);
+    this.open();
+  },
+
+  open() {
+    this.el.root.hidden = false;
+    this.el.arrived.hidden = true;
+    this.el.alert.hidden = true;
+
+    if (!this.map) {
+      this.map = L.map("navMap", { zoomControl: false, attributionControl: true });
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "&copy; OpenStreetMap contributors",
+      }).addTo(this.map);
+      this.layer = L.layerGroup().addTo(this.map);
+    }
+    setTimeout(() => this.map.invalidateSize(), 60);
+
+    const latlngs = this.progress.points.map((p) => [p.lat, p.lng]);
+    this.layer.clearLayers();
+    L.polyline(latlngs, { color: "#0b1c2c", weight: 14, opacity: .9 }).addTo(this.layer);
+    L.polyline(latlngs, { color: "#3aa0ff", weight: 7, opacity: 1 }).addTo(this.layer);
+    L.marker(latlngs.at(-1), { icon: emojiIcon("🏥", 30) }).addTo(this.layer);
+
+    this.vehicle = L.marker(latlngs[0], {
+      icon: L.divIcon({ className: "", html: '<div class="nav-vehicle"></div>', iconSize: [26, 26], iconAnchor: [13, 13] }),
+    }).addTo(this.layer);
+
+    // Send the pre-alert as navigation begins, so the ED knows before we roll.
+    const injury = INJURY_TYPES.find((i) => i.value === state.injuryType);
+    const sev = SEVERITIES.find((s) => s.value === state.severity);
+    const rec = alerts.send({
+      hospital: this.hospital.name,
+      orgCode: this.hospital.orgCode,
+      pathway: injury ? injury.label : "Emergency",
+      etaText: formatMins(this.route.duration / 60),
+      patientSummary: sev ? sev.label : "Unknown severity",
+      origin: state.accident?.label || "Scene",
+      conditionNotes: [injury?.label, sev?.label].filter(Boolean),
+      dispatcherOverride: false,
+    });
+    this.caseRef = rec.caseRef;
+    this.el.caseRef.textContent = state.incident ? `${state.incident.caseRef} · ${rec.caseRef}` : rec.caseRef;
+
+    this.update(this.progress.stateAt(0));
+    this.map.setView(latlngs[0], 16);
+    this.checkDivert();
+  },
+
+  update(s) {
+    if (!s) return;
+    this.el.arrow.textContent = maneuverIcon(s.step);
+    this.el.dist.textContent = formatDistance(s.distanceToManeuver);
+    this.el.text.textContent = instructionText(s.step);
+
+    if (s.nextStep) {
+      this.el.then.hidden = false;
+      this.el.thenArrow.textContent = maneuverIcon(s.nextStep);
+      this.el.thenText.textContent = instructionText(s.nextStep);
+    } else {
+      this.el.then.hidden = true;
+    }
+
+    this.el.remain.textContent = formatMins(s.remainingSec / 60);
+    this.el.km.textContent = `${(s.remainingM / 1000).toFixed(1)} km`;
+    const arriveAt = new Date(Date.now() + s.remainingSec * 1000);
+    this.el.eta.textContent = arriveAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+    if (s.position) {
+      this.vehicle.setLatLng([s.position.lat, s.position.lng]);
+      this.map.panTo([s.position.lat, s.position.lng], { animate: true, duration: .3 });
+    }
+
+    if (s.arrived) this.onArrived();
+  },
+
+  onArrived() {
+    this.simulator?.stop();
+    if (state.incident && state.incident.status !== "arrived") {
+      state.incident = incidents.setStatus(state.incident.caseRef, "arrived") || state.incident;
+    }
+    this.el.arrived.hidden = false;
+    this.el.arrivedSub.textContent = `${this.hospital.name} — ${this.caseRef || ""}`;
+    this.el.simBtn.classList.remove("active");
+    this.el.simBtn.textContent = "▶ Simulate drive";
+  },
+
+  toggleSim() {
+    if (!this.progress) return;
+    if (this.simulator?.running) {
+      this.simulator.stop();
+      this.el.simBtn.textContent = "▶ Simulate drive";
+      this.el.simBtn.classList.remove("active");
+      return;
+    }
+    this.stopGps();
+    if (!this.simulator) {
+      this.simulator = new DriveSimulator(this.progress, { onTick: (s) => this.update(s) });
+    }
+    this.simulator.start();
+    this.el.simBtn.textContent = "❚❚ Pause";
+    this.el.simBtn.classList.add("active");
+  },
+
+  toggleGps() {
+    if (this.watchId !== null) { this.stopGps(); return; }
+    if (!navigator.geolocation) { alert("Geolocation is not available on this device."); return; }
+    this.simulator?.stop();
+    this.el.simBtn.textContent = "▶ Simulate drive";
+    this.el.simBtn.classList.remove("active");
+    this.el.gpsBtn.classList.add("active");
+    this.el.gpsBtn.textContent = "GPS on";
+    this.watchId = navigator.geolocation.watchPosition(
+      (pos) => {
+        const snapped = this.progress.snap({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        this.update(this.progress.stateAt(snapped.distanceAlong));
+      },
+      (err) => { alert(`Location unavailable: ${err.message}`); this.stopGps(); },
+      { enableHighAccuracy: true, maximumAge: 2000 }
+    );
+  },
+
+  stopGps() {
+    if (this.watchId !== null) navigator.geolocation.clearWatch(this.watchId);
+    this.watchId = null;
+    this.el.gpsBtn.classList.remove("active");
+    this.el.gpsBtn.textContent = "Follow GPS";
+  },
+
+  checkDivert() {
+    if (!this.hospital || this.el.root.hidden) return;
+    const status = capacity.overrides[this.hospital.orgCode];
+    if (status === "divert") {
+      const alt = state.ranked.find((h) => h.name !== this.hospital.name && capacity.overrides[h.orgCode] !== "divert");
+      this.el.alertSub.textContent = alt
+        ? `${this.hospital.name} has declared divert. Next best: ${alt.name} (${formatMins(alt.driveMin)} from scene).`
+        : `${this.hospital.name} has declared divert. No alternative in the current shortlist.`;
+      this.el.rerouteBtn.hidden = !alt;
+      this._alt = alt || null;
+      this.el.alert.hidden = false;
+    } else {
+      this.el.alert.hidden = true;
+    }
+  },
+
+  reroute() {
+    if (!this._alt) return;
+    this.simulator?.stop();
+    this.simulator = null;
+    this.stopGps();
+    this.el.alert.hidden = true;
+    this.el.simBtn.textContent = "▶ Simulate drive";
+    this.el.simBtn.classList.remove("active");
+    chooseHospital(this._alt);
+  },
+
+  close() {
+    this.simulator?.stop();
+    this.simulator = null;
+    this.stopGps();
+    this.el.root.hidden = true;
+    this.el.arrived.hidden = true;
+  },
+};
+
+
 /* ---------------- init ---------------- */
 
 function drawHospitals() {
@@ -476,11 +877,18 @@ Promise.all([
     state.hotspots = hotspots;
     state.nhs = nhs;
     state.curve = curve;
+    capacity = new CapacityService(nhs, curve);
+    navigation.init();
     drawHospitals();
     drawHotspots();
     renderSeverityGrid();
     renderInjuryGrid();
     renderHotspotList();
+
+    // Pick up whatever dispatch has already sent, then keep listening for new jobs.
+    incidents.onChange(watchIncoming);
+    const open = incidents.latestOpen();
+    if (open) applyIncident(open);
   })
   .catch((err) => {
     els.hotspotList.innerHTML = `<p class="hint">Failed to load data. Serve this over http://, not file://. (${err.message})</p>`;
