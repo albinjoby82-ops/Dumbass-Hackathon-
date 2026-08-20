@@ -1,87 +1,34 @@
 {
-  "note": "Clinical designations for London receiving hospitals. These are REAL published NHS pathway designations, not invented. Every entry carries its source. Entries with verified:false have only secondary evidence and must be confirmed before being relied on.",
+  "note": "Provenance for the clinical designations tagged on each hospital in hospitals.json (`services`). That file is the single source of truth for WHICH hospital holds WHICH designation; this file records HOW WELL SOURCED each designation type is. TYPE1_ED is derived from aeType === 1 rather than tagged.",
   "tagMeaning": {
-    "TYPE1_ED": "Consultant-led major A&E, open 24/7 with full resuscitation facilities",
+    "TYPE1_ED": "Consultant-led major A&E, 24/7, full resuscitation facilities",
     "MTC": "Major Trauma Centre — receives major trauma, bypassing nearer hospitals",
     "HASU": "Hyper-Acute Stroke Unit — 24/7 thrombolysis and hyper-acute stroke care",
-    "PPCI": "Heart Attack Centre — 24/7 primary percutaneous coronary intervention",
-    "PAEDS_MAJOR": "Receives paediatric major trauma"
+    "HAC": "Heart Attack Centre — 24/7 primary percutaneous coronary intervention",
+    "NEURO": "Neurosurgical centre",
+    "BURNS": "Specialist burns service",
+    "UTC": "Co-located Urgent Treatment Centre"
+  },
+  "verifiedTags": {
+    "TYPE1_ED": true,
+    "MTC": true,
+    "HASU": true,
+    "HAC": false,
+    "NEURO": false,
+    "BURNS": false,
+    "UTC": false
   },
   "sources": {
     "MTC": "https://www.londonambulance.nhs.uk/calling-us/emergency-trauma-care/",
     "HASU": "https://www.imperial.nhs.uk/our-services/stroke/hyper-acute-stroke-unit",
-    "PPCI": "https://www.imperial.nhs.uk/our-services/cardiology/heart-assessment-centre",
+    "HAC": "https://www.imperial.nhs.uk/our-services/cardiology/heart-assessment-centre",
     "TYPE1_ED": "https://www.england.nhs.uk/statistics/statistical-work-areas/ae-waiting-times-and-activity/"
   },
-  "sites": {
-    "Royal London Hospital (Whitechapel)": {
-      "tags": ["TYPE1_ED", "MTC", "HASU", "PAEDS_MAJOR"],
-      "verified": { "MTC": true, "HASU": true, "TYPE1_ED": true, "PAEDS_MAJOR": false }
-    },
-    "King's College Hospital": {
-      "tags": ["TYPE1_ED", "MTC", "HASU", "PPCI", "PAEDS_MAJOR"],
-      "verified": { "MTC": true, "HASU": true, "TYPE1_ED": true, "PPCI": false, "PAEDS_MAJOR": false }
-    },
-    "St Mary's Hospital (Paddington)": {
-      "tags": ["TYPE1_ED", "MTC", "PAEDS_MAJOR"],
-      "verified": { "MTC": true, "TYPE1_ED": true, "PAEDS_MAJOR": false }
-    },
-    "St George's Hospital (Tooting)": {
-      "tags": ["TYPE1_ED", "MTC", "HASU", "PPCI", "PAEDS_MAJOR"],
-      "verified": { "MTC": true, "HASU": true, "TYPE1_ED": true, "PPCI": false, "PAEDS_MAJOR": false }
-    },
-    "University College Hospital (UCLH)": {
-      "tags": ["TYPE1_ED", "HASU"],
-      "verified": { "HASU": true, "TYPE1_ED": true }
-    },
-    "Charing Cross Hospital (Hammersmith)": {
-      "tags": ["TYPE1_ED", "HASU"],
-      "verified": { "HASU": true, "TYPE1_ED": true }
-    },
-    "Northwick Park Hospital": {
-      "tags": ["TYPE1_ED", "HASU"],
-      "verified": { "HASU": true, "TYPE1_ED": true }
-    },
-    "Queen's Hospital (Romford)": {
-      "tags": ["TYPE1_ED", "HASU"],
-      "verified": { "HASU": true, "TYPE1_ED": true }
-    },
-    "Princess Royal University Hospital (Farnborough)": {
-      "tags": ["TYPE1_ED", "HASU"],
-      "verified": { "HASU": true, "TYPE1_ED": true }
-    },
-    "Royal Free Hospital (Hampstead)": {
-      "tags": ["TYPE1_ED", "PPCI"],
-      "verified": { "TYPE1_ED": true, "PPCI": false }
-    },
-    "Barts Heart Centre (St Bartholomew's)": {
-      "tags": ["PPCI"],
-      "verified": { "PPCI": false }
-    },
-    "Hammersmith Hospital": {
-      "tags": ["PPCI"],
-      "verified": { "PPCI": false }
-    },
-    "Harefield Hospital": {
-      "tags": ["PPCI"],
-      "verified": { "PPCI": false }
-    },
-    "St Thomas' Hospital": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "Chelsea and Westminster Hospital": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "West Middlesex University Hospital (Isleworth)": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "Barnet Hospital": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "North Middlesex University Hospital": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "Whittington Hospital (Archway)": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "Newham University Hospital": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "Whipps Cross University Hospital": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "Homerton University Hospital": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "Ealing Hospital": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": false } },
-    "Hillingdon Hospital": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "Croydon University Hospital": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "Queen Elizabeth Hospital (Woolwich)": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "Lewisham Hospital": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "Kingston Hospital": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "St Helier Hospital (Sutton)": { "tags": ["TYPE1_ED"], "verified": { "TYPE1_ED": true } },
-    "Guy's Hospital": { "tags": [], "verified": {} }
+  "verificationNotes": {
+    "MTC": "London Ambulance Service names all four adult major trauma centres directly: Royal London, St George's, King's College, St Mary's. Primary source.",
+    "HASU": "Eight designated London HASUs, consistent across multiple NHS trust sources. King's runs two of the eight.",
+    "HAC": "UNCONFIRMED. Trust pages block automated access; secondary sources disagree on whether London has seven or eight heart attack centres. Verify before operational use.",
+    "NEURO": "UNCONFIRMED. Not independently researched.",
+    "BURNS": "UNCONFIRMED. Not independently researched."
   }
 }

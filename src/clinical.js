@@ -53,15 +53,20 @@ export function buildProfile(c) {
     pathway = 'Major trauma';
     rationale.push('Major trauma goes to a Major Trauma Centre, bypassing nearer hospitals.');
     if (c.ageGroup === 'child') {
-      requiredTags.push('PAEDS_MAJOR');
-      rationale.push('Paediatric patient — destination must receive paediatric major trauma.');
+      // Paediatric major trauma designation is NOT in the dataset, so it cannot be a hard
+      // gate — requiring a tag no hospital carries would reject every candidate. Flagged
+      // for the dispatcher instead. Add a PAEDS_MAJOR tag to hospitals.json to enforce it.
+      rationale.push(
+        'Paediatric patient — confirm the receiving centre takes paediatric major trauma. ' +
+        'Not enforced automatically: that designation is not yet in the dataset.'
+      );
     }
   } else if (c.suspectedStroke) {
     requiredTags.push('HASU');
     pathway = 'Suspected stroke';
     rationale.push('Suspected stroke goes to a Hyper-Acute Stroke Unit for 24/7 thrombolysis.');
   } else if (c.suspectedCardiac) {
-    requiredTags.push('PPCI');
+    requiredTags.push('HAC');
     pathway = 'Suspected heart attack';
     rationale.push('Suspected heart attack goes directly to a Heart Attack Centre for primary PCI.');
     rationale.push('Some heart attack centres have no A&E — direct admission bypasses it.');
@@ -74,7 +79,7 @@ export function buildProfile(c) {
   // Airway compromise: whatever the pathway, the patient needs resuscitation facilities
   // and time matters more than queue length.
   if (airway && !requiredTags.includes('MTC')) {
-    if (!requiredTags.includes('TYPE1_ED') && !requiredTags.includes('PPCI')) {
+    if (!requiredTags.includes('TYPE1_ED') && !requiredTags.includes('HAC')) {
       preferredTags.push('TYPE1_ED');
     }
     rationale.push('Airway or breathing compromised — shortest time to a resus bay dominates.');

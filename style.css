@@ -102,6 +102,15 @@ label.checkbox input { margin: 0; }
 
 .when select { font-size: 13px; padding: 7px 6px; }
 
+.deep-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: #3aa0ff;
+  text-decoration: none;
+}
+
+.deep-link:hover { text-decoration: underline; }
+
 .hint {
   font-size: 11.5px;
   line-height: 1.45;

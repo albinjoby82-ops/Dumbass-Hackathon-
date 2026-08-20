@@ -26,12 +26,20 @@ export function haversineKm(a, b) {
   return 2 * R * Math.asin(Math.sqrt(h));
 }
 
-function tagsFor(caps, name) {
-  return caps?.sites?.[name]?.tags ?? [];
+/**
+ * Capability tags for a hospital. `services` in hospitals.json is the single source of
+ * truth, shared with the driver dispatch view. TYPE1_ED is derived from aeType rather than
+ * tagged, so the two representations cannot drift apart.
+ */
+function tagsFor(hospital) {
+  const tags = hospital.services ? [...hospital.services] : [];
+  if (hospital.aeType === 1) tags.push('TYPE1_ED');
+  return tags;
 }
 
-function unverifiedTags(caps, name, tags) {
-  const v = caps?.sites?.[name]?.verified ?? {};
+/** Which of these tags are designation types we could not confirm from a primary source. */
+function unverifiedTags(caps, tags) {
+  const v = caps?.verifiedTags ?? {};
   return tags.filter((t) => v[t] === false);
 }
 
@@ -44,7 +52,7 @@ export function selectCandidates(hospitals, caps, profile) {
   const required = profile.requiredTags;
 
   const qualifies = (h) => {
-    const tags = tagsFor(caps, h.name);
+    const tags = tagsFor(h);
     return required.every((t) => tags.includes(t));
   };
 
@@ -53,7 +61,7 @@ export function selectCandidates(hospitals, caps, profile) {
 
   if (!candidates.length) {
     // Never silently drop a clinical requirement — widen, but say so loudly.
-    candidates = hospitals.filter((h) => tagsFor(caps, h.name).includes('TYPE1_ED'));
+    candidates = hospitals.filter((h) => tagsFor(h).includes('TYPE1_ED'));
     fallback = true;
   }
 
@@ -63,7 +71,7 @@ export function selectCandidates(hospitals, caps, profile) {
 
 /** Clinical suitability 0..1 — required tags are already guaranteed by the gate. */
 function clinicalScore(caps, h, profile) {
-  const tags = tagsFor(caps, h.name);
+  const tags = tagsFor(h);
   let score = 1;
   const extra = profile.preferredTags.filter((t) => tags.includes(t)).length;
   score += extra * PREFERRED_CREDIT;
@@ -84,7 +92,7 @@ export function rank({ candidates, travelMin, capacityStates, profile, caps }) {
   const scored = candidates.map((h, i) => {
     const travel = travelMin[i];
     const cap = capacityStates[i];
-    const tags = tagsFor(caps, h.name);
+    const tags = tagsFor(h);
 
     // Normalised so the best candidate scores 1 and the worst 0 on each axis.
     const travelScore = travel == null ? 0 : 1 - (travel - minTravel) / span;
@@ -106,7 +114,7 @@ export function rank({ candidates, travelMin, capacityStates, profile, caps }) {
       travelMin: travel,
       capacity: cap,
       tags,
-      unverified: unverifiedTags(caps, h.name, met),
+      unverified: unverifiedTags(caps, met),
       score,
       breakdown: { travelScore, capacityScore, clinical, weights: w },
       reasons
