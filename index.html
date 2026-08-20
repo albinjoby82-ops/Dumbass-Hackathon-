@@ -1,49 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>London Ambulance Dispatch — Nearest Hospital Router</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>London Ambulance Router</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="app">
-    <aside id="panel">
-      <header>
-        <h1>London Ambulance Router</h1>
-        <p class="sub">Click the map to place an accident, or pick a known hotspot.</p>
-      </header>
 
-      <section class="block">
-        <label for="hotspot-select">Accident hotspot</label>
-        <select id="hotspot-select">
-          <option value="">— select a hotspot —</option>
-        </select>
-        <label class="checkbox">
-          <input type="checkbox" id="toggle-hotspots" checked>
-          Show hotspot markers on map
-        </label>
-      </section>
+<div id="app">
 
-      <section class="block" id="results">
-        <h2>Dispatch</h2>
-        <div id="results-body" class="empty">No accident selected yet.</div>
-      </section>
+  <header id="topbar">
+    <div class="brand">
+      <span class="brand-mark">🚑</span>
+      <span class="brand-text">London Ambulance Router</span>
+    </div>
+    <div class="topbar-actions">
+      <button id="locateBtn" class="pill-btn" title="Use my GPS location as ambulance position">📍 My Location</button>
+      <label class="pill-toggle">
+        <input type="checkbox" id="followToggle">
+        <span>Follow GPS</span>
+      </label>
+      <label class="pill-toggle">
+        <input type="checkbox" id="driverModeToggle">
+        <span>Driver Mode</span>
+      </label>
+      <button id="panelToggle" class="pill-btn icon-only" title="Toggle panel">☰</button>
+    </div>
+  </header>
 
-      <section class="block" id="candidates-block" hidden>
-        <h2>Other nearby hospitals</h2>
-        <ol id="candidates"></ol>
-      </section>
-
-      <footer>
-        <p class="note">Hospital &amp; hotspot coordinates are curated demo data. Routing via the public OSRM demo server (rate-limited, not for production).</p>
-      </footer>
-    </aside>
+  <div id="main">
     <div id="map"></div>
+
+    <aside id="panel">
+
+      <section class="panel-section">
+        <h2>1. Facility type needed</h2>
+        <select id="serviceSelect" class="service-select"></select>
+        <p class="disclaimer" id="clinicalSafetyNote"></p>
+      </section>
+
+      <section class="panel-section">
+        <h2>2. Set accident location</h2>
+        <p class="hint">Tap anywhere on the map, or pick a known hotspot below.</p>
+        <div id="hotspotList" class="hotspot-list">
+          <p class="loading">Loading hotspots…</p>
+        </div>
+        <p class="disclaimer">⚠ Hotspots are illustrative demo junctions, not verified STATS19 accident data.</p>
+      </section>
+
+      <section class="panel-section" id="statusSection">
+        <h2>3. Status</h2>
+        <div id="statusGrid" class="status-grid">
+          <div class="status-card">
+            <div class="status-label">Ambulance</div>
+            <div class="status-value" id="ambulanceStatus">Not set</div>
+          </div>
+          <div class="status-card">
+            <div class="status-label">Accident site</div>
+            <div class="status-value" id="accidentStatus">Not set</div>
+          </div>
+          <div class="status-card">
+            <div class="status-label">Nearest matching facility</div>
+            <div class="status-value" id="hospitalStatus">—</div>
+          </div>
+        </div>
+        <div id="hospitalMeta" class="hospital-meta"></div>
+        <div class="alternates-block">
+          <div class="alternates-label">Other nearby options</div>
+          <ul id="alternatesList" class="alternates-list"></ul>
+        </div>
+      </section>
+
+      <section class="panel-section" id="etaSection">
+        <h2>4. Route</h2>
+        <div class="leg-block" id="legToAccident">
+          <div class="leg-title">🚑 → 🚧 To accident scene</div>
+          <div class="leg-metrics">
+            <span class="metric-eta">—</span>
+            <span class="metric-dist">—</span>
+          </div>
+        </div>
+        <div class="leg-block" id="legToHospital">
+          <div class="leg-title">🚧 → 🏥 To hospital</div>
+          <div class="leg-metrics">
+            <span class="metric-eta">—</span>
+            <span class="metric-dist">—</span>
+          </div>
+          <div class="leg-sub" id="straightLineNote"></div>
+        </div>
+      </section>
+
+      <section class="panel-section" id="directionsSection">
+        <h2>5. Turn-by-turn</h2>
+        <ol id="directionsList" class="directions-list">
+          <li class="hint">Directions will appear once a route is calculated.</li>
+        </ol>
+      </section>
+
+      <p class="footer-note">Routing via public OSRM demo server — for demo purposes only, not production-grade or guaranteed available.</p>
+
+    </aside>
   </div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js"></script>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="facilities-db.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
