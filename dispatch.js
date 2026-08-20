@@ -75,6 +75,14 @@ function emojiIcon(emoji, size) {
   });
 }
 
+function ambulanceIcon() {
+  return L.divIcon({
+    html: '<div class="emergency-ambulance" aria-label="Ambulance with emergency lights"><span class="emergency-beacon emergency-beacon-red"></span><span class="emergency-beacon emergency-beacon-blue"></span><span class="emergency-ambulance-body">🚑</span></div>',
+    className: "",
+    iconSize: [0, 0],
+  });
+}
+
 /* ---------------- geometry ---------------- */
 
 function haversineKm(a, b) {
@@ -650,7 +658,7 @@ function startNavigation(hospital, route, latlngs) {
   requestAnimationFrame(() => map.invalidateSize());
 
   if (nav.marker) map.removeLayer(nav.marker);
-  nav.marker = L.marker(latlngs[0], { icon: emojiIcon("🚑", 26) }).addTo(map);
+  nav.marker = L.marker(latlngs[0], { icon: ambulanceIcon() }).addTo(map);
   map.setView(latlngs[0], 16);
 
   // Pre-alert the receiving ED as the crew rolls, so the hospital console sees it coming.
