@@ -338,7 +338,8 @@ function setPatient(p) {
 
 function drawHospitals() {
   hospitals.forEach((h) => {
-    const tags = caps.sites[h.name]?.tags ?? [];
+    const tags = h.services ? [...h.services] : [];
+    if (h.aeType === 1) tags.push('TYPE1_ED');
     const specialist = tags.some((t) => ['MTC', 'HASU', 'HAC'].includes(t));
     const color = h.aeType === null ? '#c58bf0' : specialist ? '#2ecc71' : '#7f93a8';
     L.marker([h.lat, h.lng], { icon: dotIcon(color, specialist ? 10 : 8) })

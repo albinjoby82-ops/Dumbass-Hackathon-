@@ -59,27 +59,50 @@
       <ul id="rankList" class="rank-list"></ul>
     </section>
 
-    <section class="panel-section" id="enrouteSection" hidden>
-      <h2>En route</h2>
-      <div class="enroute-card">
-        <div class="enroute-hospital" id="enrouteHospital"></div>
-        <div class="enroute-metrics">
-          <span class="enroute-eta" id="enrouteEta">—</span>
-          <span class="enroute-dist" id="enrouteDist"></span>
-        </div>
-        <div class="enroute-wait" id="enrouteWait"></div>
-      </div>
-      <ol id="directionsList" class="directions-list"></ol>
-      <div class="enroute-actions">
-        <button id="changeHospitalBtn" class="wide-btn secondary">← Change hospital</button>
-        <button id="newIncidentBtn" class="wide-btn secondary">New incident</button>
-      </div>
-    </section>
+    <div class="panel-actions">
+      <button id="newIncidentBtn" class="wide-btn secondary">New incident</button>
+    </div>
 
     <p class="footer-note">Routes and times use the public OSRM road network and represent normal driving, not live traffic or emergency-response ETA. A&amp;E waits are illustrative ranges derived from monthly NHS breach rates and an assumed demand curve; they are not live or patient-level measurements. This is a demo tool, not a clinical decision system.</p>
 
   </aside>
 
+</div>
+
+<div id="navOverlay" class="nav-overlay" hidden>
+  <div class="nav-banner">
+    <div class="nav-maneuver-icon" id="navIcon">↑</div>
+    <div class="nav-instruction">
+      <div class="nav-distance" id="navDistance">—</div>
+      <div class="nav-text" id="navText">—</div>
+    </div>
+  </div>
+
+  <button id="navEndBtn" class="nav-end-btn" type="button" aria-label="End navigation">✕</button>
+
+  <div class="nav-progress-track"><div class="nav-progress-fill" id="navProgressFill"></div></div>
+
+  <div class="nav-bottom">
+    <div class="nav-hospital-name" id="navHospitalName">—</div>
+    <div class="nav-bottom-row">
+      <div class="nav-remaining">
+        <span class="nav-remaining-time" id="navRemainingTime">—</span>
+        <span class="nav-remaining-dist" id="navRemainingDist">—</span>
+      </div>
+      <div class="nav-eta-block">
+        <span class="nav-eta-time" id="navEtaClock">—</span>
+        <span class="nav-eta-label">arrival</span>
+      </div>
+    </div>
+    <div class="nav-sim-note" id="navSimNote">Simulated drive-through — demo only, not live GPS.</div>
+  </div>
+
+  <div class="nav-arrived" id="navArrived" hidden>
+    <div class="nav-arrived-icon">🏥</div>
+    <div class="nav-arrived-text">Arrived at <span id="navArrivedHospital"></span></div>
+    <div class="nav-arrived-wait" id="navArrivedWait"></div>
+    <button id="navArrivedCloseBtn" class="wide-btn primary" type="button">Done</button>
+  </div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

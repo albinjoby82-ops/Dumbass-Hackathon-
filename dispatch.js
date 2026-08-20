@@ -219,13 +219,6 @@ const els = {
   rankSection: document.getElementById("rankSection"),
   rankList: document.getElementById("rankList"),
   rankNote: document.getElementById("rankNote"),
-  enrouteSection: document.getElementById("enrouteSection"),
-  enrouteHospital: document.getElementById("enrouteHospital"),
-  enrouteEta: document.getElementById("enrouteEta"),
-  enrouteDist: document.getElementById("enrouteDist"),
-  enrouteWait: document.getElementById("enrouteWait"),
-  directionsList: document.getElementById("directionsList"),
-  changeHospitalBtn: document.getElementById("changeHospitalBtn"),
   newIncidentBtn: document.getElementById("newIncidentBtn"),
   locateBtn: document.getElementById("locateBtn"),
   confirmSection: document.getElementById("confirmSection"),
@@ -234,6 +227,20 @@ const els = {
   confirmInjury: document.getElementById("confirmInjury"),
   confirmBtn: document.getElementById("confirmBtn"),
   editDetailsBtn: document.getElementById("editDetailsBtn"),
+  navOverlay: document.getElementById("navOverlay"),
+  navIcon: document.getElementById("navIcon"),
+  navDistance: document.getElementById("navDistance"),
+  navText: document.getElementById("navText"),
+  navEndBtn: document.getElementById("navEndBtn"),
+  navProgressFill: document.getElementById("navProgressFill"),
+  navHospitalName: document.getElementById("navHospitalName"),
+  navRemainingTime: document.getElementById("navRemainingTime"),
+  navRemainingDist: document.getElementById("navRemainingDist"),
+  navEtaClock: document.getElementById("navEtaClock"),
+  navArrived: document.getElementById("navArrived"),
+  navArrivedHospital: document.getElementById("navArrivedHospital"),
+  navArrivedWait: document.getElementById("navArrivedWait"),
+  navArrivedCloseBtn: document.getElementById("navArrivedCloseBtn"),
 };
 
 function renderSeverityGrid() {
@@ -299,7 +306,7 @@ function resetDownstream() {
   state.chosen = null;
   els.confirmSection.hidden = true;
   els.rankSection.hidden = true;
-  els.enrouteSection.hidden = true;
+  endNavigation();
 }
 
 function updateConfirmSummary() {
@@ -307,7 +314,6 @@ function updateConfirmSummary() {
 
   // Any change to location/severity/injury invalidates a ranking already shown.
   els.rankSection.hidden = true;
-  els.enrouteSection.hidden = true;
 
   const sev = SEVERITIES.find((s) => s.value === state.severity);
   const injury = INJURY_TYPES.find((i) => i.value === state.injuryType);
@@ -331,7 +337,6 @@ async function runRanking() {
   if (!state.accident || !state.severity || !state.injuryType) return;
   els.confirmSection.hidden = true;
   els.rankSection.hidden = false;
-  els.enrouteSection.hidden = true;
   els.rankList.innerHTML = '<li class="hint">Calculating drive times…</li>';
 
   try {
@@ -378,15 +383,7 @@ async function runRanking() {
 
 async function chooseHospital(hospital) {
   state.chosen = hospital;
-  els.rankSection.hidden = true;
-  els.enrouteSection.hidden = false;
-  els.enrouteHospital.textContent = hospital.name;
-  els.enrouteEta.textContent = "Calculating…";
-  els.enrouteDist.textContent = "";
-  els.enrouteWait.textContent = hospital.wait
-    ? `~${formatMins(hospital.wait.rangeMin[0])}–${formatMins(hospital.wait.rangeMin[1])} illustrative wait at destination`
-    : "";
-  els.directionsList.innerHTML = "";
+  els.rankList.innerHTML = '<li class="hint">Calculating route…</li>';
 
   dispatchLayer.clearLayers();
   L.marker([state.accident.lat, state.accident.lng], { icon: emojiIcon("🚧", 28) }).addTo(dispatchLayer);
@@ -394,29 +391,15 @@ async function chooseHospital(hospital) {
 
   try {
     const route = await fetchRoute(state.accident, hospital);
-    els.enrouteEta.textContent = `${formatMins(route.duration / 60)} normal drive`;
-    els.enrouteDist.textContent = `${(route.distance / 1000).toFixed(2)} km`;
-
     const latlngs = route.geometry.coordinates.map(([lng, lat]) => [lat, lng]);
     L.polyline(latlngs, { color: "#1b2a3a", weight: 8, opacity: 0.3 }).addTo(dispatchLayer);
     L.polyline(latlngs, { color: "#3aa0ff", weight: 4, opacity: 0.95 }).addTo(dispatchLayer);
-    map.fitBounds(L.latLngBounds(latlngs).pad(0.15));
-
-    route.legs[0].steps.forEach((step, i) => {
-      const li = document.createElement("li");
-      li.innerHTML = `<span class="step-idx">${i + 1}.</span><span>${stepInstruction(step)} — ${(step.distance / 1000).toFixed(2)} km</span>`;
-      els.directionsList.appendChild(li);
-    });
+    startNavigation(hospital, route, latlngs);
   } catch (err) {
-    els.enrouteEta.textContent = "Route unavailable";
+    els.rankList.innerHTML = `<li class="hint">Route unavailable: ${err.message}</li>`;
     console.error(err);
   }
 }
-
-els.changeHospitalBtn.addEventListener("click", () => {
-  els.enrouteSection.hidden = true;
-  els.rankSection.hidden = false;
-});
 
 els.newIncidentBtn.addEventListener("click", () => {
   state.accident = null;
@@ -426,6 +409,157 @@ els.newIncidentBtn.addEventListener("click", () => {
   els.accidentStatus.textContent = "Not set";
   resetDownstream();
   dispatchLayer.clearLayers();
+});
+
+/* ---------------- Google-Maps-style navigation view (simulated drive-through) ---------------- */
+
+const MANEUVER_ICONS = {
+  depart: "↑",
+  arrive: "🏁",
+  roundabout: "↻",
+  rotary: "↻",
+  merge: "↗",
+};
+function maneuverIcon(step) {
+  const m = step.maneuver;
+  if (MANEUVER_ICONS[m.type]) return MANEUVER_ICONS[m.type];
+  const mod = m.modifier || "";
+  if (mod.includes("left")) return mod.includes("sharp") ? "↰" : mod.includes("slight") ? "↖" : "←";
+  if (mod.includes("right")) return mod.includes("sharp") ? "↱" : mod.includes("slight") ? "↗" : "→";
+  if (mod === "uturn") return "↶";
+  return "↑";
+}
+
+function buildCoordCumDistances(latlngs) {
+  const cum = [0];
+  for (let i = 1; i < latlngs.length; i++) {
+    const a = { lat: latlngs[i - 1][0], lng: latlngs[i - 1][1] };
+    const b = { lat: latlngs[i][0], lng: latlngs[i][1] };
+    cum.push(cum[i - 1] + haversineKm(a, b));
+  }
+  return cum;
+}
+
+function pointAtDistance(latlngs, cum, targetKm) {
+  const total = cum[cum.length - 1];
+  const t = Math.max(0, Math.min(targetKm, total));
+  let i = 1;
+  while (i < cum.length && cum[i] < t) i++;
+  if (i >= cum.length) return latlngs[latlngs.length - 1];
+  const segStart = cum[i - 1];
+  const segEnd = cum[i];
+  const frac = segEnd > segStart ? (t - segStart) / (segEnd - segStart) : 0;
+  const [lat1, lng1] = latlngs[i - 1];
+  const [lat2, lng2] = latlngs[i];
+  return [lat1 + (lat2 - lat1) * frac, lng1 + (lng2 - lng1) * frac];
+}
+
+function buildStepBoundaries(route) {
+  let cum = 0;
+  return route.legs[0].steps.map((s) => {
+    cum += s.distance / 1000;
+    return cum;
+  });
+}
+
+const nav = {
+  animId: null,
+  marker: null,
+  latlngs: null,
+  cum: null,
+  stepBounds: null,
+  steps: null,
+  totalKm: 0,
+  totalDurationSec: 0,
+  playbackSec: 0,
+  startTime: 0,
+  hospitalName: "",
+};
+
+function formatClock(date) {
+  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
+function startNavigation(hospital, route, latlngs) {
+  cancelAnimationFrame(nav.animId);
+  nav.latlngs = latlngs;
+  nav.cum = buildCoordCumDistances(latlngs);
+  nav.totalKm = nav.cum[nav.cum.length - 1];
+  nav.stepBounds = buildStepBoundaries(route);
+  nav.steps = route.legs[0].steps;
+  nav.totalDurationSec = route.duration;
+  nav.playbackSec = Math.max(15, Math.min(45, route.duration / 20));
+  nav.hospitalName = hospital.name;
+  nav.hospitalWait = hospital.wait || null;
+  nav.startTime = performance.now();
+
+  els.navArrived.hidden = true;
+  els.navHospitalName.textContent = `To ${hospital.name}`;
+  els.navOverlay.hidden = false;
+  document.body.classList.add("nav-active");
+  requestAnimationFrame(() => map.invalidateSize());
+
+  if (nav.marker) map.removeLayer(nav.marker);
+  nav.marker = L.marker(latlngs[0], { icon: emojiIcon("🚑", 26) }).addTo(map);
+  map.setView(latlngs[0], 16);
+
+  nav.animId = requestAnimationFrame(navTick);
+}
+
+function navTick() {
+  const elapsed = (performance.now() - nav.startTime) / 1000;
+  const fraction = Math.min(1, elapsed / nav.playbackSec);
+  const targetKm = fraction * nav.totalKm;
+
+  const pos = pointAtDistance(nav.latlngs, nav.cum, targetKm);
+  nav.marker.setLatLng(pos);
+  map.panTo(pos, { animate: false });
+
+  let stepIdx = nav.stepBounds.findIndex((b) => targetKm < b);
+  if (stepIdx === -1) stepIdx = nav.steps.length - 1;
+  const upcoming = nav.steps[Math.min(stepIdx + 1, nav.steps.length - 1)];
+  const distToManeuverKm = Math.max(0, (nav.stepBounds[stepIdx] ?? nav.totalKm) - targetKm);
+
+  const onFinalStep = stepIdx >= nav.steps.length - 2;
+  const displayStep = onFinalStep ? nav.steps[nav.steps.length - 1] : upcoming;
+
+  els.navIcon.textContent = maneuverIcon(displayStep);
+  els.navText.textContent = stepInstruction(displayStep);
+  els.navDistance.textContent = distToManeuverKm < 0.1 ? "Now" : `${Math.round(distToManeuverKm * 1000)} m`;
+
+  const remainingKm = nav.totalKm - targetKm;
+  const remainingSec = nav.totalDurationSec * (1 - fraction);
+  els.navRemainingDist.textContent = `${remainingKm.toFixed(1)} km`;
+  els.navRemainingTime.textContent = formatMins(remainingSec / 60);
+  els.navEtaClock.textContent = formatClock(new Date(Date.now() + remainingSec * 1000));
+  els.navProgressFill.style.width = `${fraction * 100}%`;
+
+  if (fraction >= 1) {
+    els.navArrivedHospital.textContent = nav.hospitalName;
+    els.navArrivedWait.textContent = nav.hospitalWait
+      ? `~${formatMins(nav.hospitalWait.rangeMin[0])}–${formatMins(nav.hospitalWait.rangeMin[1])} illustrative wait at destination`
+      : "";
+    els.navArrived.hidden = false;
+    return;
+  }
+  nav.animId = requestAnimationFrame(navTick);
+}
+
+function endNavigation() {
+  cancelAnimationFrame(nav.animId);
+  nav.animId = null;
+  els.navOverlay.hidden = true;
+  document.body.classList.remove("nav-active");
+  requestAnimationFrame(() => map.invalidateSize());
+}
+
+els.navEndBtn.addEventListener("click", () => {
+  endNavigation();
+  els.rankSection.hidden = false;
+});
+els.navArrivedCloseBtn.addEventListener("click", () => {
+  endNavigation();
+  els.rankSection.hidden = false;
 });
 
 els.locateBtn.addEventListener("click", () => {
