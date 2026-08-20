@@ -1,5 +1,6 @@
 import { BLANK_CONDITION, buildProfile } from './src/clinical.js';
 import { CapacityService } from './src/capacity.js';
+import { AlertService } from './src/alerts.js';
 import { selectCandidates, rank, compareToNearest, haversineKm } from './src/engine.js';
 
 const LONDON_CENTER = [51.5074, -0.1278];
@@ -29,6 +30,9 @@ let curve = null;
 let capacity = null;
 let patient = null;
 let token = 0;
+let lastRanked = [];
+let lastProfile = null;
+const alerts = new AlertService();
 
 /* ------------------------------------------------------------------ helpers */
 
@@ -153,8 +157,60 @@ function renderRanking(ranked, profile, excluded, fallback) {
       bypassed.map((h) => h.name).join(', ') + '.</p>';
   }
 
+  // Pre-alert: the dispatcher accepts (or overrides) the recommendation before it is sent.
+  html +=
+    `<div class="prealert">` +
+    `<label for="alert-target">Send pre-alert to</label>` +
+    `<select id="alert-target">` +
+    ranked.slice(0, 5).map((e, i) =>
+      `<option value="${i}">${e.hospital.name}${i === 0 ? ' — recommended' : ''}</option>`).join('') +
+    `</select>` +
+    `<button id="send-alert" type="button">Send pre-alert</button>` +
+    `<p class="alert-sent" id="alert-sent" hidden></p>` +
+    `</div>`;
+
   resultsBody.className = '';
   resultsBody.innerHTML = html;
+
+  document.getElementById('send-alert')?.addEventListener('click', sendPreAlert);
+}
+
+function conditionNotes(c) {
+  const n = [];
+  if (c.majorTrauma) n.push('Major trauma');
+  if (c.suspectedStroke) n.push('Suspected stroke — FAST positive');
+  if (c.suspectedCardiac) n.push('Suspected heart attack');
+  if (c.majorBleeding) n.push('Major bleeding');
+  if (c.unconscious) n.push('Unconscious');
+  if (c.breathing === 'absent') n.push('NOT BREATHING');
+  else if (c.breathing === 'difficulty') n.push('Breathing difficulty');
+  return n;
+}
+
+function sendPreAlert() {
+  const idx = Number(document.getElementById('alert-target').value);
+  const entry = lastRanked[idx];
+  if (!entry || !lastProfile) return;
+
+  const c = condition();
+  const overridden = idx !== 0;
+
+  const rec = alerts.send({
+    hospital: entry.hospital.name,
+    orgCode: entry.hospital.orgCode,
+    pathway: lastProfile.pathway,
+    etaText: entry.travelMin == null ? 'unknown' : formatMins(entry.travelMin),
+    patientSummary: `${c.ageGroup === 'child' ? 'Child' : 'Adult'}, ${c.severity}`,
+    origin: patient.label || `${patient.lat.toFixed(4)}, ${patient.lng.toFixed(4)}`,
+    conditionNotes: conditionNotes(c),
+    dispatcherOverride: overridden
+  });
+
+  const el = document.getElementById('alert-sent');
+  el.hidden = false;
+  el.textContent =
+    `${rec.caseRef} sent to ${entry.hospital.name}` +
+    (overridden ? ' — dispatcher override of the recommendation.' : '.');
 }
 
 function renderCapacityControls(entries) {
@@ -215,6 +271,9 @@ async function recommend() {
   });
 
   const ranked = rank({ candidates: nearby, travelMin, capacityStates, profile, caps });
+
+  lastRanked = ranked;
+  lastProfile = profile;
 
   renderRanking(ranked, profile, excluded, fallback);
   renderCapacityControls(ranked.slice(0, 5));
