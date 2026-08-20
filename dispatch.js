@@ -107,11 +107,16 @@ function estimateWait(orgCode, monthKey, day, hour) {
   const breach = month.type1BreachRate;
   const effective = Math.min(0.95, Math.max(0.01, breach * demand));
   const medianHours = 4 * Math.exp(-SIGMA * normInv(1 - effective));
+  const spread = 0.6745 * SIGMA;
 
   return {
     trustName: trust.name,
     breachRate: breach,
     medianMin: Math.round(medianHours * 60),
+    rangeMin: [
+      Math.round(medianHours * Math.exp(-spread) * 60),
+      Math.round(medianHours * Math.exp(spread) * 60)
+    ],
   };
 }
 
@@ -312,7 +317,7 @@ async function maybeRank() {
       li.className = "rank-card";
       const badge = requiredService && !fallback ? `<span class="service-badge">${requiredService}</span>` : "";
       const waitHtml = h.wait
-        ? `<span class="rank-wait">~${formatMins(h.wait.medianMin)} modelled wait</span>`
+        ? `<span class="rank-wait">~${formatMins(h.wait.rangeMin[0])}–${formatMins(h.wait.rangeMin[1])} modelled wait</span>`
         : mode === "total"
           ? `<span class="rank-wait muted">no NHS data</span>`
           : "";
@@ -323,7 +328,7 @@ async function maybeRank() {
           ${badge}
         </div>
         <div class="rank-metrics">
-          <span class="rank-drive">${formatMins(h.driveMin)} drive</span>
+          <span class="rank-drive">${formatMins(h.driveMin)} normal drive</span>
           <span class="rank-dist">${h.straightKm.toFixed(1)} km</span>
           ${waitHtml}
         </div>
@@ -345,7 +350,9 @@ async function chooseHospital(hospital) {
   els.enrouteHospital.textContent = hospital.name;
   els.enrouteEta.textContent = "Calculating…";
   els.enrouteDist.textContent = "";
-  els.enrouteWait.textContent = hospital.wait ? `~${formatMins(hospital.wait.medianMin)} modelled wait at destination` : "";
+  els.enrouteWait.textContent = hospital.wait
+    ? `~${formatMins(hospital.wait.rangeMin[0])}–${formatMins(hospital.wait.rangeMin[1])} illustrative wait at destination`
+    : "";
   els.directionsList.innerHTML = "";
 
   dispatchLayer.clearLayers();
@@ -354,7 +361,7 @@ async function chooseHospital(hospital) {
 
   try {
     const route = await fetchRoute(state.accident, hospital);
-    els.enrouteEta.textContent = formatMins(route.duration / 60);
+    els.enrouteEta.textContent = `${formatMins(route.duration / 60)} normal drive`;
     els.enrouteDist.textContent = `${(route.distance / 1000).toFixed(2)} km`;
 
     const latlngs = route.geometry.coordinates.map(([lng, lat]) => [lat, lng]);
